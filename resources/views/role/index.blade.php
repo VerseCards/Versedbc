@@ -1,0 +1,70 @@
+@extends('layouts.admin')
+@section('page-title')
+    {{ __('Department') }}
+@endsection
+@section('title')
+    {{ __('Department') }}
+@endsection
+@section('action-btn')
+@if (Auth::user()->type == 'company' || Auth::user()->type = 'techsupport')
+    <div class="col-xl-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-between justify-content-md-end"
+    data-bs-placement="top">
+    <a href="#" data-size="lg" data-url="{{ route('roles.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New Department')}}" class="btn btn-sm btn-primary">
+        <i class="ti ti-plus"></i>
+    </a>
+    </div>
+@endif
+@endsection
+
+@section('content')
+    
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body table-border-style ">
+                <h5></h5>
+                <div class="table-responsive">
+                    <table class="table" id="pc-dt-simple">
+                        <thead>
+						<th>{{__('SN')}} </th>
+                            <th>{{__('Department')}} </th>
+                            
+                            <th width="200px">{{__('Action')}} </th>
+                        </thead>
+                        <tbody>
+                        @foreach ($roles as $role)
+                            <tr>
+							<td>{{ $loop->index + 1 }}</td>
+                                <td>{{ ucfirst($role->name)}}</td>
+                                
+                                <td>
+                                   
+                                        <div class="action-btn bg-info ms-2">
+                                            <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center " data-url="{{ route('roles.edit',$role->id) }}" data-size="lg" data-ajax-popup="true"  data-title="{{__('Update Department')}}" title="{{__('Update')}}" data-bs-toggle="tooltip" data-bs-placement="top"><span class="text-white"><i class="ti ti-edit text-white"></i></span></a>
+                                        </div>
+                                  
+                                    
+                                        <div class="action-btn bg-danger ms-2">
+                                            <a href="#" class="bs-pass-para mx-3 btn btn-sm d-inline-flex align-items-center" data-confirm="{{ __('Are You Sure you want to delete this department?') }}" data-text="{{ __('This action can not be undone. Do you want to continue?') }}" data-confirm-yes="delete-form-{{$role->id}}"
+                                            title="{{ __('Delete') }}" data-bs-toggle="tooltip"
+                                            data-bs-placement="top"><span class="text-white"><i
+                                                    class="ti ti-trash"></i></span></a>
+                                        </div>
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id],'id'=>'delete-form-'.$role->id]) !!}
+                                        {!! Form::close() !!}
+                                   
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@push('script-page')
+
+
+@endpush

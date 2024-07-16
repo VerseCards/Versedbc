@@ -1,0 +1,69 @@
+# PHP
+# Test and package your PHP project.
+# Add steps that run tests, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/php
+
+trigger:
+- main
+
+# Stages
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - job: build
+    displayName: Build Job
+    strategy:
+      # Run on a single agent
+      maxParallel: 1
+      matrix:
+        php:
+          phpVersion: '8.2'
+    steps:
+      - script: |
+          sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+          sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+          php -version
+        displayName: 'Install PHP $(phpVersion)'
+      - script: |
+          composer install --no-interaction --prefer-dist
+        displayName: 'Install Composer dependencies'
+      - script: |
+          php artisan migrate --env=production --force
+        displayName: 'Run migrations (production environment)'
+      - script: |
+          php artisan clear-compiled --env=production
+        displayName: 'Clear compiled files (production environment)'
+      - script: |
+          php artisan optimize --env=production
+        displayName: 'Optimize application (production environment)'
+      - script: |
+          npm install
+        displayName: 'Install npm dependencies'
+      - script: |
+          npm run prod
+        displayName: 'Run production build scripts'
+      - task: ArchiveFiles@1  # Azure DevOps task
+        inputs:
+          rootFolder: '$(System.DefaultWorkingDirectory)'
+          includeRootFolder: false
+          archiveType: default
+        displayName: 'Archive project files'
+
+# Deployment stage
+# - stage: deploy
+#   displayName: Deploy
+#   jobs:
+#   - job: deploy
+#     displayName: Deploy Job
+#     dependsOn: build
+#     steps:
+#       - task: AzureRMWebAppDeploy@1  # Azure DevOps task
+#         inputs:
+#           azureSubscription: '$(SubscriptionId)'
+#           resourceGroupName: 'your-resource-group'  # Replace with your resource group name
+#           appName: $(appName)
+#           package: '$(Build.ArtifactStagingDirectory)/$(Build.ArtifactName)'
+#           publishProfile: $(publishProfile)
+#           slotName: 'production'  # Deployment slot (optional)
+#         displayName: 'Deploy to Azure App Service'
