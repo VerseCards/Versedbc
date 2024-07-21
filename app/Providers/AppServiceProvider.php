@@ -32,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
                 \Log::info($query->bindings);
                 \Log::info($query->time);
         });
+        URL::forceScheme('https');
     }
 }
