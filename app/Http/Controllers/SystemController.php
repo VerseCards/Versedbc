@@ -146,14 +146,12 @@ class SystemController extends Controller
                     $post['cookie_text'] = (!isset($request->cookie_text) && empty($request->cookie_text)) ? '' : $request->cookie_text;
 
                     unset($post['_token']);
-                    $values = [];
-					$updates = [];
+					$values = [];
 					$bindings = [];
 
 					foreach ($post as $key => $data) {
 						if (in_array($key, array_keys($settings))) {
-							$values[] = "(?, ?, ?)";
-							$updates[] = "`value` = VALUES(`value`)";
+							$values[] = "SELECT ? AS [value], ? AS [name], ? AS [created_by]";
 							$bindings[] = $data;
 							$bindings[] = $key;
 							$bindings[] = $creatorId;
@@ -161,7 +159,16 @@ class SystemController extends Controller
 					}
 
 					if (!empty($values)) {
-						$query = "INSERT INTO settings (`value`, `name`, `created_by`) VALUES " . implode(", ", $values) . " ON DUPLICATE KEY UPDATE " . implode(", ", array_unique($updates));
+						$selectValues = implode(" UNION ALL ", $values);
+						$query = "
+							MERGE INTO settings AS target
+							USING ({$selectValues}) AS source
+							ON target.name = source.name
+							WHEN MATCHED THEN 
+								UPDATE SET target.value = source.value, target.created_by = source.created_by
+							WHEN NOT MATCHED THEN
+								INSERT (value, name, created_by)
+								VALUES (source.value, source.name, source.created_by);";
 
 						\DB::insert($query, $bindings);
 					}
