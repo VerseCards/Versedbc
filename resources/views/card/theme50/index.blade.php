@@ -205,7 +205,7 @@
                 <section class="client-image-section">
 					<div class="container">
 						<div class="client-intro" style="display: flex; align-items: center; color: white;">
-							<div class="client-image" style="flex: 2; max-width: 190px;">
+							<div class="client-image" style="flex: 2.3; max-width: 280px;">
 								<img src="{{ isset($business->logo) && !empty($business->logo) ? $logo . '/' . $business->logo : asset('custom/img/logo-placeholder-image-2.png') }}"
 									 id="business_logo_preview" alt="user" class="mb-4 img-thumbnail">
 							</div>

@@ -1166,7 +1166,7 @@
                                                         {{ Form::label('meta_image', __('Meta Image'), ['class' => 'form-label']) }}
                                                         <div class="setting-block ">
                                                             <div class="position-relative overflow-hidden rounded">
-                                                                <a href="{{ $meta_image .'/'. (isset($business->meta_image) && !empty($business->meta_image) ? $business->meta_image : asset('custom/img/placeholder-image1.jpg'))   }}"
+                                                                <a href="{{ (isset($business->meta_image) && !empty($business->meta_image) ? $business->meta_image : asset('custom/img/placeholder-image1.jpg'))   }}"
                                                                 target="_blank">
                                                                     <img id="blah" alt="your image"
                                                                     src="{{ isset($business->meta_image) && !empty($business->meta_image) ? $meta_image . '/' . $business->meta_image : asset('custom/img/placeholder-image1.jpg') }}"
