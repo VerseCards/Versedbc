@@ -38,11 +38,14 @@ class BusinessController extends Controller
      */
     public function index()
     {
+			$impersonateUser = session()->get('impersonate');
+			
 			if(Auth::user()->type == 'company'){
 				$business = Business::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->get();
-			}elseif(Auth::user()->type == 'techsupport'){
-				$business = Business::orderBy('id', 'DESC')->get();
+			}elseif($impersonateUser){
+				$business = Business::where('user_id', $impersonateUser)->orderBy('id', 'DESC')->get();
 			}else{
+				
 				$business = Business::where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
 			}
             $no = 0;

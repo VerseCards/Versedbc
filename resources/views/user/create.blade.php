@@ -22,20 +22,32 @@
             @enderror
         </div>
     </div>
-    <div class="col-md-6">
+	<div class="col-md-6">
         <div class="form-group">
-            {{Form::label('password',__('Password'),['class'=>'form-label'])}}
-            {{Form::password('password',array('class'=>'form-control','placeholder'=>__('Enter User Password'),'required'=>'required','minlength'=>"6"))}}
-            @error('password')
-            <small class="invalid-password" role="alert">
+            {{Form::label('mobile',__('Mobile'),['class'=>'form-label'])}}
+            {{Form::text('mobile',null,array('class'=>'form-control','placeholder'=>__('Enter Mobile Number'),'required'=>'required'))}}
+            @error('mobile')
+            <small class="invalid-email" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
             </small>
             @enderror
         </div>
     </div>
-    @if(\Auth::user()->type != 'super admin')
+	<div class="col-md-6">
+        <div class="form-group">
+            {{Form::label('designation',__('Designation'),['class'=>'form-label'])}}
+            {{Form::text('designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation'),'required'=>'required'))}}
+            @error('designation')
+            <small class="invalid-email" role="alert">
+                <strong class="text-danger">{{ $message }}</strong>
+            </small>
+            @enderror
+        </div>
+    </div>
+
+		 
         <div class="form-group col-md-6">
-            {{ Form::label('role', __('Staff Department'),['class'=>'form-label']) }}
+            {{ Form::label('role', __('Department'),['class'=>'form-label']) }}
             {!! Form::select('role', $roles, null,array('class' => 'form-control select2','required'=>'required')) !!}
             @error('role')
             <small class="invalid-role" role="alert">
@@ -43,7 +55,23 @@
             </small>
             @enderror
         </div>
-    @endif
+   
+	
+	<div class="col-md-12">
+		<div class="form-group">
+			{{ Form::label('brief_bio', __('Brief Bio'), ['class' => 'form-label']) }}
+			{{ Form::textarea('brief_bio', null, ['class' => 'form-control', 'placeholder' => __('Enter Brief Bio'), 'required' => 'required', 'style' => 'height: 80px;']) }}
+			@error('brief_bio')
+				<small class="invalid-email" role="alert">
+					<strong class="text-danger">{{ $message }}</strong>
+				</small>
+			@enderror
+		</div>
+
+
+    </div>
+    
+   
 </div>
 <div class="modal-footer p-0 pt-3">
     <button type="button" class="btn btn-secondary btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>

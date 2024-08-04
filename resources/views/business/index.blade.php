@@ -11,7 +11,7 @@
 @endsection
 
 @section('action-btn')
-    @if($users->type == 'techsupport')
+    @if($users->type == 'company')
         <div class="col-xl-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-between justify-content-md-end"
             data-bs-placement="top">
             <a href="#" data-size="xl" data-url="{{ route('business.create') }}" data-ajax-popup="true"
@@ -112,8 +112,16 @@
                                             <i class="ti ti-copy"></i>
                                             <span class="ml-2"> {{ __('Copy Link') }}</span>
                                         </a>
-									
-									@if($users->type == 'techsupport')
+										
+										<a href="{{ url('/' . $val->slug) }}" target="-blank"
+                                            class="dropdown-item user-drop" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Click to preview link') }}">
+                                            <i class="ti ti-copy"></i>
+                                            <span class="ml-2"> {{ __('Preview Link') }}</span>
+                                        </a>
+										
+										<a href="{{ url('/' . $business->slug) }}" target="-blank" 
+                                       
+									@if($users->type == 'company')
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action will delete all business card details permanently. Continue?')}}" data-confirm-yes="delete-form-{{$val->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
 										
 										{!! Form::open([

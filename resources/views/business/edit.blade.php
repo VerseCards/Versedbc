@@ -207,14 +207,14 @@
                                          <input type="hidden" name="url" value="{{ $chatgpt_setting['enable_chatgpt'] }}"
                                             id="chatgpt">
                                         <div class="d-flex align-items-center justify-content-between mb-4 ">
-                                            <h5 class="mb-0">{{__('Edit Personal Data:')}}</h5>
+                                            <h5 class="mb-0">{{__('Edit Personal Info')}}</h5>
                                             <button type="submit" class="btn btn-primary d-none"> <i class="me-2"
                                                     data-feather="folder"></i> {{__('Update Card')}}</button>
                                         </div>
                                         <div class="theme-detail-body">
                                             <div class="row mb-4">
                                                 <div class="col-lg-8">
-                                                    <p class="mb-2">{{__('Background Image:')}}</p>
+                                                    <p class="mb-2">{{__('Background Image')}}</p>
                                                     <div class="setting-block banner-setting">
                                                         <div class="position-relative overflow-hidden rounded">
                                                             <img src="{{ isset($business->banner) && !empty($business->banner) ? $banner . '/' . $business->banner : asset('custom/img/placeholder-image1.png') }}"
@@ -242,7 +242,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <p class="mb-2">{{__('Profile Picture:')}}</p>
+                                                    <p class="mb-2">{{__('Profile Picture')}}</p>
                                                     <div class="setting-block banner-small-setting">
                                                         <div class="position-relative">
                                                             <img src="{{ isset($business->logo) && !empty($business->logo) ? $logo.'/'.$business->logo: asset('custom/img/logo-placeholder-image-2.jpg') }}"
@@ -276,10 +276,10 @@
                                                 <div class="col-12">
                                                     {{-- <form action=""> --}}
                                                         <div class="row">
-														@if ($users->type == 'company' || $users->type == 'techsupport')
+														@if ($users->type == 'company')
                                                             <div class="col-lg-4">
                                                                 <div class="form-group">
-                                                                    {{ Form::label('Title', __('Title:'), ['class' => 'form-label']) }}
+                                                                    {{ Form::label('Title', __('Name'), ['class' => 'form-label']) }}
                                                                     {{ Form::text('title', $business->title, ['class' => 'form-control', 'id' => $stringid . '_title', 'placeholder' => __('Enter Title')]) }}
                                                                     @error('title')
                                                                         <span class="invalid-favicon text-xs text-danger"
@@ -358,7 +358,7 @@
                                                     <h5 class="mb-3">{{__('Custom link')}}</h5>
                                                 </div>
                                                 <div class="col-lg-12">
-													@if ($users->type == 'company' || $users->type == 'techsupport')
+													@if ($users->type == 'company')
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" readonly
@@ -380,7 +380,7 @@
 													@endif
                                                 </div>
                                             </div>
-											@if ($users->type == 'company' || $users->type == 'techsupport')
+											@if ($users->type == 'company')
 											
 											<div class="form-group" >
                                                             <label class="form-label mb-3" style="font-size: 16px">{{__('Secret Code')}}</label>
