@@ -118,9 +118,7 @@
                                             <i class="ti ti-copy"></i>
                                             <span class="ml-2"> {{ __('Preview Link') }}</span>
                                         </a>
-										
-										<a href="{{ url('/' . $business->slug) }}" target="-blank" 
-                                       
+
 									@if($users->type == 'company')
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action will delete all business card details permanently. Continue?')}}" data-confirm-yes="delete-form-{{$val->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
 										
