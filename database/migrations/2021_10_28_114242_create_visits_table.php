@@ -21,6 +21,7 @@ class CreateVisitsTable extends Migration
             $table->mediumText('referer')->nullable();
             $table->text('languages')->nullable();
             $table->text('useragent')->nullable();
+			$table->text('country')->nullable();
             $table->text('headers')->nullable();
             $table->text('device')->nullable();
             $table->text('platform')->nullable();

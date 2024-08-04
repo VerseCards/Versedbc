@@ -22,7 +22,7 @@
             @enderror
         </div>
     </div>
-    @if(\Auth::user()->type == 'company' || Auth::user()->type == 'techsupport')
+    @if(\Auth::user()->type == 'company')
         <div class="form-group col-md-12">
             {{ Form::label('role', __('Staff Department'),['class'=>'form-label']) }}
             {!! Form::select('role', $roles, $user->roles,array('class' => 'form-control select2','required'=>'required')) !!}

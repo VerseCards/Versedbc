@@ -13,12 +13,12 @@
 @section('action-btn')
 
 <div class="col-xl-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-between justify-content-md-end" data-bs-placement="top" >  
-	@if($loggedUsers->type == 'techsupport')
+	@if($loggedUsers->type == 'company' )
     <a href="#" data-size="md" data-url="{{ route('users.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New User')}}" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </a>
-	@endif
-    @if($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
+	
+    
     <a href="{{ route('userlogs.index') }}" class="btn btn-sm btn-primary btn-icon m-1"
         data-size="lg" data-bs-whatever="{{ __('UserlogDetail') }}"> <span
             class="text-white">
@@ -93,7 +93,7 @@
                                         {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'id'=>'delete-form-'.$user->id]) !!}
                                         {!! Form::close() !!} 
                                    
-                                     @if($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
+                                     @if($loggedUsers->type == 'company')
                                         <a href="{{ route('userlogs.index', ['month'=>'','user'=>$user->id]) }}"
                                             class="dropdown-item user-drop"
                                             data-bs-toggle="tooltip"
@@ -122,7 +122,7 @@
                                         </a>
                                     @endif
 									
-									@if ($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
+									@if ($loggedUsers->type == 'company')
                                         <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
                                             class="dropdown-item user-drop">
                                             <i class="ti ti-road-sign"></i>

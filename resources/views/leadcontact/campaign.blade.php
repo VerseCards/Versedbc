@@ -58,7 +58,7 @@
                             @foreach ($leadGeneration_content as $val)
 							@php
 
-								if($users->type == 'company' || $users->type == 'techsupport'){
+								if($users->type == 'company'){
 									$leadCount = App\Models\LeadContact::where('campaign_id', $val['id'])->where('business_id', $val['business_id'])->count();
 								}else{
 									$leadCount = App\Models\LeadContact::where('user_id',$users->id)->where('campaign_id', $val['id'])->where('business_id', $val['business_id'])->count();

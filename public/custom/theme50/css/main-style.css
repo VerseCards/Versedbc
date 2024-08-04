@@ -2671,17 +2671,17 @@ sup {
 }
 
 #view_css .client-image {
-    height: 190px;
+    height: 160px;
     width: 190px;
     margin: auto;
-    border: 4px solid var(--white);
+    /*border: 4px solid var(--white)*/;
     border-radius: 10%;
     -webkit-border-radius: 10%;
     -moz-border-radius: 10%;
     -ms-border-radius: 10%;
     -o-border-radius: 10%;
     overflow: hidden;
-	margin-left: 20px
+	/*margin-left: 20px*/
 }
 
 #view_css .client-image img {

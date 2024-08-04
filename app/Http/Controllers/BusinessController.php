@@ -27,6 +27,7 @@ use App\Models\Contacts;
 use App\Models\Appointment_deatail;
 use DB;
 use Session;
+use Exception;
 
 class BusinessController extends Controller
 {
@@ -37,11 +38,14 @@ class BusinessController extends Controller
      */
     public function index()
     {
+			$impersonateUser = session()->get('impersonate');
+			
 			if(Auth::user()->type == 'company'){
 				$business = Business::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->get();
-			}elseif(Auth::user()->type == 'techsupport'){
-				$business = Business::orderBy('id', 'DESC')->get();
+			}elseif($impersonateUser){
+				$business = Business::where('user_id', $impersonateUser)->orderBy('id', 'DESC')->get();
 			}else{
+				
 				$business = Business::where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
 			}
             $no = 0;
@@ -1174,6 +1178,7 @@ class BusinessController extends Controller
 
     public function getcard(Request $request, $slug)
     {
+        
         if (!\Auth::check()) {
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$query = @unserialize(file_get_contents('http://ip-api.com/php/' . $ip));
@@ -1193,7 +1198,7 @@ class BusinessController extends Controller
 
                 $busi_data = Business::where('slug', $value->slug)->first();
 				if($busi_data){
-					$CheckUserStatus = User::find($busi_data->created_by + 1);
+					$CheckUserStatus = User::find($busi_data->user_id);
 				} else {
 					return abort('404', 'Page not found');
 				}
@@ -1203,7 +1208,7 @@ class BusinessController extends Controller
 						return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 					}
 				}
-				
+
 				if($CheckUserStatus->is_enable_login == 0){
 					return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 				}
@@ -1360,16 +1365,25 @@ class BusinessController extends Controller
         $prefix = '';
         $suffix = '';
         $cardLogo=isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/'.$business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
+        $logo = isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/' . $business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
         // add personal data
         $vcard->addName($lastname, $firstname, $additional, $prefix, $suffix);
 
         // add work data
+        
+        $imageData = file_get_contents($cardLogo);
+        $tempImagePath = tempnam(sys_get_temp_dir(), 'vcard_image');
+        file_put_contents($tempImagePath, $imageData);
+                
+        
+        
+        
         $vcard->addCompany($business->title);
         $vcard->addRole($business->designation);
-        $vcard->addPhoto($cardLogo);
-        $logo = isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/' . $business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
-        //$vcard->addPhoto($logo);
-        $contacts = ContactInfo::where('business_id', $business->id)->first();
+        $vcard->addPhoto($tempImagePath);
+        $contacts = ContactInfo::where('business_id', $business->id)->first(); 
+        
+
 
         if (!empty($contacts) && !empty($contacts->content)) {
             if (isset($contacts['is_enabled']) && $contacts['is_enabled'] == '1') {

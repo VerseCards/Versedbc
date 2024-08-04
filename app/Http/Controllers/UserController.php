@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Plan;
 use App\Models\PlanOrder;
 use App\Mail\UserCreate;
+use App\Models\Business;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use File;
@@ -29,21 +30,18 @@ class UserController extends Controller
     {
        
             $user = \Auth::user();
-			if($user->type == 'company' || \Auth::user()->type == 'techsupport'){
+			if($user->type == 'company'){
 				
 				$users = User::where('created_by', '!=', 0)->get();
-			}elseif($user->type == 'techsupport'){
-				$users = User::get();
-			}elseif(session()->has('impersonate')){
-				$users = User::where('created_by', '!=', 0)->get();
+				$users = $users ->reverse();
 			}else{
 				return redirect()->back()->with('error', 'Permission Denied');
 			}
             return view('user.index')->with('users', $users);
 			
 			if (session()->has('impersonate')) {
-    // The user is being impersonated
-}
+			// The user is being impersonated
+			}
         
     }
 
@@ -64,7 +62,9 @@ class UserController extends Controller
                 $request->all(), [
                     'name' => 'required|max:120',
                     'email' => 'required|email|unique:users',
-                    'password' => 'required|min:6',
+					'mobile' => 'required',
+					'designation' => 'required|string',
+					'brief_bio' => 'required|string',
                 ]
             );
             if($validator->fails())
@@ -77,15 +77,57 @@ class UserController extends Controller
             $user               = new User();
             $user['name']       = $request->name;
             $user['email']      = $request->email;
-            $psw                = $request->password;
-            $user['password']   = \Hash::make($request->password);
+            //$psw                = $request->password;
+            $user['password']   = \Hash::make('1a2b3c4d');
             $user['type']       = $role->name;  
             $user['lang']       = !empty($default_language) ? $default_language->value : 'en';
             $user['created_by'] = 1;
             
             $user->save();
-            $user->password = $psw;
             $user->assignRole($role);
+			
+			function getScode($length = 12)
+			{
+					$characters = 'ABCDEFGHJKMNOPQRSTUVWXYZ123456789';
+					$charactersLength = strlen($characters);
+					$randomString = '';
+					for ($i = 0; $i < $length; $i++) {
+						$randomString .= $characters[rand(0, $charactersLength - 1)];
+					}
+					return $randomString;
+			}
+			
+			
+			//Create Business Card
+			$slug = Utility::createSlug('businesses', $request->name);
+			$secretCode = getScode();
+
+            $card_theme = [];
+            $card_theme['theme'] = 'theme12';
+            $card_theme['order'] = Utility::getDefaultThemeOrder('theme12');
+
+            $business = Business::create([
+			
+                'title' => $request->name,
+                'slug' => $slug,
+				'user_id' => $user->id,
+				'sub_title' => $request->designation,
+				'designation' => $role->name,
+				'description' => $request->brief_bio,
+                'branding_text' => 'FirstBank PLC' . ' ' . date("Y"),
+                'card_theme' => json_encode($card_theme),
+                'theme_color' => 'color1-theme12',
+				'secret_code' => $secretCode ?? null, // Ensure $secretCode is defined,
+                'created_by' => \Auth::user()->creatorId()
+            ]);
+            $business->enable_businesslink = 'on';
+            $business->is_branding_enabled = 'on';
+            $business->save();
+			
+            if (is_null($user->current_business)) {
+				$user->current_business = $business->id;
+				$user->save();
+			}
 
             $userArr=[
                 'user_name' => $user->name,

@@ -46,7 +46,7 @@
                         class="dash-arrow"><i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    @if ($users->type == 'techsupport' || $total_business_cards <= 100)
+                    @if ($users->type == 'company')
                         <li class="dash-item {{ Request::segment(1) == 'new_business' ? 'active' : '' }}">
                             <a href="#" class="dash-link" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 data-url="{{ route('business.create') }}" data-size="xl"
@@ -76,7 +76,7 @@
 
                 </li>
            
-			@if ($users->type == 'company' || $users->type == 'techsupport')
+			@if ($users->type == 'company')
             <li class="dash-item dash-hasmenu">
 					
                 <a class="dash-link {{ Request::segment(1) == 'employee' || Request::segment(1) == 'client' ? 'active' : '' }}"
@@ -114,7 +114,7 @@
 
                 </li>
             
-            @if ($users->type == 'techsupport')
+            @if (false)
                 <li class="dash-item {{ Request::segment(1) == 'email_template_lang' ? 'active' : '' }}">
                     <a href="{{ route('manage.email.language', $users->lang) }}" class="dash-link"><span
                             class="dash-micon"><i class="ti ti-mail"></i></span><span
