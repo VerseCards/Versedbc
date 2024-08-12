@@ -46,19 +46,17 @@
                         class="dash-arrow"><i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    @if ($users->type == 'company')
-                        <li class="dash-item {{ Request::segment(1) == 'new_business' ? 'active' : '' }}">
-                            <a href="#" class="dash-link" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                data-url="{{ route('business.create') }}" data-size="xl"
-                                data-bs-whatever="{{ __('Create Versecard') }}"> {{ __('Create Card') }}
-                            </a>
-                        </li>
-                    @endif
-                    
+
                         <li class="dash-item {{ Request::segment(1) == 'business' ? 'active' : '' }}">
                             <a class="dash-link" href="{{ route('business.index') }}">{{ __('Manage Cards') }}</a>
 
                         </li>
+						@if ($users->type == 'company' || $users->admin_status == 1 )
+						<li class="dash-item {{ Request::segment(1) == 'allcards' ? 'active' : '' }}">
+                            <a class="dash-link" href="{{ route('business.allcards') }}">{{ __('All Cards') }}</a>
+
+                        </li>
+						@endif
                     
                 </ul>
             </li>
@@ -98,6 +96,9 @@
                     
                         <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'roles' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('roles.index') }}">{{ __('Department') }}</a>
+                        </li>
+						<li class="dash-item dash-hasmenu {{ Request::segment(1) == 'view_admin' ? 'active open' : '' }}">
+                            <a class="dash-link" href="{{ route('users.view_admin') }}">{{ __('View Admins') }}</a>
                         </li>
                     
 

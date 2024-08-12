@@ -17,13 +17,7 @@
     <a href="#" data-size="md" data-url="{{ route('users.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New User')}}" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </a>
-	
-    
-    <a href="{{ route('userlogs.index') }}" class="btn btn-sm btn-primary btn-icon m-1"
-        data-size="lg" data-bs-whatever="{{ __('UserlogDetail') }}"> <span
-            class="text-white">
-            <i class="ti ti-user" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Userlog Detail') }}"></i></span>
-    </a>
+
 	@endif
 </div>
 
@@ -93,7 +87,7 @@
                                         {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'id'=>'delete-form-'.$user->id]) !!}
                                         {!! Form::close() !!} 
                                    
-                                     @if($loggedUsers->type == 'company')
+                                     @if(false)
                                         <a href="{{ route('userlogs.index', ['month'=>'','user'=>$user->id]) }}"
                                             class="dropdown-item user-drop"
                                             data-bs-toggle="tooltip"
@@ -101,13 +95,13 @@
                                             <i class="ti ti-history"></i>
                                             <span class="ml-2">{{__('Logged Details')}}</span></a>
                                     @endif
-                                    @if ($loggedUsers->is_enable_login == 1)
+                                    @if ($user->is_enable_login == 1)
                                         <a href="{{ route('users.login', \Crypt::encrypt($user->id)) }}"
                                             class="dropdown-item user-drop">
                                             <i class="ti ti-road-sign"></i>
                                             <span class="text-danger ml-2"> {{ __('Login Disable') }}</span>
                                         </a>
-                                    @elseif ($loggedUsers->is_enable_login == 0 && $loggedUsers->password == null)
+                                    @elseif ($user->is_enable_login == 0 && $user->password == null)
                                         <a href="#" data-url="{{ route('users.reset', \Crypt::encrypt($user->id)) }}"
                                             data-ajax-popup="true" data-size="md" class="dropdown-item login_enable user-drop"
                                             data-title="{{ __('New Password') }}" >
@@ -122,7 +116,7 @@
                                         </a>
                                     @endif
 									
-									@if ($loggedUsers->type == 'company')
+									@if ($user->type == 'company' || $user->admin_status == '1')
                                         <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
                                             class="dropdown-item user-drop">
                                             <i class="ti ti-road-sign"></i>

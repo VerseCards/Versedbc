@@ -409,14 +409,30 @@ class UserController extends Controller
         $eId = \Crypt::decrypt($id);
         $user = User::find($eId);
         if ($user->type == 'company') {
-            $user->type = 'MCC';
+            $user->admin_status = 0;
+			$user->type = 'M&CC';
             $user->save();
-            return redirect()->route('users.index')->with('success', 'Admin Status Disabled Successfully.');
+            return redirect()->back()->with('success', 'Admin Status Disabled Successfully.');
         } else {
             $user->type = 'company';
+			$user->admin_status = 1;
             $user->save();
-            return redirect()->route('users.index')->with('success', 'Admin Status Enabled Successfully.');
+            return redirect()->back()->with('success', 'Admin Status Enabled Successfully.');
         }
+
+    }
+	
+	public function allAdmins()
+    {
+        
+        $user = \Auth::user();
+			if($user->type == 'company' || $user->admin_status == 1){
+				$users = User::where('admin_status', '=', 1)->get();
+				$users = $users ->reverse();
+			}else{
+				return redirect()->back()->with('error', 'Permission Denied');
+			}
+            return view('user.index')->with('users', $users);
 
     }
 

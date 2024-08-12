@@ -27,7 +27,6 @@ use App\Models\Contacts;
 use App\Models\Appointment_deatail;
 use DB;
 use Session;
-use Exception;
 
 class BusinessController extends Controller
 {
@@ -39,15 +38,32 @@ class BusinessController extends Controller
     public function index()
     {
 			$impersonateUser = session()->get('impersonate');
-			
-			if(Auth::user()->type == 'company'){
-				$business = Business::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'DESC')->get();
-			}elseif($impersonateUser){
+			$authUser = \Auth::user();
+			if($impersonateUser){
 				$business = Business::where('user_id', $impersonateUser)->orderBy('id', 'DESC')->get();
 			}else{
-				
-				$business = Business::where('user_id', \Auth::user()->id)->orderBy('id', 'DESC')->get();
+				$business = Business::where('user_id', $authUser->id)->orderBy('id', 'DESC')->get();
 			}
+            $no = 0;
+            foreach ($business as $key => $value) {
+                $value->no = $no;
+                $no++;
+            }
+            return view('business.index', compact('business'));
+
+    }
+	
+	public function allCards()
+    {
+			
+			$authUser = \Auth::user();
+			
+			if($authUser->type != 'company' && $authUser->admin_status != 1){
+				return redirect()->back()->with('error', 'Permission Denied');
+			}
+
+			$business = Business::where('created_by', 1)->orderBy('id', 'DESC')->get();
+			
             $no = 0;
             foreach ($business as $key => $value) {
                 $value->no = $no;
@@ -126,6 +142,7 @@ class BusinessController extends Controller
             $user->enable_businesslink = 'on';
             $user->is_branding_enabled = 'on';
             $user->save();
+			
             $currentuser = \Auth::user();
             if(is_null($currentuser->current_business)||$currentuser->current_business)
             {
@@ -167,7 +184,7 @@ class BusinessController extends Controller
         }
         else{
             $business = Business::where('id', $id)->first();
-            $count = Business::where('id', $id)->where('created_by', \Auth::user()->creatorId())->count();
+            $count = Business::where('id', $id)->where('created_by', 1)->count();
             if ($count == 0) {
                 return redirect()->route('business.index')->with('error', __('This business card cannot be found.'));
             }
@@ -366,7 +383,8 @@ class BusinessController extends Controller
     {
         
             if (!is_null($business)) {
-                $count = Business::where('id', $business->id)->where('created_by', \Auth::user()->creatorId())->count();
+                $count = Business::where('id', $business->id)->count();
+				//dd($business, $count, \Auth::user()->creatorId());
                 if ($count == 0) {
                     return redirect()->route('business.index')->with('error', __('This card number is not Valid.'));
                 }
@@ -398,9 +416,8 @@ class BusinessController extends Controller
                 }
 				
                 $business->title = $request->title;
-				
-					$business->sub_title = $request->sub_title;
-					$business->description = $request->description;
+				$business->sub_title = $request->sub_title;
+				$business->description = $request->description;
 				$business->secret_code = $request->reset_code??$business->secret_code;
                 if ($request->hasFile('logo')) {
                     $settings = Utility::getStorageSetting();
@@ -1178,7 +1195,6 @@ class BusinessController extends Controller
 
     public function getcard(Request $request, $slug)
     {
-        
         if (!\Auth::check()) {
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$query = @unserialize(file_get_contents('http://ip-api.com/php/' . $ip));
@@ -1198,7 +1214,7 @@ class BusinessController extends Controller
 
                 $busi_data = Business::where('slug', $value->slug)->first();
 				if($busi_data){
-					$CheckUserStatus = User::find($busi_data->user_id);
+					$CheckUserStatus = User::find($busi_data->created_by + 1);
 				} else {
 					return abort('404', 'Page not found');
 				}
@@ -1208,7 +1224,9 @@ class BusinessController extends Controller
 						return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 					}
 				}
-
+				
+				//dd($CheckUserStatus);
+				
 				if($CheckUserStatus->is_enable_login == 0){
 					return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 				}
@@ -1365,25 +1383,16 @@ class BusinessController extends Controller
         $prefix = '';
         $suffix = '';
         $cardLogo=isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/'.$business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
-        $logo = isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/' . $business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
         // add personal data
         $vcard->addName($lastname, $firstname, $additional, $prefix, $suffix);
 
         // add work data
-        
-        $imageData = file_get_contents($cardLogo);
-        $tempImagePath = tempnam(sys_get_temp_dir(), 'vcard_image');
-        file_put_contents($tempImagePath, $imageData);
-                
-        
-        
-        
         $vcard->addCompany($business->title);
         $vcard->addRole($business->designation);
-        $vcard->addPhoto($tempImagePath);
-        $contacts = ContactInfo::where('business_id', $business->id)->first(); 
-        
-
+        $vcard->addPhoto($cardLogo);
+        $logo = isset($business->logo) && !empty($business->logo) ? asset(Storage::url('card_logo/' . $business->logo)) : asset('custom/img/logo-placeholder-image-2.png');
+        //$vcard->addPhoto($logo);
+        $contacts = ContactInfo::where('business_id', $business->id)->first();
 
         if (!empty($contacts) && !empty($contacts->content)) {
             if (isset($contacts['is_enabled']) && $contacts['is_enabled'] == '1') {
@@ -1937,7 +1946,7 @@ $file = $vcard->getFilename() . '.' . $vcard->getFileExtension();
             
             $business->save();
             $tab = 1;
-            return redirect()->back()->with('success', __('SEO Successfully Updated.'))->with('tab', $tab);
+            return redirect()->back()->with('success', __('Thumbnail Updated Successfully.'))->with('tab', $tab);
         
     }
     public function destroyGallery(Request $request)

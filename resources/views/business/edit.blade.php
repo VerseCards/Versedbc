@@ -342,7 +342,7 @@
                                                             <div class="col-12">
                                                                 <div class="form-group">
                                                                     {{ Form::label('Description', __('Brief Bio'), ['class' => 'form-label']) }}
-                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text emojiarea', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
+                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
                                                                     @error('description')
                                                                         <span class="invalid-favicon text-xs text-danger"
                                                                             role="alert">{{ $message }}</span>
@@ -1134,7 +1134,7 @@
                                     <div class="theme-detail-card" style="box-shadow: 0 6px 30px rgba(182, 186, 203, 0.3); background: #ffffff;">
                                         {{ Form::open(['route' => ['business.seo-setting', $business->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                                         <div class="d-flex align-items-center justify-content-between mb-4 ">
-                                            <h5 class="mb-0">{{__('Thumbail')}}</h5>
+                                            <h5 class="mb-0">{{__('Thumbnail')}}</h5>
                                             
                                         </div>
                                         
@@ -1220,13 +1220,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{ Form::close() }}
+                                       
 										<div class="d-flex align-items-center justify-content-between mb-4 ">
                                             <h5 class="mb-0">{{__('')}}</h5>
                                             <button type="submit" class="btn btn-primary"> <i
                                                     data-feather="folder"></i>&nbsp;{{__('Save Thumbail')}} </button>
                                         </div>
-                                        
+                                         {{ Form::close() }}
                                     </div>
                                 </div>
 

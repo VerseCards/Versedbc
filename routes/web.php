@@ -60,13 +60,14 @@ Route::middleware(['2fa', 'auth', 'impersonate'])->group(function () {
 		//Route::get('/impersonate/stop/{id}', 'ImpersonateController@stop')->name('impersonate.stop');
 		
 		Route::resource('business', BusinessController::class)->middleware(['XSS','auth']);
-		
+		Route::get('business-allcards', [BusinessController::class,'allCards'])->name('business.allcards');
 Route::middleware(['auth','impersonate','XSS'])->group(function () {
     Route::get('business/edit/{id}', [BusinessController::class,'edit'])->name('business.edit');
     Route::get('business/theme-edit/{id}', [BusinessController::class,'edit2'])->name('business.edit2');
     Route::get('business/analytics/{id}', [BusinessController::class,'analytics'])->name('business.analytics');
     Route::post('business/edit-theme/{id}', [BusinessController::class,'editTheme'])->name('business.edit-theme');
     Route::post('business/domain-setting/{id}', [BusinessController::class,'domainsetting'])->name('business.domain-setting');
+	
 
     Route::resource('appointments', AppointmentDeatailController::class);
     Route::get('appoinments/', [AppointmentDeatailController::class,'index'])->name('appointments.index');
@@ -116,19 +117,11 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
      Route::resource('webhook', WebhookController::class);
      Route::post('cookie_setting', [SystemController::class, 'saveCookieSettings'])->middleware('XSS','auth')->name('cookie.setting');
 
-    // Ai Chatgtp 
-    Route::post('chatgptkey',[SystemController::class,'chatgptkey'])->name('settings.chatgptkey');
-    Route::get('generate/{template_name}',[AiTemplateController::class,'create'])->name('generate');
 
-    Route::post('generate/keywords/{id}',[AiTemplateController::class,'getKeywords'])->name('generate.keywords');
-    Route::post('generate/response',[AiTemplateController::class,'aiGenerate'])->name('generate.response');
-
-    Route::get('generate_ai_business/{template_name}/{id}',[AiTemplateController::class,'create_business'])->name('generate_ai_business');
-    Route::get('generate_ai/{template_name}/{id}',[AiTemplateController::class,'create_service'])->name('generate_ai');
-    Route::get('generate_ai_2/{template_name}/{id}',[AiTemplateController::class,'create_testimonial'])->name('generate_ai_testimonial');
 
     Route::get('user-login/{id}', 'UserController@LoginManage')->name('users.login');
 	Route::get('admin-status/{id}', 'UserController@makeAdmin')->name('users.make_admin');
+	Route::get('all-admins', 'UserController@allAdmins')->name('users.view_admin');
 	
 	
 	

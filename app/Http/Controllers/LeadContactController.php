@@ -123,7 +123,7 @@ class LeadContactController extends Controller
 					if (!empty($leadGenerations)) {
 						foreach ($leadGenerations as $leadGeneration) {
 							$content = json_decode($leadGeneration->content, true); // Decode content to an associative array
-							foreach ($content as &$item) {
+							foreach ($content as $item) {
 								$item['business_id'] = $leadGeneration->business_id; // Add business_id to each item
 								$item['campaign_id'] = $leadGeneration->id; 
 							}

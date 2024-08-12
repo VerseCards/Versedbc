@@ -58,11 +58,16 @@ class User extends Authenticatable
     {
         if($this->type == 'company')
         {
-            return $this->id;
+            return 1;
         }
         else
         {
-            return $this->created_by;
+			if($this->admin_status == 1){
+				
+				return 1;
+			}else{
+				return $this->created_by;
+			}
         }
     }
 	public function loginSecurity()
