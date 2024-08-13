@@ -634,7 +634,7 @@
 																		
                                                                     @endif
                                                                     <div class="contact-text">
-																		<span class="{{ $key1 . '_' . $no }}" id="{{ $key1 . '_' . $no }}">{{ $val1 }}</span>
+																		<span class="{{ $key1 . '_' . $no }}" id="{{ $key1 . '_' . $no }}">{{ Str::limit($val1, 23) }}</span>
                                                                 <div class="contact-label">{{ $key1 }}</div>
 																	</div>
 															</div>
@@ -1466,7 +1466,7 @@
                         setTimeout(function() {
                             location.reload();
                         }, 1500);
-                        show_toastr('Success', "{{ __('Your contact details has been noted.') }}",
+                        show_toastr('Success', "{{ __('Thank you for connecting.') }}",
                             'success');
 
                     }

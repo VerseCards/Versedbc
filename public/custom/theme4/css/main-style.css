@@ -331,7 +331,7 @@ html,
 #view_theme14 video {
     margin: 0;
     padding: 0;
-    font-size: 100%;
+    font-size: 16px;
     list-style: none;
     vertical-align: baseline;
 }

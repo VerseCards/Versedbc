@@ -14,6 +14,8 @@ use File;
 use App\Models\Utility;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 
 class UserController extends Controller
@@ -406,6 +408,7 @@ class UserController extends Controller
 	
 	public function makeAdmin($id)
     {
+		
         $eId = \Crypt::decrypt($id);
         $user = User::find($eId);
         if ($user->type == 'company') {
@@ -434,6 +437,15 @@ class UserController extends Controller
 			}
             return view('user.index')->with('users', $users);
 
+    }
+	
+	public function addColumnToUsersTable()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('admin_status')->default(0);
+        });
+
+        return response()->json(['message' => 'Column added successfully']);
     }
 
 }

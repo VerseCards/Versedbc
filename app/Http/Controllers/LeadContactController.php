@@ -27,20 +27,34 @@ class LeadContactController extends Controller
         $business_id=$user->current_business;
       
             if($business_id=="" || $business_id=="0"){
-				if(\Auth::user()->type == 'company' || \Auth::user()->type == 'techsupport'){
+				if(\Auth::user()->type == 'company' && \Auth::user()->admin_status == 0){
 					$contacts_deatails = LeadContact::where('created_by',\Auth::user()->creatorId())->get();
 				}else{
-					$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id',$business_id)->get();
+					if (session()->has('impersonate')) {
+						$getOwner = session()->get('impersonate');
+						$cardOwner = User::find($getOwner)->id;
+						$contacts_deatails = LeadContact::where('user_id',$cardOwner)->where('business_id',$business_id)->get();
+					}else{
+						$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id',$business_id)->get();
+					}
+					
 				}
                 foreach ($contacts_deatails as $key => $value) {
                     $business_name = Business::where('id',$value->business_id)->pluck('title')->first();
                     $value->business_name = $business_name;
                 }
             }else{
-				if(\Auth::user()->type == 'company' || \Auth::user()->type == 'techsupport'){
+				if(\Auth::user()->type == 'company' && \Auth::user()->admin_status == 0){
 					$contacts_deatails = LeadContact::where('created_by',\Auth::user()->creatorId())->get();
 				}else{
-					$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id',$business_id)->get();
+					if (session()->has('impersonate')) {
+						$getOwner = session()->get('impersonate');
+						$cardOwner = User::find($getOwner)->id;
+						$contacts_deatails = LeadContact::where('user_id',$cardOwner)->where('business_id',$business_id)->get();
+					}else{
+						$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id',$business_id)->get();
+					}
+					
 				}
 				
 				
@@ -64,14 +78,23 @@ class LeadContactController extends Controller
         
             if($business_id=="" || $business_id=="0"){
 				//dd(1);
-				if(\Auth::user()->type == 'company' || \Auth::user()->type == 'techsupport'){
+				if(\Auth::user()->type == 'company' && \Auth::user()->admin_status == 0){
 					$contacts_deatails = LeadGeneration::where('created_by',\Auth::user()->creatorId())->get();
 					$leadGenerations = LeadGeneration::where('created_by',\Auth::user()->creatorId())->get();
 					//dd($contacts_deatails, $leadGenerations);
 				}else{
 					
-					$contacts_deatails = LeadGeneration::where('user_id',\Auth::user()->id)->get();
-					$leadGenerations = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+					if (session()->has('impersonate')) {
+						$getOwner = session()->get('impersonate');
+						$cardOwner = User::find($getOwner)->id;
+						
+						$contacts_deatails = LeadGeneration::where('user_id',$cardOwner)->get();
+						$leadGenerations = LeadGeneration::where('user_id',$cardOwner)->get();
+						
+					}else{
+						$contacts_deatails = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+						$leadGenerations = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+					}
 					
 				}
 				
@@ -111,27 +134,48 @@ class LeadContactController extends Controller
                 }
             }else{
 				//dd(2);
-				if(\Auth::user()->type == 'company' || \Auth::user()->type == 'techsupport'){
+				if(\Auth::user()->type == 'company' && \Auth::user()->admin_status == 0){
 					$contacts_deatails = LeadGeneration::where('created_by',\Auth::user()->creatorId())->get();
 					$leadGenerations = LeadGeneration::where('created_by',\Auth::user()->creatorId())->get();
 				}else{
-					$contacts_deatails = LeadGeneration::where('user_id',\Auth::user()->id)->get();
-					$leadGenerations = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+					
+					if (session()->has('impersonate')) {
+						$getOwner = session()->get('impersonate');
+						$cardOwner = User::find($getOwner)->id;
+						
+						$contacts_deatails = LeadGeneration::where('user_id',$cardOwner)->get();
+						$leadGenerations = LeadGeneration::where('user_id',$cardOwner)->get();
+						
+					}else{
+						$contacts_deatails = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+						$leadGenerations = LeadGeneration::where('user_id',\Auth::user()->id)->get();
+					}
 				}
 			
 				$leadGeneration_content = [];
-					if (!empty($leadGenerations)) {
-						foreach ($leadGenerations as $leadGeneration) {
-							$content = json_decode($leadGeneration->content, true); // Decode content to an associative array
-							foreach ($content as $item) {
+
+				if (!empty($leadGenerations)) {
+					foreach ($leadGenerations as $leadGeneration) {
+						
+						// Decode JSON content and handle possible errors
+						$content = json_decode($leadGeneration->content, true); 
+						
+						if (json_last_error() === JSON_ERROR_NONE && is_array($content)) {
+							foreach ($content as &$item) { // Use reference to modify the original item
 								$item['business_id'] = $leadGeneration->business_id; // Add business_id to each item
-								$item['campaign_id'] = $leadGeneration->id; 
+								$item['campaign_id'] = $leadGeneration->id; // Add campaign_id to each item
 							}
+							
 							$reversed_content = array_reverse($content); // Reverse the content array
 							$leadGeneration_content = array_merge($leadGeneration_content, $reversed_content); // Merge the reversed content into the main array
+						} else {
+							// Handle the error case
+							
+							error_log("JSON decoding failed or content is not an array for lead generation ID: " . $leadGeneration->id);
 						}
 					}
-				//dd($leadGeneration_content);
+				}
+				
 
             }
             return view('leadcontact.campaign',compact('contacts_deatails', 'leadGeneration_content'));
@@ -140,17 +184,44 @@ class LeadContactController extends Controller
 	
 	public function campaignByLead($id="", $business_id_key = '')
     {
-		//dd($id, $business_id );
+		
         $user=\Auth::user();
         $business_id=$user->current_business;
-        
+		$leadGeneration = LeadGeneration::where('business_id',$business_id_key)->first();
+		if ($leadGeneration) {
+            // Decode the JSON content
+            $content = json_decode($leadGeneration->content, true);
+
+            // Check if JSON decoding was successful and $content is an array
+            if (json_last_error() === JSON_ERROR_NONE && is_array($content)) {
+                // Iterate over the array to find the item with the specified id
+                foreach ($content as $item) {
+                    if (isset($item['id']) && $item['id'] == $id) {
+                        $campaign_name = $item['title'];
+						//return response()->json($item);
+                    }
+                }
+            }
+        }
+				//dd($item['title']);
             
-				if(\Auth::user()->type == 'company' || \Auth::user()->type == 'techsupport'){
+				if(\Auth::user()->type == 'company' && \Auth::user()->admin_status == 0){
 					$contacts_deatails = LeadContact::where('created_by',\Auth::user()->creatorId())->where('business_id', $business_id_key)->where('campaign_id',$id)->get();
 					
 				}else{
-					$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id', $business_id_key)->where('campaign_id',$id)->get();
-					//dd($contacts_deatails, $business_id_key, $id, $list_id);
+					if (session()->has('impersonate')) {
+						$getOwner = session()->get('impersonate');
+						$cardOwner = User::find($getOwner)->id;
+						
+						$contacts_deatails = LeadContact::where('user_id',$cardOwner)->where('business_id', $business_id_key)->where('campaign_id',$id)->get();
+						
+						
+					}else{
+						$contacts_deatails = LeadContact::where('user_id',\Auth::user()->id)->where('business_id', $business_id_key)->where('campaign_id',$id)->get();
+						
+					}
+					
+					
 				}
 				
                 foreach ($contacts_deatails as $key => $value) {
@@ -158,7 +229,7 @@ class LeadContactController extends Controller
                     $value->business_name = $business_name;
                 }
            
-            return view('leadcontact.campaign_lead',compact('contacts_deatails', 'id'));
+            return view('leadcontact.campaign_lead',compact('contacts_deatails', 'id', 'campaign_name'));
     }
 
     /**

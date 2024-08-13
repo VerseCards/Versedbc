@@ -30,14 +30,21 @@ class ContactExport implements FromCollection,WithHeadings, WithEvents
     }
     public function collection()
     {
+				if (session()->has('impersonate')) {
+					$getOwner = session()->get('impersonate');
+					$cardOwner = User::find($getOwner)->id;
+					$leads_contacts =  Contacts::where('user_id',$cardOwner)->get();
+				}else{
+					$leads_contacts =  Contacts::where('user_id',\Auth::user()->id)->get();
+				}
 		
-		$leads_contacts =  Contacts::where('created_by',\Auth::user()->creatorId())->get();
                 foreach ($leads_contacts  as $k => $contact) {
 					
-					unset($contact->created_by,$contact->id,$contact->campaign_title,$contact->business_id,$contact->updated_at,$contact->status, $contact->note, $contact->user_id );
+					unset($contact->created_by,$contact->id,$contact->business_id,$contact->updated_at,$contact->status, $contact->note, $contact->user_id );
 					
                     //$business_name = Business::where('id',$value->business_id)->pluck('title')->first();
                     //$contact->business_name = $business_name;
+
 					$leads_contacts[$k]["name"]                = $contact->name;
 					$leads_contacts[$k]["email"]                = $contact->email;
 					$leads_contacts[$k]["phone"]                = $contact->phone;

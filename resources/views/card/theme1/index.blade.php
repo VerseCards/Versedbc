@@ -1542,7 +1542,7 @@
                         $(".close-search2").trigger({
                             type: "click"
                         });
-                        show_toastr('Success', "{{ __('Your contact details has been noted.') }}",
+                        show_toastr('Success', "{{ __('Thank you for connecting.') }}",
                             'success');
                         setTimeout(function() {
                             location.reload();

@@ -2730,7 +2730,7 @@ sup {
     align-items: center;
     justify-content: center;
     border-radius: 28px;
-    border: 2px solid var(--theme-color);
+    border: 1px solid var(--theme-color);
 }
 
 .add-to-contact-botton {
@@ -2756,7 +2756,7 @@ sup {
 }
 
 #view_css .client-contact .contactlink a span {
-    font-size: 22px;
+    font-size: 16px;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;

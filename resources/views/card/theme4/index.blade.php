@@ -393,7 +393,7 @@
                                                                             class="img-fluid">
                                                                     </span>
                                                                     <span id="{{ $key1 . '_' . $no }}_preview" style="color:#ffffff">
-                                                                        {{ $val1 }}</span>
+                                                                        {{ Str::limit($val1, 18) }}</span>
                                                                     </a>
                                                                 @endif
                                                             </li>
@@ -1221,7 +1221,7 @@
                         $(".make-contact-modal-toggle").trigger({
                             type: "click"
                         });
-                        show_toastr('Success', "{{ __('Your contact details has been noted.') }}",
+                        show_toastr('Success', "{{ __('Thank you for connecting.') }}",
                             'success');
                         setTimeout(function() {
                             location.reload();

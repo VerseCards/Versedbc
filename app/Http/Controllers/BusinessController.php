@@ -582,6 +582,13 @@ class BusinessController extends Controller
                     }
                 }
 				
+				if (session()->has('impersonate')) {
+					$getOwner = session()->get('impersonate');
+					$cardOwner = User::find($getOwner)->id;
+				}else{
+					$cardOwner = \Auth::user()->id;
+				}
+				
 				//dd($request->all());
 				if ($request->is_leadgeneration_enabled == "on") {
                     $leadTitles = $request->leadtitle; //app_hours
@@ -599,18 +606,19 @@ class BusinessController extends Controller
 							 }else{
 								 $titles['created_at'] = $leadTitle_val['created_at'];
 							 };
-								
-							 
-                            
+
                             $leadGeneration_titles[$leadTitle_key] = $titles;
                             $leadGeneration_count++;
 							
                         }
                         $leadGeneration_titles = json_encode($leadGeneration_titles);
                         $leadGeneration = LeadGeneration::where('business_id', $business_id)->first();
+						
+						
                         if (!is_null($leadGeneration)) {
                             $leadGeneration->content = $leadGeneration_titles;
                             $leadGeneration->is_enabled = '1';
+							$leadGeneration->user_id = $cardOwner;
                             $leadGeneration->created_by = \Auth::user()->creatorId();
                             $leadGeneration->save();
                         } else {
@@ -618,6 +626,7 @@ class BusinessController extends Controller
                                 'business_id' => $business_id,
                                 'content' => $leadGeneration_titles,
                                 'is_enabled' => '1',
+								'user_id' => $cardOwner,
                                 'created_by' => \Auth::user()->creatorId()
                             ]);
                         }
@@ -630,6 +639,7 @@ class BusinessController extends Controller
                         if(!is_null($leadGeneration)){
                             $leadGeneration->content = $leadGeneration_titles;
                             $leadGeneration->is_enabled = '1';
+							$leadGeneration->user_id = $cardOwner;
                             $leadGeneration->created_by = \Auth::user()->creatorId();
                             $leadGeneration->save();
                         }else{
@@ -637,6 +647,7 @@ class BusinessController extends Controller
                                 'business_id' => $business_id,
                                 'content' => $leadGeneration_titles,
                                 'is_enabled' => '1',
+								'user_id' => $cardOwner,
                                 'created_by' => \Auth::user()->creatorId()
                             ]);
                         }
@@ -646,12 +657,14 @@ class BusinessController extends Controller
                     $leadGeneration = LeadGeneration::where('business_id', $business_id)->first();
                     if (!is_null($leadGeneration)) {
                         $leadGeneration->is_enabled = '0';
+						$leadGeneration->user_id = $cardOwner;
                         $leadGeneration->created_by = \Auth::user()->creatorId();
                         $leadGeneration->save();
                     } else {
                         LeadGeneration::create([
                             'business_id' => $business_id,
                             'is_enabled' => '0',
+							'user_id' => $cardOwner,
                             'created_by' => \Auth::user()->creatorId()
                         ]);
                     }
@@ -1208,7 +1221,6 @@ class BusinessController extends Controller
             $visit_data = \DB::table('visitor')->where('slug', $visit->slug)->get();
 			$visit_data1 = \DB::table('visitor')->where('slug', $visit->slug)->orderBy('id', 'DESC')->first();
 			$security_code = $request->input('cxz');
-			//dd($visit_data1, $visit_data);
 			
             foreach ($visit_data as $key => $value) {
 
@@ -1224,9 +1236,7 @@ class BusinessController extends Controller
 						return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 					}
 				}
-				
-				//dd($CheckUserStatus);
-				
+
 				if($CheckUserStatus->is_enable_login == 0){
 					return abort('404', 'Not Found!!!')->with('error', __('Business Card Not Found.'));
 				}
@@ -1444,7 +1454,7 @@ class BusinessController extends Controller
             \File::makeDirectory($path, 0777);
         */
         $vcard->setSavePath($path);
-$file = $vcard->getFilename() . '.' . $vcard->getFileExtension();
+		$file = $vcard->getFilename() . '.' . $vcard->getFileExtension();
 		//dd($file);
         $vcard->save();
         
@@ -1786,22 +1796,31 @@ $file = $vcard->getFilename() . '.' . $vcard->getFileExtension();
     public function blocksetting($id, Request $request)
     {
        
-            $count = Business::where('id', $id)->where('created_by', \Auth::user()->creatorId())->count();
-            if ($count == 0) {
-                return redirect()->route('business.index')->with('error', __('This card number is not yours.'));
-            }
-            $business = Business::where('id', $id)->first();
-            $card_order = [];
-            $order = [];
-            $card_order['theme'] = $request->theme_name;
-            $req_order = explode(",", $request->order);
-            foreach ($req_order as $key => $value) {
-                $od = $key + 1;
-                $order[$value] = $od;
-            }
-            $card_order['order'] = $order;
-            $business->card_theme = $card_order;
-            $business->save();
+            $count = Business::where('id', $id)
+			->where('created_by', \Auth::user()->creatorId())
+			->count();
+
+			if ($count == 0) {
+				return redirect()->route('business.index')->with('error', __('This card cannot be found.'));
+			}
+
+			$business = Business::where('id', $id)->first();
+			$card_order = [];
+			$order = [];
+			$card_order['theme'] = $request->theme_name;
+			$req_order = explode(",", $request->order);
+
+			foreach ($req_order as $key => $value) {
+				$od = $key + 1;
+				$order[$value] = $od;
+			}
+
+			$card_order['order'] = $order;
+
+			// Convert the $card_order array to JSON before saving
+			$business->card_theme = json_encode($card_order);
+			$business->save();
+
 
             $contact_data = ContactInfo::where('business_id', $id)->first();
             if ($contact_data != NULL) {

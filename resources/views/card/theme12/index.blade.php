@@ -338,7 +338,7 @@
                                                                         </div>
 
                                                                         <span id="{{ $key1 . '_' . $no }}_preview" style="margin-left: 50px">
-                                                                            {{ $val1 }}</span>
+                                                                            {{ Str::limit($val1, 18) }}</span>
                                                                         </a>
                                                                     @endif
                                                                 </li>
@@ -935,7 +935,7 @@
                                 </svg>
                             </div>
                             <div class="section-title-center">
-                                <h5>{{ __('Scan QR Code') }}</h5>
+                                <h5 style="color: var(--custom-1)">{{ __('Scan QR Code') }}</h5>
                             </div>
                             <button type="button" name="LOGOUT" class="logout-btn">
 
@@ -966,7 +966,7 @@
                 <div class="container">
                     <form class="appointment-form-wrapper contact-form-wrapper">
                         <div class="section-title">
-                            <h5>{{ __('Connect with me') }}</h5>
+                            <h5 style="color: var(--custom-1)">{{ __('Connect with Me') }}</h5>
                             <div class="close-search">
                                 <img src="{{ asset('custom/theme12/icon/' . $color . '/close.svg') }}"
                                     alt="back" class="img-fluid">
@@ -975,7 +975,7 @@
                         <div class="row appo-form-details">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Name:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Name') }}</label>
                                     <input type="text" name="name" placeholder="{{ __('Enter your name') }}"
                                         class="form-control contact_name">
                                     <div class="">
@@ -985,7 +985,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Email:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Email') }}</label>
                                     <input type="email" name="email" placeholder="{{ __('Enter your email') }}"
                                         class="form-control contact_email" id="recipient-email">
                                     <div class="">
@@ -996,7 +996,7 @@
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Phone:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Phone') }}</label>
                                     <input type="text" name="phone"
                                         placeholder="{{ __('Enter your phone no') }}"
                                         class="form-control contact_phone" id="recipient-phone">
@@ -1007,7 +1007,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Message:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Message') }}</label>
                                     <textarea name="message" placeholder="" class="custom_size contact_message emojiarea" id="recipient-message"></textarea>
                                     <div class="">
                                         <span class="text-danger  h5 span-error-contactmessage"></span>
@@ -1017,7 +1017,7 @@
                             </div>
                         </div>
                         <div class="form-btn-group">
-                            <button type="button" name="CLOSE" class="close-btn btn">
+                            <button type="button" name="CLOSE" class="close-btn btn invisible">
                                 {{ __('Close') }}
                             </button>
                             <button type="button" class="btn btn-secondary"
@@ -1036,11 +1036,12 @@
             <!--contact popup end here-->
 			
 	@foreach ($leadGeneration_content  as $leadgen) 
+
 		<div class="leadgeneration-popup{{$leadgen->id}}">
                 <div class="container">
                     <form class="appointment-form-wrapper contact-form-wrapper">
                         <div class="section-title">
-                            <h5>{{__($leadgen->title) }}</h5>
+                            <h5 style="color: var(--custom-1)">{{__($leadgen->title) }}</h5>
                             <div class="close-search">
                                 <img src="{{ asset('custom/theme12/icon/' . $color . '/close.svg') }}"
                                     alt="back" class="img-fluid">
@@ -1049,7 +1050,7 @@
                         <div class="row appo-form-details">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Name:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Name') }}</label>
                                     <input type="text" name="name{{$leadgen->id}}" placeholder="{{ __('Enter your name') }}"
                                         class="form-control contact_name{{$leadgen->id}}">
 										<input type="hidden" name="campaign_name{{$leadgen->id}}" class="form-control campaign_name{{$leadgen->id}}" value = "{{$leadgen->title}}">
@@ -1061,7 +1062,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Email:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Email') }}</label>
                                     <input type="email" name="email{{$leadgen->id}}" placeholder="{{ __('Enter your email') }}"
                                         class="form-control contact_email{{$leadgen->id}}" id="recipient-email{{$leadgen->id}}">
                                     <div class="">
@@ -1072,7 +1073,7 @@
 							
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Phone:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Phone') }}</label>
                                     <input type="text" name="phone{{$leadgen->id}}"
                                         placeholder="{{ __('Enter your phone no') }}"
                                         class="form-control contact_phone{{$leadgen->id}}" id="recipient-phone{{$leadgen->id}}">
@@ -1083,7 +1084,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Message:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Message') }}</label>
                                     <textarea name="message{{$leadgen->id}}" placeholder="" class="custom_size contact_message{{$leadgen->id}} emojiarea" id="recipient-message{{$leadgen->id}}"></textarea>
                                     <div class="">
                                         <span class="text-danger  h5 span-error-contactmessage{{$leadgen->id}}"></span>
@@ -1093,7 +1094,7 @@
                             </div>
                         </div>
                         <div class="form-btn-group">
-                            <button type="button" name="CLOSE" class="close-btn btn">
+                            <button type="button" name="CLOSE" class="close-btn btn invisible">
                                 {{ __('Cancel') }}
                             </button>
                             <button type="button" class="btn btn-secondary"
@@ -1615,7 +1616,7 @@
                         setTimeout(function() {
                             location.reload();
                         }, 1500);
-                        show_toastr('Success', "{{ __('Your contact detail have been saved.') }}",
+                        show_toastr('Success', "{{ __('Thank you for connecting.') }}",
                             'success');
 
                     }

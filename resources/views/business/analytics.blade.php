@@ -1,31 +1,16 @@
 @extends('layouts.admin')
 @section('page-title')
-   {{__('Business Analytics')}}
+   {{__('Analytics')}}
 @endsection
 @section('title')
-   {{__('Business Analytics')}}
+   {{__('Analytics')}}
 @endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('business.index') }}">{{__('Business')}}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{__('Business Analytics')}}</li>
-@endsection
+
 @section('content')
 
 <div class="row">
-    <div class="col-xl-6 col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="float-end">
-                    <span class="mb-0 float-right">{{__('Last 15 Days')}}</span>
-                </div>
-                <h5>{{__('Appointments')}}</h5>
-            </div>
-            <div class="card-body">
-                <div id="apex-storedashborad" data-color="primary" data-height="280"></div>
-            </div>
-        </div>
-    </div>   
-    <div class="col-xl-6 col-md-12">
+      
+    <div class="col-xl-6 col-md-6 col-sm-6"">
         <div class="card">
             <div class="card-header">
                 <div class="float-end">
@@ -40,9 +25,7 @@
             </div>
         </div>
     </div> 
-</div>    
-<div class="row">
-    <div class="col-xl-6 col-md-6 col-sm-6">
+	<div class="col-xl-6 col-md-6 col-sm-6">
         <div class="card">
             <div class="card-header">
                 <div class="float-end">
@@ -57,6 +40,9 @@
             </div>
         </div>
     </div>
+</div>    
+<div class="row">
+    
     <div class="col-xl-6 col-md-6 col-sm-6">
         <div class="card">
             <div class="card-header">

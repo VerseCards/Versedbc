@@ -310,7 +310,7 @@
 														@else
 															<div class="col-lg-4">
                                                                 <div class="form-group">
-                                                                    {{ Form::label('Title', __('Title:'), ['class' => 'form-label']) }}
+                                                                    {{ Form::label('Title', __('Name'), ['class' => 'form-label']) }}
                                                                     {{ Form::text('title', $business->title, ['class' => 'form-control', 'id' => $stringid . '_title', 'placeholder' => __('Enter Title'), 'readonly' => true]) }}
                                                                     @error('title')
                                                                         <span class="invalid-favicon text-xs text-danger"
@@ -400,7 +400,7 @@
 											
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <h5 class="mb-3">{{__('Settings:')}}</h5>
+                                                    <h5 class="mb-3">{{__('Settings')}}</h5>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="accordion accordion-flush setting-accordion"
@@ -638,7 +638,7 @@
                                                                                             <span>{{__('Lead Title')}}</span>
                                                                                         </div>
                                                                                         <div class="col-lg-5">
-                                                                                            <span>{{__('End Time')}}</span>
+                                                                                            <span>{{__('Button Title')}}</span>
                                                                                         </div>
                                                                                         <div class="col-lg-2">
                                                                                             <span>{{__('Delete')}}</span>

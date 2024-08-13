@@ -122,6 +122,7 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
     Route::get('user-login/{id}', 'UserController@LoginManage')->name('users.login');
 	Route::get('admin-status/{id}', 'UserController@makeAdmin')->name('users.make_admin');
 	Route::get('all-admins', 'UserController@allAdmins')->name('users.view_admin');
+	Route::get('run-migrate-now', 'UserController@addColumnToUsersTable')->name('users.runNow');
 	
 	
 	

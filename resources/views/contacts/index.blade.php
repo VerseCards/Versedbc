@@ -39,11 +39,11 @@
                         <thead>
                             <tr>
 								<th>{{ __('#') }}</th>
-                                <th>{{ __('Business Name') }}</th>
+                                <th>{{ __('Card Name') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Phone') }}</th>
-                                <th>{{ __('Message') }}</th>
+                                <th>{{ __('Additional Info') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th id="ignore">{{ __('Action') }}</th>
                             </tr>
