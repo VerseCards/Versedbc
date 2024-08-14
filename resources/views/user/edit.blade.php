@@ -22,8 +22,9 @@
             @enderror
         </div>
     </div>
+
     @if(\Auth::user()->type == 'company')
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             {{ Form::label('role', __('Staff Department'),['class'=>'form-label']) }}
             {!! Form::select('role', $roles, $user->roles,array('class' => 'form-control select2','required'=>'required')) !!}
             @error('role')
@@ -32,6 +33,17 @@
             </small>
             @enderror
         </div>
+		<div class="col-md-6">
+        <div class="form-group">
+            {{Form::label('designation',__('Designation'),['class'=>'form-label'])}}
+            {{Form::text('designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+            @error('designation')
+            <small class="invalid-email" role="alert">
+                <strong class="text-danger">{{ $message }}</strong>
+            </small>
+            @enderror
+        </div>
+    </div>
 		
     @endif
 </div>

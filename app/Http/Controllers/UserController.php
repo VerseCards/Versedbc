@@ -441,8 +441,10 @@ class UserController extends Controller
 	
 	public function addColumnToUsersTable()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('admin_status')->default(0);
+        
+		
+		Schema::table('users', function (Blueprint $table) {
+            $table->string('designation')->nullable();
         });
 
         return response()->json(['message' => 'Column added successfully']);
