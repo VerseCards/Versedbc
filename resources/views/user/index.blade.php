@@ -115,21 +115,22 @@
                                             <span class="text-success ml-2"> {{ __('Login Enable') }}</span>
                                         </a>
                                     @endif
-									
-									@if ($user->type == 'company' || $user->admin_status == '1')
-                                        <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
-                                            class="dropdown-item user-drop">
-                                            <i class="ti ti-road-sign"></i>
-                                            <span class="text-danger ml-2"> {{ __('Disable Admin') }}</span>
-                                        </a>
-                                    
-                                    @else
-                                        <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
-                                            class="dropdown-item user-drop">
-                                            <i class="ti ti-road-sign"></i>
-                                            <span class="text-success ml-2"> {{ __('Enable Admin') }}</span>
-                                        </a>
-                                    @endif
+									@if ($loggedUsers->name == 'Super Admin')
+										@if ($user->type == 'company' || $user->admin_status == '1')
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-danger ml-2"> {{ __('Disable Admin') }}</span>
+											</a>
+										
+										@else
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-success ml-2"> {{ __('Enable Admin') }}</span>
+											</a>
+										@endif
+									@endif
 									
 									<a href="{{ route('impersonate', ['id' => $user->id]) }}"
                                             class="dropdown-item user-drop"

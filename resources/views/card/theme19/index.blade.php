@@ -42,6 +42,11 @@
     if (!is_null($appoinment_hours) && !is_null($appoinment)) {
         $appoinment['is_enabled'] == '1' ? ($is_enable_appoinment = true) : ($is_enable_appoinment = false);
     }
+	
+	if (!is_null($leadGeneration_content) && !is_null($leadGeneration)) {
+        $leadGeneration['is_enabled'] == '1' ? ($is_enable_leadgeneration = true) : ($is_enable_leadgeneration = false);
+		
+    }
     
     if (!is_null($services_content) && !is_null($services)) {
         $services['is_enabled'] == '1' ? ($is_enable_service = true) : ($is_enable_service = false);
@@ -653,9 +658,9 @@
                         @endif
 						
 						@if ($order_key == 'leadgeneration')
-                            <section class="more-card-section padding-bottom" style="background: linear-gradient(180deg, rgb(245 245 245) 0%, rgb(255 255 255) 100%);border-radius: 15px 15px 15px 15px; padding-top: 30px;">
+                            <section class="more-card-section padding-bottom"  style="background: linear-gradient(180deg, rgb(245 245 245) 0%, rgb(255 255 255) 100%);border-radius: 15px 15px 15px 15px; padding-top: 30px;">
                                 
-                                <div class="container" style="width: 100%;">
+                                <div class="container" id = "leadgeneration-div" style="width: 100%;">
                                     
                                     <div class="more-btn">
 
@@ -1272,7 +1277,6 @@
         }
 		
 		var is_enable_leadgeneration = "{{ $is_enable_leadgeneration }}";
-
         if (is_enable_leadgeneration) {
             $('#leadgeneration-div').show();
         } else {

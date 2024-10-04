@@ -112,7 +112,10 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
      Route::delete('pixel-delete/{id}', [BusinessController::class, 'pixeldestroy'])->name('pixel.destroy');
      Route::resource('userlogs', UserlogController::class);
 	 Route::get('nfc-history', [UserlogController::class, 'loadTaps'])->name('loadTaps');
-     
+	 Route::get('pending_approval', [BusinessController::class, 'pendingApproval'])->name('pendingApproval');
+	 Route::get('showPending/{id}', [BusinessController::class, 'showPending'])->name('showPending');
+	 Route::post('approve_changes/{id}/{cid}', [BusinessController::class, 'approveChanges'])->name('approveChanges');
+	 Route::get('activity-log', [BusinessController::class, 'activityLog'])->name('activityLog');
 
      Route::resource('webhook', WebhookController::class);
      Route::post('cookie_setting', [SystemController::class, 'saveCookieSettings'])->middleware('XSS','auth')->name('cookie.setting');

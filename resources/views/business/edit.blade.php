@@ -211,7 +211,9 @@
                                             <button type="submit" class="btn btn-primary d-none"> <i class="me-2"
                                                     data-feather="folder"></i> {{__('Update Card')}}</button>
                                         </div>
+										
                                         <div class="theme-detail-body">
+										@if ($users->type == 'company')
                                             <div class="row mb-4">
                                                 <div class="col-lg-8">
                                                     <p class="mb-2">{{__('Background Image')}}</p>
@@ -270,6 +272,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+											@endif
                                             <span class="invalid-favicon text-m text-danger" id="banner_validate"></span>
                                             <div class="row">
                                                 
@@ -307,6 +310,16 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
+															<div class="col-12">
+                                                                <div class="form-group">
+                                                                    {{ Form::label('Description', __('Brief Bio'), ['class' => 'form-label']) }}
+                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
+                                                                    @error('description')
+                                                                        <span class="invalid-favicon text-xs text-danger"
+                                                                            role="alert">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
 														@else
 															<div class="col-lg-4">
                                                                 <div class="form-group">
@@ -338,17 +351,18 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
-														@endif
-                                                            <div class="col-12">
+															<div class="col-12">
                                                                 <div class="form-group">
                                                                     {{ Form::label('Description', __('Brief Bio'), ['class' => 'form-label']) }}
-                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
+                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description'),'readonly' => true]) }}
                                                                     @error('description')
                                                                         <span class="invalid-favicon text-xs text-danger"
                                                                             role="alert">{{ $message }}</span>
                                                                     @enderror
                                                                 </div>
                                                             </div>
+														@endif
+                                                            
                                                         </div>
                                                     {{-- </form> --}}
                                                 </div>
@@ -2419,13 +2433,13 @@
             var logo = $('input[name=logo]')[0].files[0];
             if(banner==undefined || banner=='' )
             {
-                $(`#banner_validate`).text("Banner Field is required");
-                return false;
+                //$(`#banner_validate`).text("Banner Field is required");
+                return true;
             }
             else if(logo==undefined || logo=='' )
             {
-                $(`#banner_validate`).text("Logo Field is required");
-                return false;
+                //$(`#banner_validate`).text("Logo Field is required");
+                return true;
             }
             else
             {

@@ -9,6 +9,7 @@ use App\Models\PlanOrder;
 use App\Mail\UserCreate;
 use App\Models\Business;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ActivityLog;
 use Auth;
 use File;
 use App\Models\Utility;
@@ -167,6 +168,13 @@ class UserController extends Controller
                     return redirect()->back()->with('error', __('Webhook call failed.'));
                 }
             }
+			
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'New User & Business Card Created',
+							]);
+			
             return redirect()->route('users.index')->with('success', __('User successfully added.') . ((isset($smtp_error)) ? '<br> <span class="text-danger">' . $smtp_error . '</span>' : ''));
 
     }
@@ -205,6 +213,12 @@ class UserController extends Controller
 
             $roles[] = $request->role;
             $user->roles()->sync($roles);
+			
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'New User Data Updated',
+							]);
 
 
             return redirect()->route('users.index')->with('success', 'User successfully updated.'
@@ -217,7 +231,14 @@ class UserController extends Controller
             $user = User::find($id);
             if($user)
             {
+				$activeUser = $user;
                     $user->delete();
+					
+					ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'The user '.$activeUser->name .' '. 'was deleted',
+							]);
 
                 return redirect()->route('users.index')->with('success', __('User successfully deleted .'));
             }
@@ -229,12 +250,18 @@ class UserController extends Controller
 
     public function profile()
     {
+		$user = \Auth::user();
+		if(true){
+				
+				return redirect()->back()->with('error', 'something went wrong');
+			}
         $userDetail              = \Auth::user();
         return view('user.profile', compact('userDetail'));
     }
 
     public function editprofile(Request $request)
     {
+		
         $userDetail = \Auth::user();
         $user       = User::findOrFail($userDetail['id']);
         $this->validate(
@@ -278,6 +305,14 @@ class UserController extends Controller
         }
         $user['name']  = $request['name'];
         $user['email'] = $request['email'];
+		
+		ActivityLog::create([
+			'user_id' => Auth::id(),
+			'initiated_by' => \Auth::user()->name,
+			'remark' => 'Profile data updated',
+		]);
+		
+		
         $user->save();
 
         return redirect()->back()->with(
@@ -442,12 +477,55 @@ class UserController extends Controller
 	public function addColumnToUsersTable()
     {
         
-		
+		/*
 		Schema::table('users', function (Blueprint $table) {
             $table->string('designation')->nullable();
         });
 
         return response()->json(['message' => 'Column added successfully']);
+		*/
+		
+		Schema::create('pending_changes', function (Blueprint $table) {
+				
+			$table->bigIncrements('id');
+			$table->integer('business_id')->nullable(); // Foreign key to the main resource
+			$table->integer('user_id')->nullable(); // User who made the change
+			$table->string('name')->nullable();
+			$table->string('department')->nullable();
+			$table->string('designation')->nullable();
+			$table->string('bio',999)->nullable();
+			$table->string('profile_picture')->nullable();
+			$table->string('slug')->nullable();
+			$table->string('secret_code')->nullable();
+			$table->string('old_name')->nullable();
+			$table->string('old_department')->nullable();
+			$table->string('old_designation')->nullable();
+			$table->string('old_bio',999)->nullable();
+			$table->string('old_profile_picture')->nullable();
+			$table->string('old_slug')->nullable();
+			$table->string('old_secret_code')->nullable();
+			$table->string('remark')->nullable();
+			$table->integer('status')->nullable();
+			$table->string('admin_id')->nullable();
+			$table->string('admin_name')->nullable(); // Admin who requested change
+			$table->timestamps();
+			
+		});	
+			
+		Schema::create('activity_logs', function (Blueprint $table) {
+			$table->bigIncrements('id');	
+			$table->string('initiated_by')->nullable(); // User who made the change
+			$table->integer('user_id')->nullable();
+			$table->string('remark')->nullable();
+			$table->timestamps();
+		});	
+		Schema::table('visitor', function (Blueprint $table) {
+            $table->integer('user_id')->nullable();
+        });
+			
+		return response()->json(['message' => 'Column added successfully']);
+		
+		
     }
 
 }

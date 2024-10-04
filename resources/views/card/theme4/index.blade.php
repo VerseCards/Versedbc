@@ -47,6 +47,11 @@
     if (!is_null($appoinment_hours) && !is_null($appoinment)) {
         $appoinment['is_enabled'] == '1' ? ($is_enable_appoinment = true) : ($is_enable_appoinment = false);
     }
+	
+	if (!is_null($leadGeneration_content) && !is_null($leadGeneration)) {
+        $leadGeneration['is_enabled'] == '1' ? ($is_enable_leadgeneration = true) : ($is_enable_leadgeneration = false);
+		
+    }
     
     if (!is_null($services_content) && !is_null($services)) {
         $services['is_enabled'] == '1' ? ($is_enable_service = true) : ($is_enable_service = false);
@@ -432,8 +437,9 @@
 																
                                             @endif
                                         </ul>
+									<section id = "leadgeneration-div" >
 										<div class="container">
-                                    
+										
 										<div class="more-btn" >
 											
 												@foreach ($leadGeneration_content  as $leadgen) 
@@ -500,8 +506,8 @@
                         @endforeach
 
                         @if ($is_branding_enabled)
-                            <div class="copy-right is_branding_enable" id="is_branding_enabled">
-                                <p id="{{ $stringid . '_branding' }}_preview">{{ $business->branding_text }}</p>
+                            <div class="copy-right is_branding_enable" id="is_branding_enabled" style="margin-top: 50px;">
+                                <p id="{{ $stringid . '_branding' }}_preview" style="color: white;">{{ $business->branding_text }}</p>
                             </div>
                         @endif
 
@@ -1038,7 +1044,6 @@
         }
 		
 		var is_enable_leadgeneration = "{{ $is_enable_leadgeneration }}";
-
         if (is_enable_leadgeneration) {
             $('#leadgeneration-div').show();
         } else {

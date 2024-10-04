@@ -97,15 +97,28 @@
                         <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'roles' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('roles.index') }}">{{ __('Department') }}</a>
                         </li>
+						
+						@if ($users->name == 'Super Admin')
 						<li class="dash-item dash-hasmenu {{ Request::segment(1) == 'view_admin' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('users.view_admin') }}">{{ __('View Admins') }}</a>
                         </li>
-                    
+						@endif
 
                 </ul>
             </li>
 			
-            
+			<li class="dash-item {{ Request::segment(1) == 'changes' ? 'active' : '' }}">
+                <a href="{{ route('pendingApproval') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Card Updates') }}</span></a>
+
+            </li>
+            <li class="dash-item {{ Request::segment(1) == 'activity' ? 'active' : '' }}">
+                <a href="{{ route('activityLog') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Activity Log') }}</span></a>
+
+            </li>
 
 				@endif
 				<li class="dash-item {{ Request::segment(1) == 'tap-history' ? 'active' : '' }}">

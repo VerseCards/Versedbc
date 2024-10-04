@@ -43,6 +43,11 @@
     if (!is_null($appoinment_hours) && !is_null($appoinment)) {
         $appoinment['is_enabled'] == '1' ? ($is_enable_appoinment = true) : ($is_enable_appoinment = false);
     }
+	
+	if (!is_null($leadGeneration_content) && !is_null($leadGeneration)) {
+        $leadGeneration['is_enabled'] == '1' ? ($is_enable_leadgeneration = true) : ($is_enable_leadgeneration = false);
+		
+    }
     
     if (!is_null($services_content) && !is_null($services)) {
         $services['is_enabled'] == '1' ? ($is_enable_service = true) : ($is_enable_service = false);
@@ -433,7 +438,7 @@
                         @endif
 						
 						@if ($order_key == 'leadgeneration')
-                            <section class="more-card-section padding-bottom" style="background: linear-gradient(180deg, rgb(237 237 237) 0%, rgb(238 238 238) 100%);border-radius: 0 0 0 0;">
+                            <section class="more-card-section padding-bottom" id = "leadgeneration-div" style="background: linear-gradient(180deg, rgb(237 237 237) 0%, rgb(238 238 238) 100%);border-radius: 0 0 0 0;">
                                 
                                 <div class="container">
                                     
@@ -1426,7 +1431,6 @@
         }
 		
 		var is_enable_leadgeneration = "{{ $is_enable_leadgeneration }}";
-
         if (is_enable_leadgeneration) {
             $('#leadgeneration-div').show();
         } else {
@@ -1441,6 +1445,7 @@
         }
 
         var is_enable_testimonials = "{{ $is_enable_testimonials }}";
+		
         if (is_enable_testimonials) {
             $('#testimonials-div').show();
         } else {

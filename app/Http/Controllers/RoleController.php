@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\ActivityLog;
 
 class RoleController extends Controller
 {
@@ -82,6 +83,12 @@ class RoleController extends Controller
                 $p = Permission::where('id', '=', $permission)->firstOrFail();
                 $role->givePermissionTo($p);
             }
+			
+			ActivityLog::create([
+								'user_id' => \Auth::user()->id,
+								'initiated_by' => \Auth::user()->name,
+								'remark' => $role->name . ' ' . 'Department Created',
+							]);
 
             return redirect()->route('roles.index')->with('success', __('Department successfully created.'));
 
@@ -110,6 +117,8 @@ class RoleController extends Controller
             }
             $permissions = $permissions->pluck('name', 'id')->toArray();
         }
+		
+		
         
         return view('role.edit', compact('role', 'permissions'));
     }
@@ -161,6 +170,12 @@ class RoleController extends Controller
                 $p = Permission::where('id', '=', $permission)->firstOrFail();
                 $role->givePermissionTo($p);
             }
+			
+			ActivityLog::create([
+								'user_id' => \Auth::user()->id,
+								'initiated_by' => \Auth::user()->name,
+								'remark' => $role->name . ' ' . 'Department updated',
+							]);
 
             return redirect()->back()->with('success', __('Department successfully updated.'));
 
