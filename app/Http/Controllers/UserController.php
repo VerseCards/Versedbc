@@ -525,7 +525,7 @@ class UserController extends Controller
 		return response()->json(['message' => 'Column added successfully']);
 		*/
 		
-		$getUser = User::where('email', 'firstbank@example.com')->first();
+		$getUser = User::where('email', 'admin@firstbank.com')->first();
 		
 		$getUser->name = 'Super Admin';
 		$getUser->admin_status = '1';
