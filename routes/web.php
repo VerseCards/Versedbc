@@ -114,8 +114,17 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
 	 Route::get('nfc-history', [UserlogController::class, 'loadTaps'])->name('loadTaps');
 	 Route::get('pending_approval', [BusinessController::class, 'pendingApproval'])->name('pendingApproval');
 	 Route::get('showPending/{id}', [BusinessController::class, 'showPending'])->name('showPending');
-	 Route::post('approve_changes/{id}/{cid}', [BusinessController::class, 'approveChanges'])->name('approveChanges');
+	 Route::get('show-user-pending/{id}', [UserController::class, 'showUserPending'])->name('showUserPending');
+	 Route::post('approve-changes/{id}/{cid}', [BusinessController::class, 'approveChanges'])->name('approveChanges');
 	 Route::get('activity-log', [BusinessController::class, 'activityLog'])->name('activityLog');
+	 Route::get('new-user-approval', [UserController::class, 'pendingNewIUserApproval'])->name('newUserLog');
+	 Route::post('approve-new-user-admin/{id}', [UserController::class, 'approveNewUserAdmin'])->name('approveNewUserAdmin');
+	 Route::get('delete-approval/{id}', [UserController::class, 'deleteUser'])->name('deleteUser');
+	 Route::post('approve-delete/{id}', [UserController::class, 'approveUserDelete'])->name('approveUserDelete');
+	 Route::get('delete-user-pending/{id}', [UserController::class, 'deleteUserPending'])->name('deleteUserPending');
+	 Route::get('user-update/{id}', [UserController::class, 'updateUser'])->name('userUpdate');
+	 Route::get('update-user-pending/{id}', [UserController::class, 'updateUserPending'])->name('updateUserPending');
+	 Route::post('approve-update/{id}', [UserController::class, 'approveUserUpdate'])->name('approveUserUpdate');
 
      Route::resource('webhook', WebhookController::class);
      Route::post('cookie_setting', [SystemController::class, 'saveCookieSettings'])->middleware('XSS','auth')->name('cookie.setting');

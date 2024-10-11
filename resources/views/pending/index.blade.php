@@ -6,14 +6,7 @@
     {{ __('Card Updates') }}
 @endsection
 @section('action-btn')
-@if (Auth::user()->type == 'company')
-    <div class="col-xl-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-between justify-content-md-end"
-    data-bs-placement="top">
-    <a href="#" data-size="lg" data-url="{{ route('roles.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New Department')}}" class="btn btn-sm btn-primary">
-        <i class="ti ti-plus"></i>
-    </a>
-    </div>
-@endif
+
 @endsection
 
 @section('content')

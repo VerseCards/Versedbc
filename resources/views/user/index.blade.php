@@ -84,7 +84,7 @@
                                         <span class="ml-2">{{__('Reset Password')}}</span></a>  
                                     
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="delete-form-{{$user->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'id'=>'delete-form-'.$user->id]) !!}
+                                        {!! Form::open(['method' => 'GET', 'route' => ['deleteUser', $user->id],'id'=>'delete-form-'.$user->id]) !!}
                                         {!! Form::close() !!} 
                                    
                                      @if(false)

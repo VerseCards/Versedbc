@@ -107,10 +107,28 @@
                 </ul>
             </li>
 			
-			<li class="dash-item {{ Request::segment(1) == 'changes' ? 'active' : '' }}">
+			<li class="dash-item dash-hasmenu">
+					
+                <a class="dash-link {{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'active' : '' }}"
+                    data-toggle="collapse" role="button"
+                    aria-expanded="{{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'true' : 'false' }}"
+                    aria-controls="navbar-getting-started"><span class="dash-micon"><i
+                            class="ti ti-users"></i></span><span class="dash-mtext">{{ __('Action Log') }}</span><span
+                        class="dash-arrow"><i data-feather="chevron-right"></i></span>
+                </a>
+				
+                <ul class="dash-submenu">
+                   
+                        <li class="dash-item {{ Request::segment(1) == 'changes' ? 'active' : '' }}">
                 <a href="{{ route('pendingApproval') }}" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-user"></i></span><span
-                            class="dash-mtext">{{ __('Card Updates') }}</span></a>
+                            class="dash-mtext">{{ __('Card Log') }}</span></a>
+
+            </li>
+			<li class="dash-item {{ Request::segment(1) == 'newuset' ? 'active' : '' }}">
+                <a href="{{ route('newUserLog') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Approval Log') }}</span></a>
 
             </li>
             <li class="dash-item {{ Request::segment(1) == 'activity' ? 'active' : '' }}">
@@ -119,6 +137,13 @@
                             class="dash-mtext">{{ __('Activity Log') }}</span></a>
 
             </li>
+			
+			
+
+                </ul>
+            </li>
+			
+			
 
 				@endif
 				<li class="dash-item {{ Request::segment(1) == 'tap-history' ? 'active' : '' }}">

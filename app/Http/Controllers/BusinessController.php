@@ -2315,11 +2315,8 @@ class BusinessController extends Controller
 	
 	public function adminUpdate(Request $request, Business $business)
     {
-        //dd($request->all(), $business);
             if (!is_null($business)) {
-				//dd($business);
                 $count = Business::where('id', $business->id)->count();
-				//dd($business, $count, \Auth::user()->creatorId());
                 if ($count == 0) {
                     return redirect()->route('business.index')->with('error', __('This card number is not Valid.'));
                 }
@@ -2354,6 +2351,7 @@ class BusinessController extends Controller
 				$business->sub_title = $request->sub_title;
 				$business->description = $request->description;
 				$business->secret_code = $request->reset_code??$business->secret_code;
+
                 if ($request->hasFile('logo')) {
                     $settings = Utility::getStorageSetting();
                     $logo = $request->file('logo');

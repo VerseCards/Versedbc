@@ -1,4 +1,4 @@
-{{Form::model($user,array('route' => array('users.update', $user->id), 'method' => 'PUT')) }}
+{{Form::model($user,array('route' => array('userUpdate', $user->id), 'method' => 'GET')) }}
 <div class="row">
     <div class="col-md-6">
         <div class="form-group ">
