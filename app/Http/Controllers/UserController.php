@@ -382,7 +382,7 @@ class UserController extends Controller
 
     }
 	
-	public function addColumnToUsersTable()
+	public function optimizeApp()
     {
         
 		/*
@@ -443,7 +443,7 @@ class UserController extends Controller
 		$getUser1 = User::where('type', 'techsupport')->first();
 		
 		$getUser1->delete();
-		*/
+		
 		
 		Schema::create('newuser_logs', function (Blueprint $table) {
 			$table->bigIncrements('id');	
@@ -476,7 +476,18 @@ class UserController extends Controller
 			$table->timestamps();
 		});
 		
-		return response()->json(['message' => 'Column added successfully']);
+		*/
+		
+		Artisan::call('optimize:clear');
+		Artisan::call('route:cache');
+		Artisan::call('view:cache');
+		
+
+		//artisan optimize:clear
+		//artisan route:cache
+		//artisan view:cache
+		
+		return response()->json(['message' => 'Optimized successfull successfully']);
 		
 		
     }
