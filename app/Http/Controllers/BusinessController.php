@@ -3065,7 +3065,7 @@ class BusinessController extends Controller
 			]);
 
 		   
-			return redirect()->back()->with('success', __('Approved Successfully'));
+			return back()->with('success', __('Approved Successfully'));
 		
 		} elseif ($request->input('action') == 'reject') {
 			$changes = PendingChange::where('id', '=', $cid)->first();
@@ -3078,7 +3078,7 @@ class BusinessController extends Controller
 								'initiated_by' => \Auth::user()->name,
 								'remark' => 'Changes Rejected',
 							]);
-			return redirect()->back()->with('success', __('Changes Rejected'));
+			return back()->with('success', __('Changes Rejected'));
 		}
 		
 		
