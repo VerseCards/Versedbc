@@ -10,7 +10,7 @@
 /* Main Theme color */
 :root .theme12-v1 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #003B65;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -34,7 +34,7 @@
 /* Theme color 2 */
 :root .theme12-v2 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #ff009b;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -58,7 +58,7 @@
 /* Theme color 3 */
 :root .theme12-v3 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #313a84;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -82,7 +82,7 @@
 /* Theme color 4 */
 :root .theme12-v4 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #e8c401;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -107,7 +107,7 @@
 /* Theme color 5 */
 :root .theme12-v5 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #e80137;
     --second-color: #222222;
     --third-color: #9d9d9d;

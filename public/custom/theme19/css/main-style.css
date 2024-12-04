@@ -5,7 +5,7 @@
 /* Main Theme color */
 :root .theme19-v1 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: linear-gradient(102deg, #936639 6.21%, #656D4A 99%);
     --second-color: #252429;
     --third-color: #9d9d9d;
@@ -29,7 +29,7 @@
 /* Theme color 2 */
 :root .theme19-v2 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: linear-gradient(102deg, #723C70 6.21%, #2E6F95 99.29%);
     --second-color: #252429;
     --third-color: #9d9d9d;
@@ -53,7 +53,7 @@
 /* Theme color 3 */
 :root .theme19-v3 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: linear-gradient(102deg, #005F73 6.21%, #0A9396 99%);
     --second-color: #252429;
     --third-color: #9d9d9d;
@@ -77,7 +77,7 @@
 /* Theme color 4 */
 :root .theme19-v4 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: linear-gradient(102deg, #9B2226 6.21%, #BB3E03 99%);
     --second-color: #252429;
     --third-color: #9d9d9d;
@@ -101,7 +101,7 @@
 /* Theme color 5 */
 :root .theme19-v5 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: linear-gradient(102.24deg, #76C893 6.21%, #99D98C 99.29%);
     --second-color: #252429;
     --third-color: #9d9d9d;

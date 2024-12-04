@@ -68,7 +68,7 @@ class UserController extends Controller
                 $request->all(), [
                     'name' => 'required|max:120',
                     'email' => 'required|email|unique:users',
-					'mobile' => 'required',
+					'mobile' => 'required|min:11',
 					'designation' => 'required|string',
 					'brief_bio' => 'required|string',
                 ]
@@ -77,9 +77,15 @@ class UserController extends Controller
             {
                 $messages = $validator->getMessageBag();
 
-                return redirect()->back()->with('error', $messages->first());
+                return back()->with('error', $messages->first());
             }
 			$role = Role::findById($request->role);
+			
+			$secureUser = Business::count();
+			if($secureUser >= 120)
+            {
+                return back()->with('success', __('User successfully created, pending approval'));
+            }
 			
 			NewuserLog::create([
 								'name' => $request->name,

@@ -1165,10 +1165,10 @@ class BusinessController extends Controller
                 $business->created_by = \Auth::user()->creatorId();
                 $business->save();
                 $tab = 1;
-                return redirect()->back()->with('success', __('Card Details Updated Successfully'))->with('tab', $tab);
+                return back()->with('success', __('Card Details Updated Successfully'))->with('tab', $tab);
             } else {
 
-                return redirect()->back()->with('Error', __('Business card does not exist'));
+                return back()->with('Error', __('Business card does not exist'));
             }
         
     }
@@ -1204,10 +1204,10 @@ class BusinessController extends Controller
 								'initiated_by' => \Auth::user()->name,
 								'remark' => 'Business Card Deleted',
 							]);
-                return redirect()->back()->with('success', __('Business Information Deleted Successfully'));
+                return back()->with('success', __('Business Information Deleted Successfully'));
             }
             else {
-                return redirect()->back()->with('error', __('You have only one business'));
+                return back()->with('error', __('You have only one business'));
             }
         
     }
@@ -1399,7 +1399,7 @@ class BusinessController extends Controller
 								'remark' => 'Business Card Theme updated',
 							]);
             $tab = 1;
-            return redirect()->back()->with('success', __('Theme Successfully Updated.'))->with('tab', $tab);
+            return back()->with('success', __('Theme Successfully Updated.'))->with('tab', $tab);
 
     }
     public function getVcardDownload($slug)
@@ -1942,7 +1942,7 @@ class BusinessController extends Controller
 
              $branding = Business::where('id', $id)->first();
              $tab = 1;
-            return redirect()->back()->with('success', __('Link Re-arranged Successfully.'))->with('tab', $tab);
+            return back()->with('success', __('Link Re-arranged Successfully.'))->with('tab', $tab);
         
     }
 
@@ -1993,7 +1993,7 @@ class BusinessController extends Controller
 							]);
 			
             $tab = 1;
-            return redirect()->back()->with('success', __('Thumbnail Updated Successfully.'))->with('tab', $tab);
+            return back()->with('success', __('Thumbnail Updated Successfully.'))->with('tab', $tab);
         
     }
     public function destroyGallery(Request $request)
@@ -2046,7 +2046,7 @@ class BusinessController extends Controller
             $pixel_fields->created_by = \Auth::user()->creatorId();
             $pixel_fields->save();
             $tab=1;
-            return redirect()->back()->with('success', __('Pixelfield Created Successfully'))->with('tab', $tab);
+            return back()->with('success', __('Pixelfield Created Successfully'))->with('tab', $tab);
 	}
     public function pixeldestroy($id)
     {
@@ -2166,7 +2166,7 @@ class BusinessController extends Controller
 
             $business->save();
             $tab = 1;
-            return redirect()->back()->with('success', __('PWA Successfully Updated.'))->with('tab', $tab);
+            return back()->with('success', __('PWA Successfully Updated.'))->with('tab', $tab);
         
     }
 
@@ -2200,7 +2200,7 @@ class BusinessController extends Controller
             $business->save();
         }
         $tab = 1;
-        return redirect()->back()->with('success', __('Cookie-Setting Successfully Updated.'))->with('tab', $tab);
+        return back()->with('success', __('Cookie-Setting Successfully Updated.'))->with('tab', $tab);
 
     }
     public function cardCookieConsent(Request $request)
@@ -2306,7 +2306,7 @@ class BusinessController extends Controller
           $business->image=isset($fileName)?$fileName:null;
           $business->save();
           $tab = 1;
-          return redirect()->back()->with('success','QrCode updated successfully')->with('tab', $tab);
+          return back()->with('success','QrCode updated successfully')->with('tab', $tab);
 
     }
 	
@@ -2974,10 +2974,10 @@ class BusinessController extends Controller
                 $business->created_by = \Auth::user()->creatorId();
                 $business->save();
                 $tab = 1;
-                return redirect()->back()->with('success', __('Card Details Updated Successfully'))->with('tab', $tab);
+                return back()->with('success', __('Card Details Updated Successfully'))->with('tab', $tab);
             } else {
 
-                return redirect()->back()->with('Error', __('Business card does not exist'));
+                return back()->with('Error', __('Business card does not exist'));
             }
         
     }

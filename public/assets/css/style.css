@@ -2,14 +2,14 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
 @font-face {
-    font-family: poppinsregular;
+    font-family: inter-regular;
     
-    src: url("poppins-regular-webfont.woff"); 
+    src: url("Inter_18pt-Regular.woff"); 
      }
      @font-face {
         font-family: poppinsbold;
         
-        src: url("poppins-bold-webfont.woff");
+        src: url("Inter_18pt-Regular.woff");
         
      }
      
@@ -17,7 +17,7 @@
         font-family: poppinsmedium;
         
         font-weight: bold;
-        src: url("poppins-medium-webfont.woff");
+        src: url("Inter_18pt-Regular.woff");
      }
      @font-face {
         font-family: poppinssemibold;
@@ -27,11 +27,11 @@
      }
      
      * {
-        font-family: 'poppinsregular', san-serif, Arial, Helvetica, sans-serif;
+        font-family: 'inter-regular', san-serif, Arial, Helvetica, sans-serif;
      }
      
      body{
-         font-family: 'poppinsregular', san-serif, Helvetica, sans-serif;
+         font-family: 'inter-regular', san-serif, Helvetica, sans-serif;
      }
      
 :root {
