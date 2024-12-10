@@ -39,8 +39,14 @@ class LeadCampaignExport implements FromCollection,WithHeadings, WithEvents
     }
     public function collection()
     {
+				if (session()->has('impersonate')) {
+					$getOwner = session()->get('impersonate');
+					$cardOwner = User::find($getOwner)->id;
+					$leads_contacts = LeadContact::where('campaign_id', $this->id)->where('user_id',$cardOwner)->get();
+				}else{
+					$leads_contacts = LeadContact::where('campaign_id', $this->id)->where('user_id',\Auth::user()->id)->get();
+				}
 		
-		$leads_contacts = LeadContact::where('campaign_id', $this->id)->where('created_by',\Auth::user()->creatorId())->get();
                 foreach ($leads_contacts  as $k => $contact) {
 					
 					unset($contact->created_by,$contact->id,$contact->campaign_id,$contact->business_id,$contact->updated_at,$contact->status, $contact->note, $contact->user_id );

@@ -7,10 +7,10 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Leads Generation') }}
+    Campaign Name : {{ __($campaign_name) }}
 @endsection
 @section('title')
-    {{ __('Leads Generation') }}
+    Campaign Name : {{ __($campaign_name) }}
 @endsection
 @section('content')
     <style>
@@ -26,25 +26,7 @@
                 {{-- //business Display Start --}}
                 <div class="d-flex align-items-center justify-content-between">
                     <ul class="list-unstyled">
-                        <li class="dropdown dash-h-item drp-language">
-                            <a class="dash-head-link dropdown-toggle arrow-none me-0 cust-btn shadow-sm border border-success"
-                                data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-                                aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                data-bs-original-title="{{ __('Select your bussiness') }}">
-                                <i class="ti ti-credit-card"></i>
-                                <span class="drp-text hide-mob">{{ __(ucfirst($currantBusiness)) }}</span>
-                                <i class="ti ti-chevron-down drp-arrow nocolor"></i>
-                            </a>
-                            <div class="dropdown-menu dash-h-dropdown dropdown-menu-end page-inner-dropdowm">
-                                @foreach ($businesses as $key => $business)
-                                    <a href="{{ route('business.change', $key) }}" class="dropdown-item">
-                                        <i
-                                            class="@if ($bussiness_id == $key) ti ti-checks text-primary @elseif($currantBusiness == $business) ti ti-checks text-primary @endif "></i>
-                                        <span>{{ ucfirst($business) }}</span>
-                                    </a>
-                                @endforeach
-                            </div>
-                        </li>
+                        
                     </ul>
 					
 					<a href="{{ route('leads_campaign.export', ['id'=>$id]) }}" class="btn btn-primary export-btn">
@@ -59,7 +41,6 @@
                         <thead>
                             <tr>
 								<th>{{ __('#') }}</th>
-                                <th>{{ __('Campaign Name') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Phone') }}</th>
@@ -72,7 +53,6 @@
                             @foreach ($contacts_deatails as $val)
                                 <tr>
 									<td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $val->campaign_title }}</td>
                                     <td>{{ $val->name }}</td>
                                     <td>{{ $val->email }}</td>
                                     <td>{{ $val->phone }}</td>

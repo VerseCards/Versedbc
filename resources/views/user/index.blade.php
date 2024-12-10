@@ -13,17 +13,11 @@
 @section('action-btn')
 
 <div class="col-xl-12 col-lg-12 col-md-12 d-flex align-items-center justify-content-between justify-content-md-end" data-bs-placement="top" >  
-	@if($loggedUsers->type == 'techsupport')
+	@if($loggedUsers->type == 'company' )
     <a href="#" data-size="md" data-url="{{ route('users.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New User')}}" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </a>
-	@endif
-    @if($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
-    <a href="{{ route('userlogs.index') }}" class="btn btn-sm btn-primary btn-icon m-1"
-        data-size="lg" data-bs-whatever="{{ __('UserlogDetail') }}"> <span
-            class="text-white">
-            <i class="ti ti-user" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Userlog Detail') }}"></i></span>
-    </a>
+
 	@endif
 </div>
 
@@ -90,10 +84,10 @@
                                         <span class="ml-2">{{__('Reset Password')}}</span></a>  
                                     
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="delete-form-{{$user->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'id'=>'delete-form-'.$user->id]) !!}
+                                        {!! Form::open(['method' => 'GET', 'route' => ['deleteUser', $user->id],'id'=>'delete-form-'.$user->id]) !!}
                                         {!! Form::close() !!} 
                                    
-                                     @if($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
+                                     @if(false)
                                         <a href="{{ route('userlogs.index', ['month'=>'','user'=>$user->id]) }}"
                                             class="dropdown-item user-drop"
                                             data-bs-toggle="tooltip"
@@ -101,13 +95,13 @@
                                             <i class="ti ti-history"></i>
                                             <span class="ml-2">{{__('Logged Details')}}</span></a>
                                     @endif
-                                    @if ($loggedUsers->is_enable_login == 1)
+                                    @if ($user->is_enable_login == 1)
                                         <a href="{{ route('users.login', \Crypt::encrypt($user->id)) }}"
                                             class="dropdown-item user-drop">
                                             <i class="ti ti-road-sign"></i>
                                             <span class="text-danger ml-2"> {{ __('Login Disable') }}</span>
                                         </a>
-                                    @elseif ($loggedUsers->is_enable_login == 0 && $loggedUsers->password == null)
+                                    @elseif ($user->is_enable_login == 0 && $user->password == null)
                                         <a href="#" data-url="{{ route('users.reset', \Crypt::encrypt($user->id)) }}"
                                             data-ajax-popup="true" data-size="md" class="dropdown-item login_enable user-drop"
                                             data-title="{{ __('New Password') }}" >
@@ -121,21 +115,22 @@
                                             <span class="text-success ml-2"> {{ __('Login Enable') }}</span>
                                         </a>
                                     @endif
-									
-									@if ($loggedUsers->type == 'company' || $loggedUsers->type == 'techsupport')
-                                        <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
-                                            class="dropdown-item user-drop">
-                                            <i class="ti ti-road-sign"></i>
-                                            <span class="text-danger ml-2"> {{ __('Disable Admin') }}</span>
-                                        </a>
-                                    
-                                    @else
-                                        <a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
-                                            class="dropdown-item user-drop">
-                                            <i class="ti ti-road-sign"></i>
-                                            <span class="text-success ml-2"> {{ __('Enable Admin') }}</span>
-                                        </a>
-                                    @endif
+									@if ($loggedUsers->name == 'Super Admin')
+										@if ($user->type == 'company' || $user->admin_status == '1')
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-danger ml-2"> {{ __('Disable Admin') }}</span>
+											</a>
+										
+										@else
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-success ml-2"> {{ __('Enable Admin') }}</span>
+											</a>
+										@endif
+									@endif
 									
 									<a href="{{ route('impersonate', ['id' => $user->id]) }}"
                                             class="dropdown-item user-drop"

@@ -207,14 +207,16 @@
                                          <input type="hidden" name="url" value="{{ $chatgpt_setting['enable_chatgpt'] }}"
                                             id="chatgpt">
                                         <div class="d-flex align-items-center justify-content-between mb-4 ">
-                                            <h5 class="mb-0">{{__('Edit Personal Data:')}}</h5>
+                                            <h5 class="mb-0">{{__('Edit Personal Info')}}</h5>
                                             <button type="submit" class="btn btn-primary d-none"> <i class="me-2"
                                                     data-feather="folder"></i> {{__('Update Card')}}</button>
                                         </div>
+										
                                         <div class="theme-detail-body">
+										@if ($users->type == 'company')
                                             <div class="row mb-4">
                                                 <div class="col-lg-8">
-                                                    <p class="mb-2">{{__('Background Image:')}}</p>
+                                                    <p class="mb-2">{{__('Background Image')}}</p>
                                                     <div class="setting-block banner-setting">
                                                         <div class="position-relative overflow-hidden rounded">
                                                             <img src="{{ isset($business->banner) && !empty($business->banner) ? $banner . '/' . $business->banner : asset('custom/img/placeholder-image1.png') }}"
@@ -242,7 +244,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <p class="mb-2">{{__('Profile Picture:')}}</p>
+                                                    <p class="mb-2">{{__('Profile Picture')}}</p>
                                                     <div class="setting-block banner-small-setting">
                                                         <div class="position-relative">
                                                             <img src="{{ isset($business->logo) && !empty($business->logo) ? $logo.'/'.$business->logo: asset('custom/img/logo-placeholder-image-2.jpg') }}"
@@ -270,16 +272,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+											@endif
                                             <span class="invalid-favicon text-m text-danger" id="banner_validate"></span>
                                             <div class="row">
                                                 
                                                 <div class="col-12">
                                                     {{-- <form action=""> --}}
                                                         <div class="row">
-														@if ($users->type == 'company' || $users->type == 'techsupport')
+														@if ($users->type == 'company')
                                                             <div class="col-lg-4">
                                                                 <div class="form-group">
-                                                                    {{ Form::label('Title', __('Title:'), ['class' => 'form-label']) }}
+                                                                    {{ Form::label('Title', __('Name'), ['class' => 'form-label']) }}
                                                                     {{ Form::text('title', $business->title, ['class' => 'form-control', 'id' => $stringid . '_title', 'placeholder' => __('Enter Title')]) }}
                                                                     @error('title')
                                                                         <span class="invalid-favicon text-xs text-danger"
@@ -307,10 +310,20 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
+															<div class="col-12">
+                                                                <div class="form-group">
+                                                                    {{ Form::label('Description', __('Brief Bio'), ['class' => 'form-label']) }}
+                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
+                                                                    @error('description')
+                                                                        <span class="invalid-favicon text-xs text-danger"
+                                                                            role="alert">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
 														@else
 															<div class="col-lg-4">
                                                                 <div class="form-group">
-                                                                    {{ Form::label('Title', __('Title:'), ['class' => 'form-label']) }}
+                                                                    {{ Form::label('Title', __('Name'), ['class' => 'form-label']) }}
                                                                     {{ Form::text('title', $business->title, ['class' => 'form-control', 'id' => $stringid . '_title', 'placeholder' => __('Enter Title'), 'readonly' => true]) }}
                                                                     @error('title')
                                                                         <span class="invalid-favicon text-xs text-danger"
@@ -338,17 +351,18 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
-														@endif
-                                                            <div class="col-12">
+															<div class="col-12">
                                                                 <div class="form-group">
                                                                     {{ Form::label('Description', __('Brief Bio'), ['class' => 'form-label']) }}
-                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text emojiarea', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description')]) }}
+                                                                    {{ Form::textarea('description', $business->description, ['class' => 'form-control description-text', 'rows' => '3', 'cols' => '30', 'id' => $stringid . '_desc', 'placeholder' => __('Enter Description'),'readonly' => true]) }}
                                                                     @error('description')
                                                                         <span class="invalid-favicon text-xs text-danger"
                                                                             role="alert">{{ $message }}</span>
                                                                     @enderror
                                                                 </div>
                                                             </div>
+														@endif
+                                                            
                                                         </div>
                                                     {{-- </form> --}}
                                                 </div>
@@ -358,7 +372,7 @@
                                                     <h5 class="mb-3">{{__('Custom link')}}</h5>
                                                 </div>
                                                 <div class="col-lg-12">
-													@if ($users->type == 'company' || $users->type == 'techsupport')
+													@if ($users->type == 'company')
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" readonly
@@ -380,7 +394,7 @@
 													@endif
                                                 </div>
                                             </div>
-											@if ($users->type == 'company' || $users->type == 'techsupport')
+											@if ($users->type == 'company')
 											
 											<div class="form-group" >
                                                             <label class="form-label mb-3" style="font-size: 16px">{{__('Secret Code')}}</label>
@@ -400,7 +414,7 @@
 											
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <h5 class="mb-3">{{__('Settings:')}}</h5>
+                                                    <h5 class="mb-3">{{__('Settings')}}</h5>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="accordion accordion-flush setting-accordion"
@@ -638,7 +652,7 @@
                                                                                             <span>{{__('Lead Title')}}</span>
                                                                                         </div>
                                                                                         <div class="col-lg-5">
-                                                                                            <span>{{__('End Time')}}</span>
+                                                                                            <span>{{__('Button Title')}}</span>
                                                                                         </div>
                                                                                         <div class="col-lg-2">
                                                                                             <span>{{__('Delete')}}</span>
@@ -1134,7 +1148,7 @@
                                     <div class="theme-detail-card" style="box-shadow: 0 6px 30px rgba(182, 186, 203, 0.3); background: #ffffff;">
                                         {{ Form::open(['route' => ['business.seo-setting', $business->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                                         <div class="d-flex align-items-center justify-content-between mb-4 ">
-                                            <h5 class="mb-0">{{__('Thumbail')}}</h5>
+                                            <h5 class="mb-0">{{__('Thumbnail')}}</h5>
                                             
                                         </div>
                                         
@@ -1166,7 +1180,7 @@
                                                         {{ Form::label('meta_image', __('Meta Image'), ['class' => 'form-label']) }}
                                                         <div class="setting-block ">
                                                             <div class="position-relative overflow-hidden rounded">
-                                                                <a href="{{ $meta_image .'/'. (isset($business->meta_image) && !empty($business->meta_image) ? $business->meta_image : asset('custom/img/placeholder-image1.jpg'))   }}"
+                                                                <a href="{{ (isset($business->meta_image) && !empty($business->meta_image) ? $business->meta_image : asset('custom/img/placeholder-image1.jpg'))   }}"
                                                                 target="_blank">
                                                                     <img id="blah" alt="your image"
                                                                     src="{{ isset($business->meta_image) && !empty($business->meta_image) ? $meta_image . '/' . $business->meta_image : asset('custom/img/placeholder-image1.jpg') }}"
@@ -1220,13 +1234,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{ Form::close() }}
+                                       
 										<div class="d-flex align-items-center justify-content-between mb-4 ">
                                             <h5 class="mb-0">{{__('')}}</h5>
                                             <button type="submit" class="btn btn-primary"> <i
                                                     data-feather="folder"></i>&nbsp;{{__('Save Thumbail')}} </button>
                                         </div>
-                                        
+                                         {{ Form::close() }}
                                     </div>
                                 </div>
 
@@ -2419,13 +2433,13 @@
             var logo = $('input[name=logo]')[0].files[0];
             if(banner==undefined || banner=='' )
             {
-                $(`#banner_validate`).text("Banner Field is required");
-                return false;
+                //$(`#banner_validate`).text("Banner Field is required");
+                return true;
             }
             else if(logo==undefined || logo=='' )
             {
-                $(`#banner_validate`).text("Logo Field is required");
-                return false;
+                //$(`#banner_validate`).text("Logo Field is required");
+                return true;
             }
             else
             {

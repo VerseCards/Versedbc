@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('type')->default('company');
             $table->integer('created_by')->default(0);
             $table->string('mode')->default('light');
+			$table->integer('admin_status')->default(0);
             $table->timestamps();
         });
     }

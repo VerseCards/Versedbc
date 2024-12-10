@@ -4,7 +4,7 @@
 /* !!!!         VARIABLES STYLE CSS         !!!! */
 /* ============================================= */
 :root {
-    --Strawford:  'poppinsregular', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --h1: normal 700 51px/1 var(--Strawford);
     --h2: normal 700 42px/1 var(--Strawford);
     --h3: normal 700 32px/1 var(--Strawford);
@@ -331,7 +331,7 @@ html,
 #view_theme14 video {
     margin: 0;
     padding: 0;
-    font-size: 100%;
+    font-size: 16px;
     list-style: none;
     vertical-align: baseline;
 }

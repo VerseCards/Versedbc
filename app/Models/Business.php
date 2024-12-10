@@ -79,7 +79,6 @@ class Business extends Model
     public static $qr_type = [
         0 => 'Normal',
         2 => 'Text',
-        4 =>'Image',
     ];
 
 }

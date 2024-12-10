@@ -34,6 +34,7 @@ class User extends Authenticatable
         'plan',
         'plan_expire_date',
         'is_enable_login',
+		'designation',
         'created_by',
     ];
 
@@ -58,11 +59,16 @@ class User extends Authenticatable
     {
         if($this->type == 'company')
         {
-            return $this->id;
+            return 1;
         }
         else
         {
-            return $this->created_by;
+			if($this->admin_status == 1){
+				
+				return 1;
+			}else{
+				return $this->created_by;
+			}
         }
     }
 	public function loginSecurity()

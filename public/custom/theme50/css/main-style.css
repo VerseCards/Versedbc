@@ -10,7 +10,7 @@
 /* Main Theme color */
 :root .theme50-v1 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #003B65;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -34,7 +34,7 @@
 /* Theme color 2 */
 :root .theme50-v2 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #ff009b;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -58,7 +58,7 @@
 /* Theme color 3 */
 :root .theme50-v3 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #313a84;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -82,7 +82,7 @@
 /* Theme color 4 */
 :root .theme50-v4 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #e8c401;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -107,7 +107,7 @@
 /* Theme color 5 */
 :root .theme50-v5 {
     /* --first-font: 'strawfordregular'; */
-    --Strawford:  'poppins', sans-serif;
+    --Strawford:  'inter-regular', sans-serif;
     --theme-color: #e80137;
     --second-color: #222222;
     --third-color: #9d9d9d;
@@ -2671,17 +2671,17 @@ sup {
 }
 
 #view_css .client-image {
-    height: 190px;
+    height: 160px;
     width: 190px;
     margin: auto;
-    border: 4px solid var(--white);
+    /*border: 4px solid var(--white)*/;
     border-radius: 10%;
     -webkit-border-radius: 10%;
     -moz-border-radius: 10%;
     -ms-border-radius: 10%;
     -o-border-radius: 10%;
     overflow: hidden;
-	margin-left: 20px
+	/*margin-left: 20px*/
 }
 
 #view_css .client-image img {
@@ -2730,7 +2730,7 @@ sup {
     align-items: center;
     justify-content: center;
     border-radius: 28px;
-    border: 2px solid var(--theme-color);
+    border: 1px solid var(--theme-color);
 }
 
 .add-to-contact-botton {
@@ -2756,7 +2756,7 @@ sup {
 }
 
 #view_css .client-contact .contactlink a span {
-    font-size: 22px;
+    font-size: 16px;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;

@@ -54,7 +54,7 @@
         </div>
         <div class="col-sm-12">
             <div class="row">
-			@if ($users->type == 'company' || $users->type == 'techsupport')
+			@if ($users->type == 'company')
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body" style="min-height: 230px;">
@@ -82,7 +82,7 @@
 				@endif
                 
                 
-				@if ($users->type != 'company' && $users->type != 'techsupport')
+				
 					@if ($businessData)
 					<div class="col-md-4">
 						<div class="card">
@@ -136,7 +136,7 @@
 						</div>
 					</div>
 					@endif
-				@endif
+				
                 
 				
                 
@@ -149,9 +149,7 @@
                             <p class="text-muted text-sm mt-4 mb-2"></p>
                             <h6 class="mb-3">{{ __('Department') }}</h6>
 						@if($user->type == 'company')
-                            <h3 class="mb-0">FirstBank Admin </h3>
-						@elseif ($user->type == 'techsupport')
-							<h3 class="mb-0">Tech Support</h3>
+                            <h3 class="mb-0">Admin - M&CC</h3>
 						@else
 							<h3 class="mb-0">{{ $user->type}}</h3>
 						@endif

@@ -1,8 +1,8 @@
-{{Form::model($user,array('route' => array('users.update', $user->id), 'method' => 'PUT')) }}
+{{Form::model($user,array('route' => array('userUpdate', $user->id), 'method' => 'GET')) }}
 <div class="row">
     <div class="col-md-6">
         <div class="form-group ">
-            {{Form::label('name',__('Name'),['class'=>'form-label']) }}
+            {{Form::label('name',__('Name*'),['class'=>'form-label']) }}
             {{Form::text('name',null,array('class'=>'form-control font-style','placeholder'=>__('Enter User Name')))}}
             @error('name')
             <small class="invalid-name" role="alert">
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            {{Form::label('email',__('Email'),['class'=>'form-label'])}}
+            {{Form::label('email',__('Email*'),['class'=>'form-label'])}}
             {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter User Email')))}}
             @error('email')
             <small class="invalid-email" role="alert">
@@ -22,9 +22,10 @@
             @enderror
         </div>
     </div>
-    @if(\Auth::user()->type == 'company' || Auth::user()->type == 'techsupport')
-        <div class="form-group col-md-12">
-            {{ Form::label('role', __('Staff Department'),['class'=>'form-label']) }}
+
+    @if(\Auth::user()->type == 'company')
+        <div class="form-group col-md-6">
+            {{ Form::label('role', __('Staff Department*'),['class'=>'form-label']) }}
             {!! Form::select('role', $roles, $user->roles,array('class' => 'form-control select2','required'=>'required')) !!}
             @error('role')
             <small class="invalid-role" role="alert">
@@ -32,6 +33,17 @@
             </small>
             @enderror
         </div>
+		<div class="col-md-6">
+        <div class="form-group">
+            {{Form::label('designation',__('Designation*'),['class'=>'form-label'])}}
+            {{Form::text('designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+            @error('designation')
+            <small class="invalid-email" role="alert">
+                <strong class="text-danger">{{ $message }}</strong>
+            </small>
+            @enderror
+        </div>
+    </div>
 		
     @endif
 </div>

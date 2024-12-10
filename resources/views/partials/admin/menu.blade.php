@@ -57,10 +57,11 @@
                     <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
                 </a>
                 <div class="dropdown-menu dash-h-dropdown">
-                    <a href="{{ route('profile') }}" class="dropdown-item">
+				<a href="{{ route('profile') }}" class="dropdown-item">
                         <i class="ti ti-user"></i>
                         <span>{{ __('Profile') }}</span>
                     </a>
+                    
                     <a href="{{ route('logout') }}" class="dropdown-item"
                         onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                         <i class="ti ti-power"></i>

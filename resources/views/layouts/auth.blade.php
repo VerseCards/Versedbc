@@ -23,14 +23,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,  initial-scale=1.0, user-scalable=0, minimal-ui" />
-    <meta name="description" content="Dashboard Template Description" />
-    <meta name="keywords" content="Dashboard Template" />
-    <meta name="author" content="Versecards" />
+    <meta name="description" content="Digital Business Card" />
+    <meta name="keywords" content="Digital Business Card" />
+    <meta name="author" content="FirstBank DBC" />
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{(Utility::getValByName('title_text')) ? Utility::getValByName('title_text') : config('app.name', 'versecards')}} - @yield('page-title')</title>
+    <title>FirstBank DBC - @yield('page-title')</title>
     <!-- Favicon -->
     {{-- <link rel="shortcut icon" href="{{ asset(Storage::url('uploads/logo/favicon.png')) }}"> --}}
     <link rel="icon" href="{{ $logo . '/favicon.png' }}" type="image/x-icon" />

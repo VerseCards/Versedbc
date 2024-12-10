@@ -79,8 +79,18 @@ class LoginSecurityController extends Controller
         if($valid){
             $user->loginSecurity->google2fa_enable = 1;
             $user->loginSecurity->save();
+			
+			ActivityLog::create([
+								'user_id' => \Auth::user()->id,
+								'initiated_by' => \Auth::user()->name,
+								'remark' => $user->name . ' ' . 'Enables MFA',
+							]);
+							
+			
             return redirect('/multi-factor-authenticator')->with('success',"2FA is enabled successfully.");
         }else{
+			
+			
             return redirect('multi-factor-authenticator')->with('error',"Invalid verification Code, Please try again.");
         }
     }
@@ -100,6 +110,12 @@ class LoginSecurityController extends Controller
         $user = Auth::user();
         $user->loginSecurity->google2fa_enable = 0;
         $user->loginSecurity->save();
+		
+		ActivityLog::create([
+								'user_id' => \Auth::user()->id,
+								'initiated_by' => \Auth::user()->name,
+								'remark' => $user->name . ' ' . 'Disabled MFA',
+							]);
         return redirect('/multi-factor-authenticator')->with('success',"2FA is now disabled.");
     }
 }

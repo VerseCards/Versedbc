@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [ApiController::class, 'login'])->middleware(['APILog']);
 Route::post('/logout', [ApiController::class, 'logout'])->middleware(['auth:sanctum', 'APILog']);
-Route::get('/business', [ApiController::class, 'businessData'])->middleware(['auth:sanctum', 'APILog']);
+Route::get('/business', [ApiController::class, 'businessData'])->middleware(['APILog']);
 Route::get('/appointment', [ApiController::class, 'appointmentData'])->middleware(['auth:sanctum', 'APILog']);
 Route::post('delete_appointment', [ApiController::class, 'appointmentDestroy'])->middleware(['auth:sanctum', 'APILog']);
 Route::post('/appointment_status', [ApiController::class, 'ChangeStatusAppointment'])->middleware(['auth:sanctum', 'APILog']);

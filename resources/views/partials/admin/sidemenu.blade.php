@@ -46,19 +46,17 @@
                         class="dash-arrow"><i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    @if ($users->type == 'techsupport' || $total_business_cards <= 100)
-                        <li class="dash-item {{ Request::segment(1) == 'new_business' ? 'active' : '' }}">
-                            <a href="#" class="dash-link" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                data-url="{{ route('business.create') }}" data-size="xl"
-                                data-bs-whatever="{{ __('Create Versecard') }}"> {{ __('Create Card') }}
-                            </a>
-                        </li>
-                    @endif
-                    
+
                         <li class="dash-item {{ Request::segment(1) == 'business' ? 'active' : '' }}">
                             <a class="dash-link" href="{{ route('business.index') }}">{{ __('Manage Cards') }}</a>
 
                         </li>
+						@if ($users->type == 'company' || $users->admin_status == 1 )
+						<li class="dash-item {{ Request::segment(1) == 'allcards' ? 'active' : '' }}">
+                            <a class="dash-link" href="{{ route('business.allcards') }}">{{ __('All Cards') }}</a>
+
+                        </li>
+						@endif
                     
                 </ul>
             </li>
@@ -76,7 +74,7 @@
 
                 </li>
            
-			@if ($users->type == 'company' || $users->type == 'techsupport')
+			@if ($users->type == 'company')
             <li class="dash-item dash-hasmenu">
 					
                 <a class="dash-link {{ Request::segment(1) == 'employee' || Request::segment(1) == 'client' ? 'active' : '' }}"
@@ -99,12 +97,53 @@
                         <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'roles' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('roles.index') }}">{{ __('Department') }}</a>
                         </li>
-                    
+						
+						@if ($users->name == 'Super Admin')
+						<li class="dash-item dash-hasmenu {{ Request::segment(1) == 'view_admin' ? 'active open' : '' }}">
+                            <a class="dash-link" href="{{ route('users.view_admin') }}">{{ __('View Admins') }}</a>
+                        </li>
+						@endif
 
                 </ul>
             </li>
 			
-            
+			<li class="dash-item dash-hasmenu">
+					
+                <a class="dash-link {{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'active' : '' }}"
+                    data-toggle="collapse" role="button"
+                    aria-expanded="{{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'true' : 'false' }}"
+                    aria-controls="navbar-getting-started"><span class="dash-micon"><i
+                            class="ti ti-users"></i></span><span class="dash-mtext">{{ __('Action Log') }}</span><span
+                        class="dash-arrow"><i data-feather="chevron-right"></i></span>
+                </a>
+				
+                <ul class="dash-submenu">
+                   
+                        <li class="dash-item {{ Request::segment(1) == 'changes' ? 'active' : '' }}">
+                <a href="{{ route('pendingApproval') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Card Log') }}</span></a>
+
+            </li>
+			<li class="dash-item {{ Request::segment(1) == 'newuset' ? 'active' : '' }}">
+                <a href="{{ route('newUserLog') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Approval Log') }}</span></a>
+
+            </li>
+            <li class="dash-item {{ Request::segment(1) == 'activity' ? 'active' : '' }}">
+                <a href="{{ route('activityLog') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Activity Log') }}</span></a>
+
+            </li>
+			
+			
+
+                </ul>
+            </li>
+			
+			
 
 				@endif
 				<li class="dash-item {{ Request::segment(1) == 'tap-history' ? 'active' : '' }}">
@@ -114,7 +153,7 @@
 
                 </li>
             
-            @if ($users->type == 'techsupport')
+            @if (false)
                 <li class="dash-item {{ Request::segment(1) == 'email_template_lang' ? 'active' : '' }}">
                     <a href="{{ route('manage.email.language', $users->lang) }}" class="dash-link"><span
                             class="dash-micon"><i class="ti ti-mail"></i></span><span

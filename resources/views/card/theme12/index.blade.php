@@ -43,6 +43,11 @@
     if (!is_null($appoinment_hours) && !is_null($appoinment)) {
         $appoinment['is_enabled'] == '1' ? ($is_enable_appoinment = true) : ($is_enable_appoinment = false);
     }
+	
+	if (!is_null($leadGeneration_content) && !is_null($leadGeneration)) {
+        $leadGeneration['is_enabled'] == '1' ? ($is_enable_leadgeneration = true) : ($is_enable_leadgeneration = false);
+		
+    }
     
     if (!is_null($services_content) && !is_null($services)) {
         $services['is_enabled'] == '1' ? ($is_enable_service = true) : ($is_enable_service = false);
@@ -338,7 +343,7 @@
                                                                         </div>
 
                                                                         <span id="{{ $key1 . '_' . $no }}_preview" style="margin-left: 50px">
-                                                                            {{ $val1 }}</span>
+                                                                            {{ Str::limit($val1, 18) }}</span>
                                                                         </a>
                                                                     @endif
                                                                 </li>
@@ -433,7 +438,7 @@
                         @endif
 						
 						@if ($order_key == 'leadgeneration')
-                            <section class="more-card-section padding-bottom" style="background: linear-gradient(180deg, rgb(237 237 237) 0%, rgb(238 238 238) 100%);border-radius: 0 0 0 0;">
+                            <section class="more-card-section padding-bottom" id = "leadgeneration-div" style="background: linear-gradient(180deg, rgb(237 237 237) 0%, rgb(238 238 238) 100%);border-radius: 0 0 0 0;">
                                 
                                 <div class="container">
                                     
@@ -935,7 +940,7 @@
                                 </svg>
                             </div>
                             <div class="section-title-center">
-                                <h5>{{ __('Scan QR Code') }}</h5>
+                                <h5 style="color: var(--custom-1)">{{ __('Scan QR Code') }}</h5>
                             </div>
                             <button type="button" name="LOGOUT" class="logout-btn">
 
@@ -966,7 +971,7 @@
                 <div class="container">
                     <form class="appointment-form-wrapper contact-form-wrapper">
                         <div class="section-title">
-                            <h5>{{ __('Connect with me') }}</h5>
+                            <h5 style="color: var(--custom-1)">{{ __('Connect with Me') }}</h5>
                             <div class="close-search">
                                 <img src="{{ asset('custom/theme12/icon/' . $color . '/close.svg') }}"
                                     alt="back" class="img-fluid">
@@ -975,7 +980,7 @@
                         <div class="row appo-form-details">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Name:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Name') }}</label>
                                     <input type="text" name="name" placeholder="{{ __('Enter your name') }}"
                                         class="form-control contact_name">
                                     <div class="">
@@ -985,7 +990,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Email:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Email') }}</label>
                                     <input type="email" name="email" placeholder="{{ __('Enter your email') }}"
                                         class="form-control contact_email" id="recipient-email">
                                     <div class="">
@@ -996,7 +1001,7 @@
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Phone:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Phone') }}</label>
                                     <input type="text" name="phone"
                                         placeholder="{{ __('Enter your phone no') }}"
                                         class="form-control contact_phone" id="recipient-phone">
@@ -1007,7 +1012,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Message:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Message') }}</label>
                                     <textarea name="message" placeholder="" class="custom_size contact_message emojiarea" id="recipient-message"></textarea>
                                     <div class="">
                                         <span class="text-danger  h5 span-error-contactmessage"></span>
@@ -1017,7 +1022,7 @@
                             </div>
                         </div>
                         <div class="form-btn-group">
-                            <button type="button" name="CLOSE" class="close-btn btn">
+                            <button type="button" name="CLOSE" class="close-btn btn invisible">
                                 {{ __('Close') }}
                             </button>
                             <button type="button" class="btn btn-secondary"
@@ -1036,11 +1041,12 @@
             <!--contact popup end here-->
 			
 	@foreach ($leadGeneration_content  as $leadgen) 
+
 		<div class="leadgeneration-popup{{$leadgen->id}}">
                 <div class="container">
                     <form class="appointment-form-wrapper contact-form-wrapper">
                         <div class="section-title">
-                            <h5>{{__($leadgen->title) }}</h5>
+                            <h5 style="color: var(--custom-1)">{{__($leadgen->title) }}</h5>
                             <div class="close-search">
                                 <img src="{{ asset('custom/theme12/icon/' . $color . '/close.svg') }}"
                                     alt="back" class="img-fluid">
@@ -1049,7 +1055,7 @@
                         <div class="row appo-form-details">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Name:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Name') }}</label>
                                     <input type="text" name="name{{$leadgen->id}}" placeholder="{{ __('Enter your name') }}"
                                         class="form-control contact_name{{$leadgen->id}}">
 										<input type="hidden" name="campaign_name{{$leadgen->id}}" class="form-control campaign_name{{$leadgen->id}}" value = "{{$leadgen->title}}">
@@ -1061,7 +1067,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Email:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Email') }}</label>
                                     <input type="email" name="email{{$leadgen->id}}" placeholder="{{ __('Enter your email') }}"
                                         class="form-control contact_email{{$leadgen->id}}" id="recipient-email{{$leadgen->id}}">
                                     <div class="">
@@ -1072,7 +1078,7 @@
 							
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Phone:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Phone') }}</label>
                                     <input type="text" name="phone{{$leadgen->id}}"
                                         placeholder="{{ __('Enter your phone no') }}"
                                         class="form-control contact_phone{{$leadgen->id}}" id="recipient-phone{{$leadgen->id}}">
@@ -1083,7 +1089,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>{{ __('Message:') }}</label>
+                                    <label style="color: var(--custom-1)">{{ __('Message') }}</label>
                                     <textarea name="message{{$leadgen->id}}" placeholder="" class="custom_size contact_message{{$leadgen->id}} emojiarea" id="recipient-message{{$leadgen->id}}"></textarea>
                                     <div class="">
                                         <span class="text-danger  h5 span-error-contactmessage{{$leadgen->id}}"></span>
@@ -1093,7 +1099,7 @@
                             </div>
                         </div>
                         <div class="form-btn-group">
-                            <button type="button" name="CLOSE" class="close-btn btn">
+                            <button type="button" name="CLOSE" class="close-btn btn invisible">
                                 {{ __('Cancel') }}
                             </button>
                             <button type="button" class="btn btn-secondary"
@@ -1425,7 +1431,6 @@
         }
 		
 		var is_enable_leadgeneration = "{{ $is_enable_leadgeneration }}";
-
         if (is_enable_leadgeneration) {
             $('#leadgeneration-div').show();
         } else {
@@ -1440,6 +1445,7 @@
         }
 
         var is_enable_testimonials = "{{ $is_enable_testimonials }}";
+		
         if (is_enable_testimonials) {
             $('#testimonials-div').show();
         } else {
@@ -1565,66 +1571,71 @@
             }
         });
 
-        $(`#makecontact`).click(function() {
+$('#makecontact').click(function() {
+    var connectButton = $(this);
+    var name = $('.contact_name').val();
+    var email = $('.contact_email').val();
+    var phone = $('.contact_phone').val();
+    var message = $('.contact_message').val();
+    var business_id = '{{ $business->id }}';
 
-            var name = $(`.contact_name`).val();
-            var email = $(`.contact_email`).val();
-            var phone = $(`.contact_phone`).val();
-            var message = $(`.contact_message`).val();
-            var business_id = '{{ $business->id }}';
+    $('.span-error-contactname').text("");
+    $('.span-error-contactemail').text("");
+    $('.span-error-contactphone').text("");
+    $('.span-error-contactmessage').text("");
 
-            $(`.span-error-contactname`).text("");
-            $(`.span-error-contactemail`).text("");
-            $(`.span-error-contactphone`).text("");
-            $(`.span-error-contactmessage`).text("");
+    if (name == "") {
+        $('.span-error-contactname').text("{{ __('*Please enter your name') }}");
+    } else if (email == "") {
+        $('.span-error-contactemail').text("{{ __('*Please enter your email') }}");
+    } else if (phone == "") {
+        $('.span-error-contactphone').text("{{ __('*Please enter your phone no.') }}");
+    } else if (message == "") {
+        $('.span-error-contactmessage').text("{{ __('*Please enter your message.') }}");
+    } else {
+        $('.span-error-contactname').text("");
+        $('.span-error-contactemail').text("");
+        $('.span-error-contactphone').text("");
+        $('.span-error-contactmessage').text("");
 
-            if (name == "") {
-                $(`.span-error-contactname`).text("{{ __('*Please enter your name') }}");
-            } else if (email == "") {
+        // Disable the connect button to prevent multiple submissions
+        connectButton.prop('disabled', true).text("Submitting...");
 
-                $(`.span-error-contactemail`).text("{{ __('*Please enter your email') }}");
-            } else if (phone == "") {
-
-                $(`.span-error-contactphone`).text("{{ __('*Please enter your phone no.') }}");
-            } else if (message == "") {
-                $(`.span-error-contactmessage`).text("{{ __('*Please enter your message.') }}");
-            } else {
-
-                $(`.span-error-contactname`).text("");
-                $(`.span-error-contactemail`).text("");
-                $(`.span-error-contactphone`).text("");
-                $(`.span-error-contactmessage`).text("");
-				
-				
-
-                $.ajax({
-                    url: '{{ route('contacts.store') }}',
-                    type: 'POST',
-                    data: {
-                        "name": name,
-                        "email": email,
-                        "phone": phone,
-                        "message": message,
-                        "business_id": business_id,
-                        "_token": "{{ csrf_token() }}",
-                    },
-                    success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Your contact detail have been saved.') }}",
-                            'success');
-
-                    }
+        $.ajax({
+            url: '{{ route('contacts.store') }}',
+            type: 'POST',
+            data: {
+                "name": name,
+                "email": email,
+                "phone": phone,
+                "message": message,
+                "business_id": business_id,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                $(".close-search").trigger({
+                    type: "click"
                 });
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+                show_toastr('Success', "{{ __('Thank you for connecting.') }}", 'success');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Handle errors
+                console.error(textStatus, errorThrown);
+            },
+            complete: function() {
+                // Re-enable the connect button after the AJAX call is complete
+                connectButton.prop('disabled', false).text("{{ __('Connect') }}");
             }
         });
+    }
+});
+
 		
 		$(`#leadcontact1`).click(function() {
-
+			var sendButton = $(this);
             var name = $(`.contact_name1`).val();
 			var campaign_name = $(`.campaign_name1`).val();
 			var campaign_id = $(`.campaign_id1`).val();
@@ -1655,7 +1666,10 @@
                 $(`.span-error-contactemail1`).text("");
                 $(`.span-error-contactphone1`).text("");
                 $(`.span-error-contactmessage1`).text("");
-
+				
+				 // Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1670,21 +1684,28 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
+                $(".close-search").trigger({
+                    type: "click"
                 });
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+                show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Handle errors if any
+                console.error(textStatus, errorThrown);
+            },
+            complete: function() {
+                // Re-enable the send button after the AJAX call is complete
+                sendButton.prop('disabled', false).text("{{ __('Send') }}");
+            }
+        });
             }
         });
 		
 		$(`#leadcontact2`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name2`).val();
 			var campaign_name = $(`.campaign_name2`).val();
 			var campaign_id = $(`.campaign_id2`).val();
@@ -1715,7 +1736,10 @@
                 $(`.span-error-contactemail2`).text("");
                 $(`.span-error-contactphone2`).text("");
                 $(`.span-error-contactmessage2`).text("");
-
+				
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1730,22 +1754,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact3`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name3`).val();
 			var campaign_name = $(`.campaign_name3`).val();
 			var campaign_id = $(`.campaign_id3`).val();
@@ -1776,7 +1807,10 @@
                 $(`.span-error-contactemail3`).text("");
                 $(`.span-error-contactphone3`).text("");
                 $(`.span-error-contactmessage3`).text("");
-
+				
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1791,22 +1825,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact4`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name4`).val();
 			var campaign_name = $(`.campaign_name4`).val();
 			var campaign_id = $(`.campaign_id4`).val();
@@ -1837,7 +1878,9 @@
                 $(`.span-error-contactemail4`).text("");
                 $(`.span-error-contactphone4`).text("");
                 $(`.span-error-contactmessage4`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1852,21 +1895,28 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		$(`#leadcontact5`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name5`).val();
 			var campaign_name = $(`.campaign_name5`).val();
 			var campaign_id = $(`.campaign_id5`).val();
@@ -1897,7 +1947,9 @@
                 $(`.span-error-contactemail5`).text("");
                 $(`.span-error-contactphone5`).text("");
                 $(`.span-error-contactmessage5`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1912,22 +1964,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact6`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name6`).val();
 			var campaign_name = $(`.campaign_name6`).val();
 			var campaign_id = $(`.campaign_id6`).val();
@@ -1958,7 +2017,9 @@
                 $(`.span-error-contactemail6`).text("");
                 $(`.span-error-contactphone6`).text("");
                 $(`.span-error-contactmessage6`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -1973,22 +2034,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact7`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name7`).val();
 			var campaign_name = $(`.campaign_name7`).val();
 			var campaign_id = $(`.campaign_id7`).val();
@@ -2019,7 +2087,9 @@
                 $(`.span-error-contactemail7`).text("");
                 $(`.span-error-contactphone7`).text("");
                 $(`.span-error-contactmessage7`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2034,22 +2104,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact8`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name8`).val();
 			var campaign_name = $(`.campaign_name8`).val();
 			var campaign_id = $(`.campaign_id8`).val();
@@ -2080,7 +2157,9 @@
                 $(`.span-error-contactemail8`).text("");
                 $(`.span-error-contactphone8`).text("");
                 $(`.span-error-contactmessage8`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2095,22 +2174,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact9`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name9`).val();
 			var campaign_name = $(`.campaign_name9`).val();
 			var campaign_id = $(`.campaign_id9`).val();
@@ -2141,7 +2227,8 @@
                 $(`.span-error-contactemail9`).text("");
                 $(`.span-error-contactphone9`).text("");
                 $(`.span-error-contactmessage9`).text("");
-
+				// Disable the send button to prevent multiple submissions
+					sendButton.prop('disabled', true).text("Submitting...");
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2156,22 +2243,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact10`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name10`).val();
 			var campaign_id = $(`.campaign_id10`).val();
 			var campaign_name = $(`.campaign_name10`).val();
@@ -2202,7 +2296,10 @@
                 $(`.span-error-contactemail10`).text("");
                 $(`.span-error-contactphone10`).text("");
                 $(`.span-error-contactmessage10`).text("");
-
+			
+					
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2217,22 +2314,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact11`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name11`).val();
 			var campaign_name = $(`.campaign_name11`).val();
 			var campaign_id = $(`.campaign_id11`).val();
@@ -2263,7 +2367,9 @@
                 $(`.span-error-contactemail11`).text("");
                 $(`.span-error-contactphone11`).text("");
                 $(`.span-error-contactmessage11`).text("");
-
+				
+				sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2278,22 +2384,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact12`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name12`).val();
 			var campaign_name = $(`.campaign_name12`).val();
 			var campaign_id = $(`.campaign_id12`).val();
@@ -2325,6 +2438,8 @@
                 $(`.span-error-contactphone12`).text("");
                 $(`.span-error-contactmessage12`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2339,22 +2454,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact13`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name13`).val();
 			var campaign_name = $(`.campaign_name13`).val();
 			var campaign_id = $(`.campaign_id13`).val();
@@ -2386,6 +2508,8 @@
                 $(`.span-error-contactphone13`).text("");
                 $(`.span-error-contactmessage13`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2400,22 +2524,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact14`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name14`).val();
 			var campaign_name = $(`.campaign_name14`).val();
 			var campaign_id = $(`.campaign_id14`).val();
@@ -2447,6 +2578,8 @@
                 $(`.span-error-contactphone14`).text("");
                 $(`.span-error-contactmessage14`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2461,22 +2594,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact15`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name15`).val();
 			var campaign_name = $(`.campaign_name15`).val();
 			var campaign_id = $(`.campaign_id15`).val();
@@ -2508,6 +2648,8 @@
                 $(`.span-error-contactphone15`).text("");
                 $(`.span-error-contactmessage15`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2522,22 +2664,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact16`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name16`).val();
 			var campaign_name = $(`.campaign_name16`).val();
 			var campaign_id = $(`.campaign_id16`).val();
@@ -2569,6 +2718,8 @@
                 $(`.span-error-contactphone16`).text("");
                 $(`.span-error-contactmessage16`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2583,22 +2734,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact17`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name17`).val();
 			var campaign_name = $(`.campaign_name17`).val();
 			var campaign_id = $(`.campaign_id17`).val();
@@ -2630,6 +2788,8 @@
                 $(`.span-error-contactphone17`).text("");
                 $(`.span-error-contactmessage17`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2644,22 +2804,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact18`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name18`).val();
 			var campaign_name = $(`.campaign_name18`).val();
 			var campaign_id = $(`.campaign_id18`).val();
@@ -2691,6 +2858,8 @@
                 $(`.span-error-contactphone18`).text("");
                 $(`.span-error-contactmessage18`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2705,22 +2874,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact19`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name19`).val();
 			var campaign_name = $(`.campaign_name19`).val();
 			var campaign_id = $(`.campaign_id19`).val();
@@ -2752,6 +2928,8 @@
                 $(`.span-error-contactphone19`).text("");
                 $(`.span-error-contactmessage19`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2766,22 +2944,29 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		
 		
 		$(`#leadcontact20`).click(function() {
+			var sendButton = $(this);
             var name = $(`.contact_name20`).val();
 			var campaign_name = $(`.campaign_name20`).val();
 			var campaign_id = $(`.campaign_id20`).val();
@@ -2813,6 +2998,8 @@
                 $(`.span-error-contactphone20`).text("");
                 $(`.span-error-contactmessage20`).text("");
 
+                sendButton.prop('disabled', true).text("Submitting...");
+				
                 $.ajax({
                     url: '{{ route('leadcontact.store') }}',
                     type: 'POST',
@@ -2827,17 +3014,23 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(data) {
-                        $(".close-search").trigger({
-                            type: "click"
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                        show_toastr('Success', "{{ __('Saved Successfully.') }}",
-                            'success');
-
-                    }
-                });
+						$(".close-search").trigger({
+							type: "click"
+						});
+						setTimeout(function() {
+							location.reload();
+						}, 1500);
+						show_toastr('Success', "{{ __('Saved Successfully.') }}", 'success');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// Handle errors if any
+						console.error(textStatus, errorThrown);
+					},
+					complete: function() {
+						// Re-enable the send button after the AJAX call is complete
+						sendButton.prop('disabled', false).text("{{ __('Send') }}");
+					}
+				});
             }
         });
 		

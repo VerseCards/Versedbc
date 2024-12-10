@@ -64,15 +64,18 @@ class UserlogController extends Controller
         $time = date_create($request->month);
         $firstDayofMOnth = (date_format($time, 'Y-m-d'));
         $lastDayofMonth =    \Carbon\Carbon::parse($request->month)->endOfMonth()->toDateString();
+		
+			if (session()->has('impersonate')) {
+				$getOwner = session()->get('impersonate');
+				$userlogdetail = \DB::table('visitor')->where('user_id',$cardOwner);
 
-		if($request->month==null && $request->user==null)
-        {	
-			$userlogdetail = \DB::table('visitor')->where('created_by','=',\Auth::user()->creatorId())->get();
-        }
-        else
-        {
+			}else{
+				
+				$userlogdetail = \DB::table('visitor')->where('user_id',\Auth::user()->id);
+				
+			}
 			
-			$userlogdetail = \DB::table('visitor')->where('created_by','=',\Auth::user()->creatorId());
+			//$userlogdetail = \DB::table('visitor')->where('created_by','=',\Auth::user()->creatorId());
 
             if(!empty($request->month))
             {
@@ -84,7 +87,7 @@ class UserlogController extends Controller
                 $userlogdetail->where('created_by', $request->user - 1);
             }
             $userlogdetail = $userlogdetail->get();
-        }
+        
         return view('tap_history.index', compact('userlogdetail', 'userList'));
     }
 	
@@ -93,7 +96,6 @@ class UserlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	 //$visit_data = \DB::table('visitor')->where('slug', $visit->slug)->get();
     public function create()
     {
         //
