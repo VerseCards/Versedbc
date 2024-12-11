@@ -878,6 +878,8 @@
                                     </div>
                                 </div>
                             </div>
+							
+							@if ($users->type != 'company')
 							<div style="margin-top: 50px">
                             <div class="row gy-4">
                                 <div class="col-lg-7 col-md-7">
@@ -1243,7 +1245,7 @@
                                          {{ Form::close() }}
                                     </div>
                                 </div>
-
+								@endif
 							</div>
                         </div>
                        </div>

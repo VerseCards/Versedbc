@@ -3,6 +3,7 @@
     // $profile=asset(Storage::url('uploads/avatar/'));
     $profile=\App\Models\Utility::get_file('uploads/avatar/');
 	$loggedUsers = Auth::user();
+	$check_super_admin = $loggedUsers->name != 'Super Admin' && $loggedUsers->admin_status == 1;
 @endphp
 @section('page-title')
    {{__('Manage All Staff')}}
@@ -76,14 +77,15 @@
                                 <i class="feather icon-more-vertical"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                                    
+                                    @if($check_super_admin)
                                         <a href="#" class="dropdown-item user-drop" data-url="{{ route('users.edit',$user->id) }}" data-ajax-popup="true" data-title="{{__('Update Staff Info')}}"><i class="ti ti-edit"></i><span class="ml-2">{{__('Edit')}}</span></a>
                                     
-                                        
+                                    @endif    
                                         <a href="#" class="dropdown-item user-drop" data-ajax-popup="true" data-title="{{__('Reset Password')}}" data-url="{{route('user.reset',\Crypt::encrypt($user->id))}}"><i class="ti ti-key"></i>
                                         <span class="ml-2">{{__('Reset Password')}}</span></a>  
-                                    
+										@if($check_super_admin)
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="delete-form-{{$user->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
+										@endif
                                         {!! Form::open(['method' => 'GET', 'route' => ['deleteUser', $user->id],'id'=>'delete-form-'.$user->id]) !!}
                                         {!! Form::close() !!} 
                                    
@@ -95,6 +97,7 @@
                                             <i class="ti ti-history"></i>
                                             <span class="ml-2">{{__('Logged Details')}}</span></a>
                                     @endif
+									@if($check_super_admin)
                                     @if ($user->is_enable_login == 1)
                                         <a href="{{ route('users.login', \Crypt::encrypt($user->id)) }}"
                                             class="dropdown-item user-drop">
@@ -115,6 +118,7 @@
                                             <span class="text-success ml-2"> {{ __('Login Enable') }}</span>
                                         </a>
                                     @endif
+									@endif
 									@if ($loggedUsers->name == 'Super Admin')
 										@if ($user->type == 'company' || $user->admin_status == '1')
 											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
@@ -131,13 +135,14 @@
 											</a>
 										@endif
 									@endif
-									
+									@if($check_super_admin)
 									<a href="{{ route('impersonate', ['id' => $user->id]) }}"
                                             class="dropdown-item user-drop"
                                             data-bs-original-title="{{ __('Login As Company') }}">
                                             <i class="ti ti-replace"></i>
                                             <span class="ml-2"> {{ __('Login As User') }}</span>
                                         </a>
+									@endif
                             </div>
                                             
                                         </td>
