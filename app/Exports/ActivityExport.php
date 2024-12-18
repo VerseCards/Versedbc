@@ -34,9 +34,9 @@ class ActivityExport implements FromCollection,WithHeadings, WithEvents, WithCol
 				if (session()->has('impersonate')) {
 					$getOwner = session()->get('impersonate');
 					$cardOwner = User::find($getOwner)->id;
-					$leads_contacts =  ActivityLog::get();
+					$leads_contacts =  ActivityLog::orderBy('created_at', 'DESC')->get();
 				}else{
-					$leads_contacts =  ActivityLog::get();
+					$leads_contacts =  ActivityLog::orderBy('created_at', 'DESC')->get();
 				}
 		
                 foreach ($leads_contacts  as $k => $contact) {

@@ -152,6 +152,7 @@
                 </ul>
             </li>
 			@endif
+			@if (!$check_super_admin)
 			<li class="dash-item dash-hasmenu">
 					
                 <a class="dash-link {{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'active' : '' }}"
@@ -188,7 +189,7 @@
                 </ul>
             </li>
 			
-			
+			@endif
 
 				@endif
 				@if ($check_super_admin)

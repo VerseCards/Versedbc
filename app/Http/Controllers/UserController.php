@@ -1267,6 +1267,9 @@ class UserController extends Controller
 						$user->is_enable_login = 0;
 						$user->save();
 						
+						$userLog->status = 2;
+						$userLog->save();
+						
 						ActivityLog::create([
 									'user_id' => Auth::id(),
 									'initiated_by' => \Auth::user()->name,
@@ -1381,6 +1384,9 @@ class UserController extends Controller
 						$user->admin_status = 0;
 						$user->type = 'M&CC';
 						$user->save();
+						
+						$userLog->status = 2;
+						$userLog->save();
 						
 						ActivityLog::create([
 									'user_id' => Auth::id(),
