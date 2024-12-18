@@ -48,7 +48,7 @@ class LeadCampaignExport implements FromCollection,WithHeadings, WithEvents
 				}
 		
                 foreach ($leads_contacts  as $k => $contact) {
-					
+					$newdate               = $contact->created_at->format('Y-m-d');
 					unset($contact->created_by,$contact->id,$contact->campaign_id,$contact->business_id,$contact->updated_at,$contact->status, $contact->note, $contact->user_id );
 					
                     //$business_name = Business::where('id',$value->business_id)->pluck('title')->first();
@@ -60,7 +60,7 @@ class LeadCampaignExport implements FromCollection,WithHeadings, WithEvents
 					$leads_contacts[$k]["message"]                = $contact->message;
 					//$leads_contacts[$k]["status"]                = $contact->status;
 					//$leads_contacts[$k]["note"]                = $contact->note;
-					$leads_contacts[$k]["created_at"]                = $contact->created_at;
+					$leads_contacts[$k]["date"]                = $newdate;
                 }
         return $leads_contacts;
     }

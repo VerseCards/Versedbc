@@ -891,7 +891,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('Forground Color', __('Forground Color'), ['class' => 'form-label']) }}
+                                                        {{ Form::label('Forground Color', __('Foreground Color'), ['class' => 'form-label']) }}
                                                         <input type="color" name="foreground_color" value="{{isset($qr_detail->foreground_color)? $qr_detail->foreground_color :'#000000'}}" class="form-control foreground_color qr_data" data-multiple-caption="{count} files selected" multiple="">
                                                     </div>
                                                 </div>
@@ -926,7 +926,7 @@
                                                         <div class="col-md-12 mt-2 " >
                                                             <div class="form-group">
                                                                 {{ Form::label('Text', __('Text'), ['class' => 'form-label']) }}
-                                                                <input type="text" name="qr_text" value="{{isset($qr_detail->qr_text)?$qr_detail->qr_text:''}}" class="form-control qr_text qr_keyup">
+                                                                <input type="text" name="qr_text" maxlength="10" value="{{isset($qr_detail->qr_text)?$qr_detail->qr_text:''}}" class="form-control qr_text qr_keyup">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
@@ -1052,7 +1052,7 @@
 							<div  style="margin-top: 50px">
                             <div class="row gy-4">
                                 {{ Form::open(['route' => ['business.block-setting', $business->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
-                                <div <div class="col-lg-10 col-md-10">>
+                                <div <div class="col-lg-10 col-md-10">
                                     <div class="theme-detail-card" style="box-shadow: 0 6px 30px rgba(182, 186, 203, 0.3); background: #ffffff;">
                                             <div class="d-flex align-items-center justify-content-between mb-4 ">
                                                     <h5 class="mb-0">{{__('Re-Order Links')}}</h5>
@@ -1214,7 +1214,7 @@
                                             <div class="col-lg-6">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('google_analytic', __('Google Analytic'), ['class' => 'form-label']) }}
+                                                        {{ Form::label('google_analytic', __('Google Analytics'), ['class' => 'form-label']) }}
                                                         {{ Form::text('google_analytic', $business->google_analytic, ['class' => 'form-control', 'placeholder' => 'UA-XXXXXXXXX-X']) }}
                                                     </div>
                                                     @error('google_analytic')

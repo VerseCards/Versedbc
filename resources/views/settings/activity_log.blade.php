@@ -14,12 +14,22 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body table-border-style ">
-                <h5></h5>
+               
+				<div class="d-flex align-items-center justify-content-between">
+                    <ul class="list-unstyled">
+                        
+                    </ul>
+
+                    {{-- //business Display End --}}
+                    <a href="{{ route('activitylog.export') }}" class="btn btn-primary export-btn" style="margin-bottom:30px">
+						Export Activity Log
+					</a>
+                </div>
                 <div class="table-responsive">
                     <table class="table" id="pc-dt-simple">
                         <thead>
 						<th>{{__('SN')}} </th>
-                            <th>{{__('Initiated By')}} </th>
+                            <th>{{__('Action By')}} </th>
 							<th>{{__('Remark')}} </th>
 							<th>{{__('Created_at')}} </th>
                             

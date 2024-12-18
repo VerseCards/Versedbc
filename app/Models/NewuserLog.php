@@ -24,6 +24,7 @@ class NewuserLog extends Model
 		'old_email',
         'old_department',
 		'old_designation',
+		'password_reset',
     ];
 	
 }

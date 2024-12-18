@@ -77,7 +77,7 @@ class AuthenticatedSessionController extends Controller
 
 
                 $json = json_encode($query);
-                if($user->type != 'company' || $user->type != 'techsupport')
+                if($user->type != 'company')
                 {
                     $login_detail = new LoginDetail();
                     $login_detail->user_id = Auth::user()->id;

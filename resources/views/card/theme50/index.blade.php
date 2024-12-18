@@ -209,10 +209,14 @@
 
                 <section class="client-image-section">
 					<div class="container">
-						<div class="client-intro" style="display: flex; align-items: center; color: white;">
-							<div class="client-image" style="flex: 2.3; max-width: 280px;">
+						<div class="client-intro" style="display: flex; align-items: center; color: white; gap: 20px;">
+
+							<div class="client-image" style="flex: 2.3; max-width: 140px;margin-left: 40px;">
 								<img src="{{ isset($business->logo) && !empty($business->logo) ? $logo . '/' . $business->logo : asset('custom/img/logo-placeholder-image-2.png') }}"
-									 id="business_logo_preview" alt="user" class="mb-4 img-thumbnail">
+									 id="business_logo_preview"
+									 alt="user"
+									 class="mb-4 img-thumbnail"
+									 style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
 							</div>
 							<div style="flex: 3; padding-left: 20px;margin-top: -55px;">
 								<h3 id="{{ $stringid . '_title' }}_preview" class="text-black" style="font-size: 2.5rem">{{ $business->title }}</h3>

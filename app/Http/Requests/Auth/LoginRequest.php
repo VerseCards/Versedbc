@@ -52,7 +52,7 @@ class LoginRequest extends FormRequest
                 if($user->is_enable_login != 1  && $user->type != "company")
                 {
                     throw ValidationException::withMessages([
-                        'email' => __("Your account is disabled.... so please contact to your administration"),
+                        'email' => __("Your account is disabled.... Please contact M&CC"),
                     ]);
                 }
                 else

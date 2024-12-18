@@ -35,7 +35,7 @@ class Utility extends Model
             ['name' => 'website', 'icon' => 'fa fa-link'],
             ['name' => 'custom_field', 'icon' => 'fa fa-align-left'],
             ['name' => 'facebook', 'icon' => 'fab fa-facebook'],
-            ['name' => 'twitter', 'icon' => 'fab fa-twitter'],
+            ['name' => 'x', 'icon' => 'fab fa-twitter'],
             ['name' => 'instagram', 'icon' => 'fab fa-instagram'],
             ['name' => 'whatsapp', 'icon' => 'fab fa-whatsapp'],
         ];
@@ -90,7 +90,7 @@ class Utility extends Model
             'Instagram',
             'LinkedIn',
             'Phone',
-            'Twitter',
+            'X',
             'Youtube',
             'Email',
             'Behance',
@@ -1420,7 +1420,7 @@ class Utility extends Model
         $plateforms = [
             '' => 'Please select',
             'facebook' => 'Facebook',
-            'twitter' => 'Twitter',
+            'twitter' => 'X',
             'linkedin' => 'Linkedin',
             'pinterest' => 'Pinterest',
             'quora' => 'Quora',

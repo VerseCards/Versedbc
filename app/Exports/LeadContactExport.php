@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Carbon\Carbon;
 
 
 class LeadContactExport implements FromCollection,WithHeadings, WithEvents
@@ -41,7 +42,7 @@ class LeadContactExport implements FromCollection,WithHeadings, WithEvents
                 foreach ($leads_contacts  as $k => $contact) {
 					
 					unset($contact->created_by,$contact->id,$contact->campaign_id,$contact->business_id,$contact->updated_at,$contact->status, $contact->note, $contact->user_id );
-					
+					$newdate               = $contact->created_at->format('Y-m-d');
                     //$business_name = Business::where('id',$value->business_id)->pluck('title')->first();
                     //$contact->business_name = $business_name;
 					$leads_contacts[$k]["campaign_title"]                = $contact->campaign_title;
@@ -51,7 +52,7 @@ class LeadContactExport implements FromCollection,WithHeadings, WithEvents
 					$leads_contacts[$k]["message"]                = $contact->message;
 					//$leads_contacts[$k]["status"]                = $contact->status;
 					//$leads_contacts[$k]["note"]                = $contact->note;
-					$leads_contacts[$k]["created_at"]                = $contact->created_at;
+					$leads_contacts[$k]["date"]                = $newdate;
                 }
         return $leads_contacts;
     }
@@ -60,7 +61,7 @@ class LeadContactExport implements FromCollection,WithHeadings, WithEvents
     {
         return [
             
-            'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'H' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             
         ];
     }

@@ -29,6 +29,8 @@ use App\Models\Contacts;
 use App\Models\Appointment_deatail;
 use DB;
 use Session;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ActivityExport;
 
 class BusinessController extends Controller
 {
@@ -3093,6 +3095,11 @@ class BusinessController extends Controller
 			return view('settings.activity_log', compact('log'));
 			
 
+    }
+	
+	public function exportActivityLog()
+    {
+        return Excel::download(new ActivityExport, 'activity-log.xlsx');
     }
 
 

@@ -506,7 +506,7 @@
                         @endforeach
 
                         @if ($is_branding_enabled)
-                            <div class="copy-right is_branding_enable" id="is_branding_enabled" style="margin-top: 50px;">
+                            <div class="copy-right is_branding_enable" id="is_branding_enabled" style="margin-top: 50px;background: #00000000;">
                                 <p id="{{ $stringid . '_branding' }}_preview" style="color: white;">{{ $business->branding_text }}</p>
                             </div>
                         @endif

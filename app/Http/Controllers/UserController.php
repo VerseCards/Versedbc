@@ -325,6 +325,37 @@ class UserController extends Controller
             return redirect()->back()->with('error', $messages->first());
         }
         $user                 = User::where('id', $id)->first();
+		
+		
+            if($user)
+            {
+
+			NewuserLog::create([
+								'name' => $user->name,
+								'email' => $user->email,
+								'department' => $user->type,
+								'designation' => $user->designation,
+								'admin_id' => $user->id,
+								'admin_name' => \Auth::user()->name,
+								'action' => 4, //1 = New user, 2= delete user 3 = Update user  4 = Reset Password
+								'status' => 1, //1 = Pending, 2= Approved, 3 = Rejected
+								'password_reset' => Hash::make($request->password),
+							]);
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Password Reset Request',
+							]);
+				
+
+                return redirect()->route('users.index')->with('success', __('Awaiting Approval .'));
+            }
+            else
+            {
+                return redirect()->back()->with('error', __('Something is wrong.'));
+            }
+			
+			/*
         $user->forceFill([
             'password' => Hash::make($request->password),
         ])->save();
@@ -338,8 +369,9 @@ class UserController extends Controller
         return redirect()->route('users.index')->with(
                      'success', 'User Password successfully updated.'
                  );
+		*/
     }
-
+/*
     public function LoginManage($id)
     {
         $eId = \Crypt::decrypt($id);
@@ -374,7 +406,7 @@ class UserController extends Controller
         }
 
     }
-	
+	*/
 	public function allAdmins()
     {
         
@@ -485,9 +517,17 @@ class UserController extends Controller
 		
 		*/
 		
+		Schema::table('newuser_logs', function (Blueprint $table) {
+            $table->string('password_reset')->nullable();
+        });
+
+        return response()->json(['message' => 'Column added successfully']);
+		
 		Artisan::call('optimize:clear');
-		Artisan::call('route:cache');
-		Artisan::call('view:cache');
+		//Artisan::call('route:cache');
+		//Artisan::call('view:cache');
+		
+		
 		
 
 		//artisan optimize:clear
@@ -648,24 +688,22 @@ class UserController extends Controller
     {
 		
         $role = NewuserLog::where('id', '=', $id)->first();
-		//
-		//dd($role);
+
         $user = \Auth::user();
         return view('pending.viewuser', compact('role'));
     }
 	
 	public function approveNewUserAdmin(Request $request, $id) //CID pending changes 'id'
     {
-		//dd($request->all());
+
 		$default_language = \DB::table('settings')->select('value')->where('name', 'default_language')->first();
 		$user = Auth()->user();
 		if($user->name != 'Super Admin'){
 				return redirect()->back()->with('error', 'Permission Denied');
 			}
-        //$business = Business::where('id', '=', $id)->first();
+
 		
 		$userInfo = NewuserLog::find($id);
-		//dd($userInfo);
 		
 		if ($request->input('action') == 'approve') {
         
@@ -1082,6 +1120,303 @@ class UserController extends Controller
 								'remark' => 'New Updated Rejected',
 							]);
 			return redirect()->back()->with('success', __('User Update Rejected'));
+		}
+		
+    }
+	
+	
+	public function disableUser($id)
+    {
+        
+            $user = User::find($id);
+            if($user)
+            {
+
+			NewuserLog::create([
+								'name' => $user->name,
+								'email' => $user->email,
+								'department' => $user->type,
+								'designation' => $user->designation,
+								'admin_id' => $user->id,
+								'admin_name' => \Auth::user()->name,
+								'action' => 2, //1 = New user, 2= delete user
+								'status' => 1, //1 = Pending, 2= Approved, 3 = Rejected
+							]);
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Delete User Request',
+							]);
+				
+
+                return redirect()->route('users.index')->with('success', __('Awaiting Approval .'));
+            }
+            else
+            {
+                return redirect()->back()->with('error', __('Something is wrong.'));
+            }
+    }
+	
+	
+	
+	
+	public function approvePasswordReset(Request $request, $id) //ID pending changes 'id'
+    {
+		$userLog = NewuserLog::find($id);
+		$user = User::where('email',$userLog->email)->first();
+		
+
+		if ($request->input('action') == 'approve') {
+			if(\Auth()->user()->name != 'Super Admin'){
+				return redirect()->back()->with('error', 'Permission Denied');
+			}
+			if($user)
+				{
+					$user->password = $userLog->password_reset;
+					$user->save();
+			
+					$userLog->status = 2;
+					$userLog->password_reset = NULL;
+					$userLog->save();
+					
+
+					ActivityLog::create([
+									'user_id' => Auth::id(),
+									'initiated_by' => \Auth::user()->name,
+									'remark' => \Auth::user()->name . ' '. 'changed the password of ' . $user->name,
+								]);
+					return back()->with(
+						 'success', 'User Password successfully updated.'
+					 );
+
+				}
+		
+		} elseif ($request->input('action') == 'reject') {
+			
+			$userLog = NewuserLog::find($id);
+			$user = User::where('email',$userLog->email)->first();
+		
+			$userLog->status = 3;
+			$userLog->save();
+			
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Password Reset Rejected',
+							]);
+			return redirect()->back()->with('success', __('Password Reset Rejected'));
+		}
+		
+    }
+	
+	
+	public function LoginManage($id)
+    {
+        $eId = \Crypt::decrypt($id);
+        $user = User::find($eId);
+
+           if($user)
+            {
+				if($user->is_enable_login == 1){
+					$userStatus = 6;
+				}else{
+					$userStatus = 5;
+				}
+			NewuserLog::create([
+								'name' => $user->name,
+								'email' => $user->email,
+								'department' => $user->type,
+								'designation' => $user->designation,
+								'admin_id' => $user->id,
+								'admin_name' => \Auth::user()->name,
+								'action' => $userStatus, //1 = New user, 2= delete user 3 = Update user  4 = Reset Password 5 = Login Enable 6 = Login Disabled
+								'status' => 1, //1 = Pending, 2= Approved, 3 = Rejected
+								
+							]);
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Account Access',
+							]);
+				
+
+                return back()->with('success', __('Awaiting Approval .'));
+            }
+            else
+            {
+                return redirect()->back()->with('error', __('Something is wrong.'));
+            }
+
+    }
+	
+	
+	
+		public function approveLoginStatus(Request $request, $id) //ID pending changes 'id'
+    {
+		$userLog = NewuserLog::find($id);
+		$user = User::where('email',$userLog->email)->first();
+		
+
+		if ($request->input('action') == 'approve') {
+			if(\Auth()->user()->name != 'Super Admin'){
+				return redirect()->back()->with('error', 'Permission Denied');
+			}
+			if($user)
+				{
+					if ($user->is_enable_login == 1) {
+						$user->is_enable_login = 0;
+						$user->save();
+						
+						ActivityLog::create([
+									'user_id' => Auth::id(),
+									'initiated_by' => \Auth::user()->name,
+									'remark' => \Auth::user()->name . ' '. 'disabled ' . $user->name . ' account',
+								]);
+						return back()->with('success', 'User account disabled successfully.');
+					} else {
+						$user->is_enable_login = 1;
+						$user->save();
+						
+						ActivityLog::create([
+									'user_id' => Auth::id(),
+									'initiated_by' => \Auth::user()->name,
+									'remark' => \Auth::user()->name . ' '. 'enabled ' . $user->name . ' account',
+								]);
+					return back()->with('success', 'User account enabled successfully.');
+					}
+				}
+		
+		} elseif ($request->input('action') == 'reject') {
+			
+			$userLog = NewuserLog::find($id);
+			$user = User::where('email',$userLog->email)->first();
+		
+			$userLog->status = 3;
+			$userLog->save();
+			
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Password Reset Rejected',
+							]);
+			return redirect()->back()->with('success', __('Password Reset Rejected'));
+		}
+		
+    }
+	
+	/*
+	public function makeAdmin($id)
+    {
+		
+        $eId = \Crypt::decrypt($id);
+        $user = User::find($eId);
+        if ($user->type == 'company') {
+            $user->admin_status = 0;
+			$user->type = 'M&CC';
+            $user->save();
+            return redirect()->back()->with('success', 'Admin Status Disabled Successfully.');
+        } else {
+            $user->type = 'company';
+			$user->admin_status = 1;
+            $user->save();
+            return redirect()->back()->with('success', 'Admin Status Enabled Successfully.');
+        }
+
+    }
+	*/
+	
+	public function makeAdmin($id)
+    {
+        $eId = \Crypt::decrypt($id);
+        $user = User::find($eId);
+
+           if($user)
+            {
+				if($user->type == 'company'){
+					$adminStatus = 8;
+				}else{
+					$adminStatus = 7;
+				}
+			NewuserLog::create([
+								'name' => $user->name,
+								'email' => $user->email,
+								'department' => $user->type,
+								'designation' => $user->designation,
+								'admin_id' => $user->id,
+								'admin_name' => \Auth::user()->name,
+								'action' => $adminStatus, //1 = New user, 2= delete user 3 = Update user  4 = Reset Password 5 = Login Enable 6 = Login Disabled 7 = Enable Admin  8 = Disable Admin
+								'status' => 1, //1 = Pending, 2= Approved, 3 = Rejected
+								
+							]);
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Maker Admin Request',
+							]);
+				
+
+                return back()->with('success', __('Awaiting Approval .'));
+            }
+            else
+            {
+                return redirect()->back()->with('error', __('Something is wrong.'));
+            }
+
+    }
+	
+	
+	public function approveMakerAdmin(Request $request, $id) //ID pending changes 'id'
+    {
+		$userLog = NewuserLog::find($id);
+		$user = User::where('email',$userLog->email)->first();
+		
+
+		if ($request->input('action') == 'approve') {
+			if(\Auth()->user()->name != 'Super Admin'){
+				return redirect()->back()->with('error', 'Permission Denied');
+			}
+			if($user)
+				{
+					if ($user->type == 'company') {
+						$user->admin_status = 0;
+						$user->type = 'M&CC';
+						$user->save();
+						
+						ActivityLog::create([
+									'user_id' => Auth::id(),
+									'initiated_by' => \Auth::user()->name,
+									'remark' => \Auth::user()->name . ' '. 'disabled ' . $user->name . ' as a Maker Admin',
+								]);
+						return back()->with('success', 'Admin Status Disabled Successfully.');
+					} else {
+						$user->type = 'company';
+						$user->admin_status = 1;
+						$user->save();
+						
+						ActivityLog::create([
+									'user_id' => Auth::id(),
+									'initiated_by' => \Auth::user()->name,
+									'remark' => \Auth::user()->name . ' '. 'enabled ' . $user->name . ' as a Maker Admin',
+								]);
+					return back()->with('success', 'Admin Status Enabled Successfully.');
+					}
+					
+				}
+		
+		} elseif ($request->input('action') == 'reject') {
+			
+			$userLog = NewuserLog::find($id);
+			$user = User::where('email',$userLog->email)->first();
+		
+			$userLog->status = 3;
+			$userLog->save();
+			
+			ActivityLog::create([
+								'user_id' => Auth::id(),
+								'initiated_by' => \Auth::user()->name,
+								'remark' => 'Maker Admin Request Rejected',
+							]);
+			return redirect()->back()->with('success', __('Maker Admin Rejected Successfully'));
 		}
 		
     }

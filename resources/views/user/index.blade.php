@@ -80,9 +80,11 @@
                                     @if($check_super_admin)
                                         <a href="#" class="dropdown-item user-drop" data-url="{{ route('users.edit',$user->id) }}" data-ajax-popup="true" data-title="{{__('Update Staff Info')}}"><i class="ti ti-edit"></i><span class="ml-2">{{__('Edit')}}</span></a>
                                     
-                                    @endif    
+                                     
                                         <a href="#" class="dropdown-item user-drop" data-ajax-popup="true" data-title="{{__('Reset Password')}}" data-url="{{route('user.reset',\Crypt::encrypt($user->id))}}"><i class="ti ti-key"></i>
-                                        <span class="ml-2">{{__('Reset Password')}}</span></a>  
+                                        <span class="ml-2">{{__('Reset Password')}}</span></a> 
+										
+									@endif   
 										@if($check_super_admin)
                                         <a href="#" class="bs-pass-para dropdown-item user-drop"  data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="delete-form-{{$user->id}}" title="{{__('Delete')}}" data-bs-toggle="tooltip" data-bs-placement="top"><i class="ti ti-trash"></i><span class="ml-2">{{__('Delete')}}</span></a>
 										@endif
@@ -118,6 +120,21 @@
                                             <span class="text-success ml-2"> {{ __('Login Enable') }}</span>
                                         </a>
                                     @endif
+									
+									@if ($user->type == 'company' || $user->admin_status == '1')
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-danger ml-2"> {{ __('Disable Admin') }}</span>
+											</a>
+										
+										@else
+											<a href="{{ route('users.make_admin', \Crypt::encrypt($user->id)) }}"
+												class="dropdown-item user-drop">
+												<i class="ti ti-road-sign"></i>
+												<span class="text-success ml-2"> {{ __('Enable Admin') }}</span>
+											</a>
+										@endif
 									@endif
 									@if ($loggedUsers->name == 'Super Admin')
 										@if ($user->type == 'company' || $user->admin_status == '1')
@@ -135,7 +152,7 @@
 											</a>
 										@endif
 									@endif
-									@if($check_super_admin)
+									@if(false)
 									<a href="{{ route('impersonate', ['id' => $user->id]) }}"
                                             class="dropdown-item user-drop"
                                             data-bs-original-title="{{ __('Login As Company') }}">

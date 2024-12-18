@@ -125,6 +125,8 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
 	 Route::get('user-update/{id}', [UserController::class, 'updateUser'])->name('userUpdate');
 	 Route::get('update-user-pending/{id}', [UserController::class, 'updateUserPending'])->name('updateUserPending');
 	 Route::post('approve-update/{id}', [UserController::class, 'approveUserUpdate'])->name('approveUserUpdate');
+	 Route::post('approve-login-status/{id}', [UserController::class, 'approveLoginStatus'])->name('approveLoginStatus');
+	 Route::get('export/activity-log', [BusinessController::class, 'exportActivityLog'])->name('activitylog.export');
 
      Route::resource('webhook', WebhookController::class);
      Route::post('cookie_setting', [SystemController::class, 'saveCookieSettings'])->middleware('XSS','auth')->name('cookie.setting');
@@ -134,7 +136,9 @@ Route::middleware(['auth','impersonate','XSS'])->group(function () {
     Route::get('user-login/{id}', 'UserController@LoginManage')->name('users.login');
 	Route::get('admin-status/{id}', 'UserController@makeAdmin')->name('users.make_admin');
 	Route::get('all-admins', 'UserController@allAdmins')->name('users.view_admin');
+	Route::post('approve-maker-admin/{id}', 'UserController@approveMakerAdmin')->name('approveMakerAdmin');
 	Route::get('run-migrate-now', 'UserController@optimizeApp')->name('users.runNow');
+	
 	
 	
 	
@@ -232,6 +236,7 @@ Route::post('/cache-clear', [SystemController::class, 'cacheClear'])->middleware
 
 Route::any('user-reset-password/{id}', [UserController::class, 'userPassword'])->name('user.reset');
 Route::post('user-reset-password/{id}', [UserController::class, 'userPasswordReset'])->name('user.password.update');
+Route::post('approve-password-reset-password/{id}', [UserController::class, 'approvePasswordReset'])->name('user.password.approve');
 
 
 /*=============================*/

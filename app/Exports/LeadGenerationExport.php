@@ -18,8 +18,8 @@ class LeadGenerationExport implements FromCollection,WithHeadings
             'Name',
             'Email',
             'City',
-            'Created_at',
-            'Updated_at' 
+            'Date',
+            'Updated At' 
         ];
     }
     public function collection()

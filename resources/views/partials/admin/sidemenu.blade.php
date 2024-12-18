@@ -78,7 +78,7 @@
 
                 </li>
 			@endif
-			@if(!$check_other_admin)
+			@if($users->type != 'company')
 			<li class="dash-item dash-hasmenu">
                 <a class="dash-link {{ Request::segment(1) == 'new_business' || Request::segment(1) == 'business' ? 'active' : '' }}"
                     data-toggle="collapse" role="button"
@@ -119,6 +119,7 @@
 			
            @endif
 			@if ($users->type == 'company')
+			@if ($check_super_admin)	
             <li class="dash-item dash-hasmenu">
 					
                 <a class="dash-link {{ Request::segment(1) == 'employee' || Request::segment(1) == 'client' ? 'active' : '' }}"
@@ -130,27 +131,27 @@
                 </a>
 				
                 <ul class="dash-submenu">
-					@if ($check_super_admin)
+					
                         <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'users' ? 'active open' : '' }}">
                             <a class="dash-link"
                                 {{ Request::route()->getName() == 'users.index' || Request::route()->getName() == 'users.create' || Request::route()->getName() == 'users.edit' ? ' active' : '' }}
                                 href="{{ route('users.index') }}">{{ __('Users') }}</span></a>
                         </li>
-					@endif
-						@if ($users->name == 'Super Admin')
+					
+						@if(false)
                         <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'roles' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('roles.index') }}">{{ __('Department') }}</a>
                         </li>
-						
+						@endif
 						
 						<li class="dash-item dash-hasmenu {{ Request::segment(1) == 'view_admin' ? 'active open' : '' }}">
                             <a class="dash-link" href="{{ route('users.view_admin') }}">{{ __('View Admins') }}</a>
                         </li>
-						@endif
+						
 
                 </ul>
             </li>
-			
+			@endif
 			<li class="dash-item dash-hasmenu">
 					
                 <a class="dash-link {{ Request::segment(1) == 'activitylog' || Request::segment(1) == 'activitylog' ? 'active' : '' }}"

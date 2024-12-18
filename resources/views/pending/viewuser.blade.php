@@ -32,6 +32,92 @@
     </div>
 {{Form::close()}}	
 
+@elseif($role->action == 4)
+{{Form::model($role,array('route' => array('user.password.approve', $role->id,), 'method' => 'POST')) }}
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+            <h6>Are you sure you want to reset this User password?</h6>
+		
+		
+          </div>
+        </div>
+     </div>
+    <div class="modal-footer">
+        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Reset')}}</button>
+    </div>
+{{Form::close()}}	
+@elseif($role->action == 5)
+{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST')) }}
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+            <h6>Are you sure you want to enable this account?</h6>
+		
+		
+          </div>
+        </div>
+     </div>
+    <div class="modal-footer">
+        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Enable')}}</button>
+    </div>
+{{Form::close()}}	
+@elseif($role->action == 6)
+{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST')) }}
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+            <h6>Are you sure you want to diable this account?</h6>
+		
+		
+          </div>
+        </div>
+     </div>
+    <div class="modal-footer">
+        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Disable')}}</button>
+    </div>
+{{Form::close()}}
+@elseif($role->action == 7)
+{{Form::model($role,array('route' => array('approveMakerAdmin', $role->id,), 'method' => 'POST')) }}
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+            <h6>Are you sure you want to enable this user as Maker Admin?</h6>
+		
+		
+          </div>
+        </div>
+     </div>
+    <div class="modal-footer">
+        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Enable')}}</button>
+    </div>
+{{Form::close()}}
+@elseif($role->action == 8)
+{{Form::model($role,array('route' => array('approveMakerAdmin', $role->id,), 'method' => 'POST')) }}
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+            <h6>Are you sure you want to diable this user as a maker admin?</h6>
+		
+		
+          </div>
+        </div>
+     </div>
+    <div class="modal-footer">
+        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Disable')}}</button>
+    </div>
+{{Form::close()}}	
+
 @else
 	
 {{Form::model($role,array('route' => array('approveUserUpdate', $role->id,), 'method' => 'POST')) }}

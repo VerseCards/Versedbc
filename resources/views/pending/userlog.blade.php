@@ -44,6 +44,16 @@
                                         <span class="badge btn--success" style="background: #4caf50;color: #ffffff;font-size: .8rem">@lang('New User')</span>
                                   @elseif(ucfirst($role->action) ==  3)
 								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Update User')</span>
+								  @elseif(ucfirst($role->action) ==  4)
+								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Reset Password')</span>
+								  @elseif(ucfirst($role->action) ==  5)
+								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Enable Account')</span>
+								  @elseif(ucfirst($role->action) ==  6)
+								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Disable Account')</span>
+								  @elseif(ucfirst($role->action) ==  7)
+								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Enable Maker Admin')</span>
+								  @elseif(ucfirst($role->action) ==  8)
+								  <span class="badge btn--success" style="background: #3432a3;color: #ffffff;font-size: .8rem">@lang('Disable Maker Admin')</span>
 								  @else
                                           <span class="badge badge--success" style="background: #ff0000;color: #fffff;font-size: .8rem">@lang('Delete User')</span>
 								@endif</td>
