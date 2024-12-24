@@ -46,7 +46,7 @@
                             </div>
                         </li>
                     </ul>
-			<h5 class="h3  mb-0" style="font-size:11px">{{ __('Last Login:') }}  {{ \Carbon\Carbon::parse($users->last_login)->format('jS F, Y') }}</h5>
+			<h5 class="h3  mb-0" style="font-size:11px">{{ __('Last Login:') }}  {{ \Carbon\Carbon::parse($users->last_login)->format('jS F Y | g:iA') }}</h5>
                     {{-- //business Display End --}}
                 </div>
 
