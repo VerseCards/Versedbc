@@ -496,39 +496,9 @@ class BusinessController extends Controller
 							]);
 						}
 					}
-					/*
-					PendingChange::create([
-					'user_id' => $business->user_id,
-					'business_id' => $business->id,
-					'name' => $request->title??'',
-					'slug' => $request->slug??'',
-					'designation' => $request->sub_title??'',
-					'department' => $request->designation??'',
-					'bio' => $request->description??'',
-					'secret_code' => $request->reset_code??'',
-					'remark' => 'Business Card Biodata Changes',
-					'admin_name' => \Auth::user()->name,
-					'admin_id' => \Auth::user()->id,
-					'status' => 1, //Pending
-					
-					//old data
-					'old_name' => $business->title??'',
-					'old_slug' => $business->slug??'',
-					'old_designation' => $business->sub_title??'',
-					'old_department' => $business->designation??'',
-					'old_bio' => $business->description??'',
-					'old_secret_code' => $business->secret_code??'',
-					
-					
-					]);
-					
-					*/
+
 				}
-				
-				//$business->title = $request->title;
-				//$business->sub_title = $request->sub_title;
-				//$business->description = $request->description;
-				//$business->secret_code = $request->reset_code??$business->secret_code;
+
                 if ($request->hasFile('logo')) {
                     $settings = Utility::getStorageSetting();
                     $logo = $request->file('logo');

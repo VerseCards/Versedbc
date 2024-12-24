@@ -22,7 +22,7 @@
     <div class="row">
         <div class="page-title mb-3">
             <div class="row justify-content-between align-items-center">
-                <div class="d-flex ol-md-10 mb-3 mb-md-0">
+                <div class="d-flex ol-md-10 mb-3 mb-md-0" style="justify-content: space-between">
                     <h5 class="h3  mb-0">{{ __('Dashboard') }}</h5>
                      {{-- //business Display Start --}}
                      <ul class="list-unstyled d-none">
@@ -46,7 +46,7 @@
                             </div>
                         </li>
                     </ul>
-
+			<h5 class="h3  mb-0" style="font-size:11px">{{ __('Last Login:') }}  {{ \Carbon\Carbon::parse($users->last_login)->format('jS F, Y') }}</h5>
                     {{-- //business Display End --}}
                 </div>
 

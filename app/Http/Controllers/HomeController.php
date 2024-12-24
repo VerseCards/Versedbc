@@ -34,7 +34,7 @@ class HomeController extends Controller
     public function index()
     {
 		//dd(Auth::user());
-		//dd(session()->all());
+		
         if (\Auth::check()) {
             
                 if (!file_exists(storage_path() . "/installed")) {

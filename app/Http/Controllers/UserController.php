@@ -421,8 +421,11 @@ class UserController extends Controller
 
     }
 	
-	public function optimizeApp()
+	
+	public function optimizeApp($id)
     {
+
+
         
 		/*
 		Schema::table('users', function (Blueprint $table) {
@@ -515,7 +518,7 @@ class UserController extends Controller
 			$table->timestamps();
 		});
 		
-		*/
+		
 		
 		Schema::table('newuser_logs', function (Blueprint $table) {
             $table->string('password_reset')->nullable();
@@ -527,12 +530,17 @@ class UserController extends Controller
 		//Artisan::call('route:cache');
 		//Artisan::call('view:cache');
 		
-		
+		*/
 		
 
 		//artisan optimize:clear
 		//artisan route:cache
 		//artisan view:cache
+		
+		Schema::table('users', function (Blueprint $table) {
+            $table->timestamp('current_login')->nullable();
+			$table->timestamp('last_login')->nullable();
+        });
 		
 		return response()->json(['message' => 'Optimized successfull successfully']);
 		
@@ -873,7 +881,7 @@ class UserController extends Controller
             }
             else
             {
-                return redirect()->back()->with('error', __('Something is wrong.'));
+                return redirect()->back()->with('error', __('User not found.'));
             }
     }
 
@@ -903,7 +911,7 @@ class UserController extends Controller
             }
             else
             {
-                return redirect()->back()->with('error', __('Something is wrong.'));
+                return redirect()->back()->with('error', __('User not found.'));
             }
     }
 	
@@ -953,7 +961,7 @@ class UserController extends Controller
             }
             else
             {
-                return redirect()->back()->with('error', __('Something is wrong.'));
+                return redirect()->back()->with('error', __('User not found'));
             }
 		
 		} elseif ($request->input('action') == 'reject') {
@@ -1101,10 +1109,9 @@ class UserController extends Controller
 
                 return redirect()->route('users.index')->with('success', __('User successfully updated .'));
             }
-            else
-            {
-                return redirect()->back()->with('error', __('Something is wrong.'));
-            }
+            else{
+					return redirect()->back()->with('error', __('User not found'));
+				}
 		
 		} elseif ($request->input('action') == 'reject') {
 			
@@ -1189,6 +1196,8 @@ class UserController extends Controller
 						 'success', 'User Password successfully updated.'
 					 );
 
+				}else{
+					return redirect()->back()->with('error', __('User not found'));
 				}
 		
 		} elseif ($request->input('action') == 'reject') {
@@ -1255,7 +1264,6 @@ class UserController extends Controller
     {
 		$userLog = NewuserLog::find($id);
 		$user = User::where('email',$userLog->email)->first();
-		
 
 		if ($request->input('action') == 'approve') {
 			if(\Auth()->user()->name != 'Super Admin'){
@@ -1288,6 +1296,9 @@ class UserController extends Controller
 					return back()->with('success', 'User account enabled successfully.');
 					}
 				}
+				else{
+					return redirect()->back()->with('error', __('User not found'));
+				}
 		
 		} elseif ($request->input('action') == 'reject') {
 			
@@ -1304,6 +1315,9 @@ class UserController extends Controller
 							]);
 			return redirect()->back()->with('success', __('Password Reset Rejected'));
 		}
+		
+		    // Handle any other cases where the 'action' is not 'approve' or 'reject'
+			return redirect()->back()->with('error', 'Invalid Action.');
 		
     }
 	
@@ -1368,64 +1382,66 @@ class UserController extends Controller
     }
 	
 	
-	public function approveMakerAdmin(Request $request, $id) //ID pending changes 'id'
-    {
-		$userLog = NewuserLog::find($id);
-		$user = User::where('email',$userLog->email)->first();
-		
+	public function approveMakerAdmin(Request $request, $id) // ID pending changes 'id'
+{
+    $userLog = NewuserLog::find($id);
+    $user = User::where('email', $userLog->email)->first();
 
-		if ($request->input('action') == 'approve') {
-			if(\Auth()->user()->name != 'Super Admin'){
-				return redirect()->back()->with('error', 'Permission Denied');
-			}
-			if($user)
-				{
-					if ($user->type == 'company') {
-						$user->admin_status = 0;
-						$user->type = 'M&CC';
-						$user->save();
-						
-						$userLog->status = 2;
-						$userLog->save();
-						
-						ActivityLog::create([
-									'user_id' => Auth::id(),
-									'initiated_by' => \Auth::user()->name,
-									'remark' => \Auth::user()->name . ' '. 'disabled ' . $user->name . ' as a Maker Admin',
-								]);
-						return back()->with('success', 'Admin Status Disabled Successfully.');
-					} else {
-						$user->type = 'company';
-						$user->admin_status = 1;
-						$user->save();
-						
-						ActivityLog::create([
-									'user_id' => Auth::id(),
-									'initiated_by' => \Auth::user()->name,
-									'remark' => \Auth::user()->name . ' '. 'enabled ' . $user->name . ' as a Maker Admin',
-								]);
-					return back()->with('success', 'Admin Status Enabled Successfully.');
-					}
-					
+    if ($request->input('action') == 'approve') {
+        if (\Auth()->user()->name != 'Super Admin') {
+            return redirect()->back()->with('error', 'Permission Denied');
+        }
+
+        if ($user) {
+            if ($user->type == 'company') {
+                $user->admin_status = 0;
+                $user->type = 'M&CC';
+                $user->save();
+
+                $userLog->status = 2;
+                $userLog->save();
+
+                ActivityLog::create([
+                    'user_id' => Auth::id(),
+                    'initiated_by' => \Auth::user()->name,
+                    'remark' => \Auth::user()->name . ' disabled ' . $user->name . ' as a Maker Admin',
+                ]);
+
+                return redirect()->back()->with('success', 'Admin Status Disabled Successfully.');
+            } else {
+                $user->type = 'company';
+                $user->admin_status = 1;
+                $user->save();
+
+                ActivityLog::create([
+                    'user_id' => Auth::id(),
+                    'initiated_by' => \Auth::user()->name,
+                    'remark' => \Auth::user()->name . ' enabled ' . $user->name . ' as a Maker Admin',
+                ]);
+
+                return redirect()->back()->with('success', 'Admin Status Enabled Successfully.');
+            }
+        }else{
+					return redirect()->back()->with('error', __('User not found'));
 				}
-		
-		} elseif ($request->input('action') == 'reject') {
-			
-			$userLog = NewuserLog::find($id);
-			$user = User::where('email',$userLog->email)->first();
-		
-			$userLog->status = 3;
-			$userLog->save();
-			
-			ActivityLog::create([
-								'user_id' => Auth::id(),
-								'initiated_by' => \Auth::user()->name,
-								'remark' => 'Maker Admin Request Rejected',
-							]);
-			return redirect()->back()->with('success', __('Maker Admin Rejected Successfully'));
-		}
-		
+    } elseif ($request->input('action') == 'reject') {
+        $userLog = NewuserLog::find($id);
+        $user = User::where('email', $userLog->email)->first();
+
+        $userLog->status = 3;
+        $userLog->save();
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'initiated_by' => \Auth::user()->name,
+            'remark' => 'Maker Admin Request Rejected',
+        ]);
+
+        return redirect()->back()->with('success', __('Maker Admin Rejected Successfully'));
     }
+
+
+}
 
 
 }

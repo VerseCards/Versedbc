@@ -1,5 +1,6 @@
 @if($role->action == 1)
-{{Form::model($role,array('route' => array('approveNewUserAdmin', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('approveNewUserAdmin', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+	@csrf
     <div>
         <div class="row">
             <div class="col-md-6">
@@ -10,12 +11,13 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('Reject')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Approve')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{__('Reject')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{__('Approve')}}</button>
     </div>
 {{Form::close()}}
 @elseif($role->action == 2)
-{{Form::model($role,array('route' => array('approveUserDelete', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('approveUserDelete', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+@csrf
     <div>
         <div class="row">
             <div class="col-md-6">
@@ -27,13 +29,14 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Delete')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{__('Yes! Delete')}}</button>
     </div>
 {{Form::close()}}	
 
 @elseif($role->action == 4)
-{{Form::model($role,array('route' => array('user.password.approve', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('user.password.approve', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+@csrf
     <div>
         <div class="row">
             <div class="col-md-12">
@@ -45,12 +48,13 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Reset')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{__('Yes! Reset')}}</button>
     </div>
 {{Form::close()}}	
 @elseif($role->action == 5)
-{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+@csrf
     <div>
         <div class="row">
             <div class="col-md-12">
@@ -62,12 +66,13 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Enable')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{__('Yes! Enable')}}</button>
     </div>
 {{Form::close()}}	
 @elseif($role->action == 6)
-{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('approveLoginStatus', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+@csrf
     <div>
         <div class="row">
             <div class="col-md-12">
@@ -79,48 +84,47 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Disable')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2"  data-confirm-text="Rejected">{{__('No!')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{__('Yes! Disable')}}</button>
     </div>
 {{Form::close()}}
 @elseif($role->action == 7)
-{{Form::model($role,array('route' => array('approveMakerAdmin', $role->id,), 'method' => 'POST')) }}
-    <div>
-        <div class="row">
-            <div class="col-md-12">
+{{ Form::model($role, ['route' => ['approveMakerAdmin', $role->id], 'method' => 'POST', 'onsubmit' => 'disableButtons(this)']) }}
+@csrf
+<div>
+    <div class="row">
+        <div class="col-md-12">
             <h6>Are you sure you want to enable this user as Maker Admin?</h6>
-		
-		
-          </div>
         </div>
-     </div>
-    <div class="modal-footer">
-        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Enable')}}</button>
     </div>
-{{Form::close()}}
+</div>
+<div class="modal-footer">
+    <input type="button" value="{{ __('Close') }}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+    <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{ __('No!') }}</button>
+    <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{ __('Yes! Enable') }}</button>
+</div>
+{{ Form::close() }}
 @elseif($role->action == 8)
-{{Form::model($role,array('route' => array('approveMakerAdmin', $role->id,), 'method' => 'POST')) }}
-    <div>
-        <div class="row">
-            <div class="col-md-12">
-            <h6>Are you sure you want to diable this user as a maker admin?</h6>
-		
-		
-          </div>
+{{ Form::model($role, ['route' => ['approveMakerAdmin', $role->id], 'method' => 'POST', 'onsubmit' => 'disableButtons(this)']) }}
+@csrf
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <h6>Are you sure you want to disable this user as Maker Admin?</h6>
         </div>
-     </div>
-    <div class="modal-footer">
-        <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No!')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Disable')}}</button>
     </div>
-{{Form::close()}}	
+</div>
+<div class="modal-footer">
+    <input type="button" value="{{ __('Close') }}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
+    <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{ __('No!') }}</button>
+    <button type="submit" name="action" value="approve" class="btn btn-primary ms-2" data-confirm-text="Approved">{{ __('Yes! Disable') }}</button>
+</div>
+{{ Form::close() }}
 
 @else
 	
-{{Form::model($role,array('route' => array('approveUserUpdate', $role->id,), 'method' => 'POST')) }}
+{{Form::model($role,array('route' => array('approveUserUpdate', $role->id,), 'method' => 'POST', 'onsubmit' => 'disableButtons(this)')) }}
+@csrf
     <div>
         <div class="row">
             <div class="col-md-6">
@@ -168,20 +172,43 @@
      </div>
     <div class="modal-footer">
         <input type="button" value="{{__('Close')}}" class="btn btn-secondary btn-light" data-bs-dismiss="modal">
-		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2">{{__('No! Reject')}}</button>
-		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2">{{__('Yes! Update')}}</button>
+		 <button type="submit" name="action" value="reject" class="btn btn-danger ms-2" data-confirm-text="Rejected">{{__('No! Reject')}}</button>
+		 <button type="submit" name="action" value="approve" class="btn btn-primary ms-2"  data-confirm-text="Approved">{{__('Yes! Update')}}</button>
     </div>
 {{Form::close()}}
 
 @endif
 <script>
+
     $(document).ready(function () {
-           $("#checkall").click(function(){
-                $('input:checkbox').not(this).prop('checked', this.checked);
-            });
-           $(".ischeck").click(function(){
-                var ischeck = $(this).data('id');
-                $('.isscheck_'+ ischeck).prop('checked', this.checked);
-            });
+        // Checkbox toggle logic
+        $("#checkall").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
         });
+
+        $(".ischeck").click(function () {
+            var ischeck = $(this).data('id');
+            $('.isscheck_' + ischeck).prop('checked', this.checked);
+        });
+    });
+
+function disableButtons(form) {
+    // Ensure the form is submitted before disabling buttons
+    setTimeout(() => {
+        const buttons = form.querySelectorAll('button[type="submit"]');
+        buttons.forEach(button => {
+            // Disable all buttons after form submission
+            button.disabled = true;
+            button.textContent = "Processing..."; // Temporary text
+        });
+    }, 100); // Give a small delay before disabling buttons
+    
+    // Allow form submission to proceed
+}
+
+
+
+
+
+
 </script>

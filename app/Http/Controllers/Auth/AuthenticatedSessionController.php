@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Plan;
 use App\Models\Utility;
 use App\Models\LoginDetail;
+use Carbon\Carbon;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -51,6 +52,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
         $user = Auth::user();
+		
+		if($user->current_login != NULL){
+		$user->last_login = $user->current_login ;
+
+		$user->current_login = Carbon::now();
+		$user->save();
+		}else{
+			$user->last_login = Carbon::now();
+			$user->current_login = Carbon::now();
+			$user->save();
+		}
 
             $ip = $_SERVER['REMOTE_ADDR']; // your ip address here
 

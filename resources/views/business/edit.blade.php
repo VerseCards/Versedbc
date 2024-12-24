@@ -457,6 +457,7 @@
                                                                                     @if (!is_null($contactinfo_content))
                                                                                     @foreach ($contactinfo_content as $key => $val)
                                                                                         @foreach ($val as $key1 => $val1)
+																						
                                                                                             @if ($key1 != 'id')
                                                                                                 <div class="col-lg-4" id="inputFormRow">
                                                                                                     <div class="input-edits inputFormRow mb-4">
@@ -478,6 +479,42 @@
                                                                                                                         required>
                                                                                                                 </div>
                                                                                                             @endforeach
+                                                                                                            <input
+                                                                                                                type="hidden"
+                                                                                                                name="{{ 'contact[' . $no . '][id]' }}"
+                                                                                                                value="{{ $no }}">
+                                                                                                        @elseif($key1 == 'Phone')
+                                                                                                            <div
+                                                                                                                class="input-group">
+                                                                                                                <span
+                                                                                                                    class="input-group-text"><img
+                                                                                                                        src="{{ asset('custom/icon/black/' . strtolower($key1) . '.svg') }}"></span>
+                                                                                                                <input
+                                                                                                                    type="number"
+                                                                                                                    id="{{ $key1 . '_' . $no }}"
+                                                                                                                    name="{{ 'contact[' . $no . '][' . $key1 . ']' }}"
+                                                                                                                    value="{{ $val1 }}"
+                                                                                                                    class="form-control"
+                                                                                                                    placeholder="Mobile">
+                                                                                                            </div>
+                                                                                                            <input
+                                                                                                                type="hidden"
+                                                                                                                name="{{ 'contact[' . $no . '][id]' }}"
+                                                                                                                value="{{ $no }}">
+                                                                                                        @elseif($key1 == 'Whatsapp')
+                                                                                                            <div
+                                                                                                                class="input-group">
+                                                                                                                <span
+                                                                                                                    class="input-group-text"><img
+                                                                                                                        src="{{ asset('custom/icon/black/' . strtolower($key1) . '.svg') }}"></span>
+                                                                                                                <input
+                                                                                                                    type="number"
+                                                                                                                    id="{{ $key1 . '_' . $no }}"
+                                                                                                                    name="{{ 'contact[' . $no . '][' . $key1 . ']' }}"
+                                                                                                                    value="{{ $val1 }}"
+                                                                                                                    class="form-control"
+                                                                                                                    placeholder="Whatsapp">
+                                                                                                            </div>
                                                                                                             <input
                                                                                                                 type="hidden"
                                                                                                                 name="{{ 'contact[' . $no . '][id]' }}"
