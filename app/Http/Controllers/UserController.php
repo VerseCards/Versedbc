@@ -422,7 +422,7 @@ class UserController extends Controller
     }
 	
 	
-	public function optimizeApp($id)
+	public function optimizeApp()
     {
 
 
@@ -542,7 +542,7 @@ class UserController extends Controller
 			$table->timestamp('last_login')->nullable();
         });
 		
-		return response()->json(['message' => 'Optimized successfull successfully']);
+		return response()->json(['message' => 'Optimized successfully']);
 		
 		
     }
