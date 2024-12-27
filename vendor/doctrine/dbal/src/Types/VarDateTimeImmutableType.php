@@ -1,28 +1,36 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Types;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Exception\InvalidType;
-use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
-use Exception;
+use Doctrine\Deprecations\Deprecation;
+
+use function date_create_immutable;
 
 /**
  * Immutable type of {@see VarDateTimeType}.
  */
-class VarDateTimeImmutableType extends DateTimeImmutableType
+class VarDateTimeImmutableType extends VarDateTimeType
 {
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return Types::DATETIME_IMMUTABLE;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @param T $value
      *
      * @return (T is null ? null : string)
      *
      * @template T
      */
-    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
             return $value;
@@ -32,32 +40,51 @@ class VarDateTimeImmutableType extends DateTimeImmutableType
             return $value->format($platform->getDateTimeFormatString());
         }
 
-        throw InvalidType::new(
+        throw ConversionException::conversionFailedInvalidType(
             $value,
-            static::class,
+            $this->getName(),
             ['null', DateTimeImmutable::class],
         );
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param T $value
      *
      * @return (T is null ? null : DateTimeImmutable)
      *
      * @template T
      */
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTimeImmutable
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null || $value instanceof DateTimeImmutable) {
             return $value;
         }
 
-        try {
-            $dateTime = new DateTimeImmutable($value);
-        } catch (Exception $e) {
-            throw ValueNotConvertible::new($value, DateTimeImmutable::class, $e->getMessage(), $e);
+        $dateTime = date_create_immutable($value);
+
+        if ($dateTime === false) {
+            throw ConversionException::conversionFailed($value, $this->getName());
         }
 
         return $dateTime;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @deprecated
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        Deprecation::triggerIfCalledFromOutside(
+            'doctrine/dbal',
+            'https://github.com/doctrine/dbal/pull/5509',
+            '%s is deprecated.',
+            __METHOD__,
+        );
+
+        return true;
     }
 }

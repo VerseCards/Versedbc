@@ -1,69 +1,78 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Types;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Exception\InvalidFormat;
-use Doctrine\DBAL\Types\Exception\InvalidType;
 
 /**
  * Type that maps an SQL TIME to a PHP DateTime object.
  */
-class TimeType extends Type implements PhpTimeMappingType
+class TimeType extends Type
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    public function getName()
+    {
+        return Types::TIME_MUTABLE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
         return $platform->getTimeTypeDeclarationSQL($column);
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param T $value
      *
      * @return (T is null ? null : string)
      *
      * @template T
      */
-    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
             return $value;
         }
 
-        if ($value instanceof DateTime) {
+        if ($value instanceof DateTimeInterface) {
             return $value->format($platform->getTimeFormatString());
         }
 
-        throw InvalidType::new($value, static::class, ['null', DateTime::class]);
+        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', 'DateTime']);
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param T $value
      *
-     * @return (T is null ? null : DateTime)
+     * @return (T is null ? null : DateTimeInterface)
      *
      * @template T
      */
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?DateTime
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || $value instanceof DateTime) {
+        if ($value === null || $value instanceof DateTimeInterface) {
             return $value;
         }
 
-        $dateTime = DateTime::createFromFormat('!' . $platform->getTimeFormatString(), $value);
-        if ($dateTime !== false) {
-            return $dateTime;
+        $val = DateTime::createFromFormat('!' . $platform->getTimeFormatString(), $value);
+        if ($val === false) {
+            throw ConversionException::conversionFailedFormat(
+                $value,
+                $this->getName(),
+                $platform->getTimeFormatString(),
+            );
         }
 
-        throw InvalidFormat::new(
-            $value,
-            static::class,
-            $platform->getTimeFormatString(),
-        );
+        return $val;
     }
 }

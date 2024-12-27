@@ -1,13 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Platforms\Keywords;
+
+use Doctrine\Deprecations\Deprecation;
 
 class MariaDBKeywords extends MySQLKeywords
 {
+    /** @deprecated */
+    public function getName(): string
+    {
+        Deprecation::triggerIfCalledFromOutside(
+            'doctrine/dbal',
+            'https://github.com/doctrine/dbal/pull/5433',
+            'MariaDBKeywords::getName() is deprecated.',
+        );
+
+        return 'MariaDB';
+    }
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getKeywords(): array
     {

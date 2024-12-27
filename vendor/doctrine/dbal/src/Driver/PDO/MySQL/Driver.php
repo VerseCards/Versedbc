@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Driver\PDO\MySQL;
 
 use Doctrine\DBAL\Driver\AbstractMySQLDriver;
@@ -14,12 +12,14 @@ use SensitiveParameter;
 final class Driver extends AbstractMySQLDriver
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
+     * @return Connection
      */
     public function connect(
         #[SensitiveParameter]
-        array $params,
-    ): Connection {
+        array $params
+    ) {
         $driverOptions = $params['driverOptions'] ?? [];
 
         if (! empty($params['persistent'])) {
@@ -27,7 +27,7 @@ final class Driver extends AbstractMySQLDriver
         }
 
         $safeParams = $params;
-        unset($safeParams['password']);
+        unset($safeParams['password'], $safeParams['url']);
 
         try {
             $pdo = new PDO(

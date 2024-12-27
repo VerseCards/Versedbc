@@ -42,6 +42,18 @@ function repeaterInput(element, element_type, rowno, divid, path, theme_type, co
                             <input type="text"  name="contact[${rowno}][${element}][${element}_url]" class=" form-control" placeholder="Enter Address Url" required/>
                             </div>`;
 
+                    }else if (element == "Phone")
+                    {
+                        html += `<div class="input-group">
+                        <span class="input-group-text"><img  src="${assets}/${element.toLowerCase()}.svg" ></span>
+                        <input type="number" id="${element}_${rowno}" name="contact[${rowno}][${element}]" class=" form-control" required/>
+                        </div>`;
+                    }else if (element == "Whatsapp")
+                    {
+                        html += `<div class="input-group">
+                        <span class="input-group-text"><img  src="${assets}/${element.toLowerCase()}.svg" ></span>
+                        <input type="number" id="${element}_${rowno}" name="contact[${rowno}][${element}]" class=" form-control" required/>
+                        </div>`;
                     }
                     else
                     {

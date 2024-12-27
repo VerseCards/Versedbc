@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Driver\IBMDB2;
 
 use Doctrine\DBAL\Driver\AbstractDB2Driver;
@@ -14,12 +12,14 @@ use function db2_pconnect;
 final class Driver extends AbstractDB2Driver
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
+     * @return Connection
      */
     public function connect(
         #[SensitiveParameter]
-        array $params,
-    ): Connection {
+        array $params
+    ) {
         $dataSourceName = DataSourceName::fromConnectionParameters($params)->toString();
 
         $username      = $params['user'] ?? '';

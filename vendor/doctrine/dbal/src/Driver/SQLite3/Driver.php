@@ -1,23 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Driver\SQLite3;
 
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
+use Doctrine\DBAL\Driver\API\SQLite\UserDefinedFunctions;
 use SensitiveParameter;
 use SQLite3;
 
 final class Driver extends AbstractSQLiteDriver
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function connect(
         #[SensitiveParameter]
-        array $params,
+        array $params
     ): Connection {
-        $isMemory = $params['memory'] ?? false;
+        $isMemory = (bool) ($params['memory'] ?? false);
 
         if (isset($params['path'])) {
             if ($isMemory) {
@@ -42,6 +41,8 @@ final class Driver extends AbstractSQLiteDriver
         }
 
         $connection->enableExceptions(true);
+
+        UserDefinedFunctions::register([$connection, 'createFunction']);
 
         return new Connection($connection);
     }

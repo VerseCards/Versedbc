@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\DBAL\Driver\PDO\OCI;
 
 use Doctrine\DBAL\Driver\AbstractOracleDriver;
@@ -14,12 +12,14 @@ use SensitiveParameter;
 final class Driver extends AbstractOracleDriver
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
+     * @return Connection
      */
     public function connect(
         #[SensitiveParameter]
-        array $params,
-    ): Connection {
+        array $params
+    ) {
         $driverOptions = $params['driverOptions'] ?? [];
 
         if (! empty($params['persistent'])) {
@@ -27,7 +27,7 @@ final class Driver extends AbstractOracleDriver
         }
 
         $safeParams = $params;
-        unset($safeParams['password']);
+        unset($safeParams['password'], $safeParams['url']);
 
         try {
             $pdo = new PDO(

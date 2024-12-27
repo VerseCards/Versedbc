@@ -26,6 +26,7 @@
         "obydul/laraskrill": "^1.2",
         "orhanerday/open-ai": "^4.8",
         "paymentwall/paymentwall-php": "^2.2",
+        "phpoffice/phpspreadsheet": "1.29",
         "pragmarx/google2fa-laravel": "^2.1",
         "psr/simple-cache": "2.0",
         "rachidlaasri/laravel-installer": "^4.1",
